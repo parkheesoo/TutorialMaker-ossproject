@@ -17,4 +17,4 @@ public class test_Frame extends JFrame {
     }
 }
 
-/* Frame에서 다음 페이지로 넘어갈 때마다 넘어갈 수 있는 Panel 생성 및 전환을 담당하면 될 것 같습니다.*/
+/* Frame에서 다음 페이지로 넘어갈 때마다 넘어갈 수 있는 Panel 생성 및 전환을 담당해도 될 것 같습니다.*/
