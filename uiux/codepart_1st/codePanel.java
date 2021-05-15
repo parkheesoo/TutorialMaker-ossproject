@@ -63,7 +63,7 @@ public class codePanel extends JPanel {
         Pre_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ���� �ܰ� ǥ��
+                // 이전 단계 표시
             }
         });
         Next_btn.addActionListener(new ActionListener() {
