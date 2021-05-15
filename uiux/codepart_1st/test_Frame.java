@@ -1,3 +1,5 @@
+package codepart_1st;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.GridLayout;

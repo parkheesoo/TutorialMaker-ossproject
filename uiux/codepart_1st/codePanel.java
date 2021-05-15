@@ -1,3 +1,5 @@
+package codepart_1st;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.event.CaretEvent;
@@ -9,11 +11,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class codePanel extends JPanel {
-    private JPanel codepanel = new JPanel(); //�ڵ� �κ� ��ü panel
-    private JPanel txtpanel = new JPanel(); //�ڵ� �Է� �κ� :: ������ �Ѿ �� panel ��ü
-    private JPanel btnpanel = new JPanel(); //��ư :: �ڵ� �Է� �κ��� panel ��ü �� �и��� �� �ֵ���
+    private JPanel codepanel = new JPanel(); //코드 부분 전체 panel
+    private JPanel txtpanel = new JPanel(); //코드 입력 부분 :: 페이지 넘어갈 때 panel 교체
+    private JPanel btnpanel = new JPanel(); //버튼 :: 코드 입력 부분의 panel 교체 시 분리될 수 있도록
 
-    // ��ư ���� - �̹��� ����
+    // 버튼 세팅 - 이미지 세팅
     private JButton Pre_btn = new JButton();
     private JButton Next_btn = new JButton();
     private ImageIcon Next_btn_img = new ImageIcon("image\\nextbutton.png");
@@ -21,15 +23,15 @@ public class codePanel extends JPanel {
     private ImageIcon Next_press_img = new ImageIcon("image\\nextbutton_press.png");
     private ImageIcon Pre_press_img = new ImageIcon("image\\prebutton_press.png");
 
-    // �ڵ� �Է� �κ� component
-    private JTextArea textArea1 = new JTextArea(20, 30); //ũ������ �ʿ�
+    // 코드 입력 부분 component
+    private JTextArea textArea1 = new JTextArea(20, 30); //크기조정 필요
     private JScrollPane scroll = new JScrollPane(textArea1);
 
-    // JTextArea���� ��,�� �� �����ִ� �ӽ� ��(�ּ��� �� �� �ʿ��ϸ� ���)
+    // JTextArea에서 행,열 얻어서 보여주는 임시 라벨(주석달 때 행 필요하면 사용)
     private JLabel status = new JLabel();
 
 
-    // +�߰��ϱ�+ �ڵ� �Է½� �ּ� �Ǵ� ��� �� �� �ִ� ��ư ����
+    // +추가하기+ 코드 입력 시 주석 또는 퀴즈를 달 수 있는 버튼 생성
 
     codePanel() {
         add(codepanel);
@@ -63,7 +65,7 @@ public class codePanel extends JPanel {
         Pre_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ���� �ܰ� ǥ��
+                // 이전 단계 표시
             }
         });
         Next_btn.addActionListener(new ActionListener() {
@@ -83,7 +85,7 @@ public class codePanel extends JPanel {
                 test_newWindow newWindow = new test_newWindow();
             }
         });
-        // JTextArea�� ��� �� ǥ�� (�ӽ�)
+        // JTextArea의 행과 열 표시 (임시)
         textArea1.addCaretListener(new CaretListener() {
             public void caretUpdate(CaretEvent e) {
                 JTextArea editArea = (JTextArea) e.getSource();
