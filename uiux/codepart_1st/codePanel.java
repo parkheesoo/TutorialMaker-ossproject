@@ -5,13 +5,15 @@ import javax.swing.event.CaretListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class codePanel extends JPanel {
-    private JPanel codepanel = new JPanel(); //ÄÚµå ºÎºĞ ÀüÃ¼ panel
-    private JPanel txtpanel = new JPanel(); //ÄÚµå ÀÔ·Â ºÎºĞ :: ÆäÀÌÁö ³Ñ¾î°¥ ¶§ panel ±³Ã¼
-    private JPanel btnpanel = new JPanel(); //¹öÆ° :: ÄÚµå ÀÔ·Â ºÎºĞÀÇ panel ±³Ã¼ ½Ã ºĞ¸®µÉ ¼ö ÀÖµµ·Ï
+    private JPanel codepanel = new JPanel(); //ï¿½Úµï¿½ ï¿½Îºï¿½ ï¿½ï¿½Ã¼ panel
+    private JPanel txtpanel = new JPanel(); //ï¿½Úµï¿½ ï¿½Ô·ï¿½ ï¿½Îºï¿½ :: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¥ ï¿½ï¿½ panel ï¿½ï¿½Ã¼
+    private JPanel btnpanel = new JPanel(); //ï¿½ï¿½Æ° :: ï¿½Úµï¿½ ï¿½Ô·ï¿½ ï¿½Îºï¿½ï¿½ï¿½ panel ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½Ğ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½
 
-    // ¹öÆ° ¼¼ÆÃ - ÀÌ¹ÌÁö ¼¼ÆÃ
+    // ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ - ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private JButton Pre_btn = new JButton();
     private JButton Next_btn = new JButton();
     private ImageIcon Next_btn_img = new ImageIcon("image\\nextbutton.png");
@@ -19,15 +21,15 @@ public class codePanel extends JPanel {
     private ImageIcon Next_press_img = new ImageIcon("image\\nextbutton_press.png");
     private ImageIcon Pre_press_img = new ImageIcon("image\\prebutton_press.png");
 
-    // ÄÚµå ÀÔ·Â ºÎºĞ component
-    private JTextArea textArea1 = new JTextArea(20, 30); //Å©±âÁ¶Á¤ ÇÊ¿ä
+    // ï¿½Úµï¿½ ï¿½Ô·ï¿½ ï¿½Îºï¿½ component
+    private JTextArea textArea1 = new JTextArea(20, 30); //Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
     private JScrollPane scroll = new JScrollPane(textArea1);
 
-    // JTextArea¿¡¼­ Çà,¿­ ¾ò¾î¼­ º¸¿©ÁÖ´Â ÀÓ½Ã ¶óº§(ÁÖ¼®´Ş ¶§ Çà ÇÊ¿äÇÏ¸é »ç¿ë)
+    // JTextAreaï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½,ï¿½ï¿½ ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ó½ï¿½ ï¿½ï¿½(ï¿½Ö¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½)
     private JLabel status = new JLabel();
 
 
-    // +Ãß°¡ÇÏ±â+ ÄÚµå ÀÔ·Â½Ã ÁÖ¼® ¶Ç´Â ÄûÁî¸¦ ´Ş ¼ö ÀÖ´Â ¹öÆ° »ı¼º
+    // +ï¿½ß°ï¿½ï¿½Ï±ï¿½+ ï¿½Úµï¿½ ï¿½Ô·Â½ï¿½ ï¿½Ö¼ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½î¸¦ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½
 
     codePanel() {
         add(codepanel);
@@ -61,16 +63,27 @@ public class codePanel extends JPanel {
         Pre_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ÀÌÀü ´Ü°è Ç¥½Ã
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½ Ç¥ï¿½ï¿½
             }
         });
         Next_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                test_newWindow newWindow = new test_newWindow(); // Á¶°Ç ÀÔ·Â Ã¢ ¶ç¿ì±â
+                // ì…ë ¥ ì½”ë“œì— ëŒ€í•œ íŒŒì¼ ìƒì„± ê°€ëŠ¥ ==> í•™ìŠµì ë¶€ë¶„ì—ì„œ í™œìš©í•˜ê¸°
+                String code_str = textArea1.getText();
+                String File_name = "out.txt"; //Change to desired extension(ex. ".c")
+                try {
+                    FileWriter writer = new FileWriter(File_name);
+                    writer.write(code_str);
+                    writer.close();
+                } catch (IOException ex) {
+                }
+
+                // ì¡°ê±´ ì…ë ¥ ì°½ ë„ìš°ê¸°
+                test_newWindow newWindow = new test_newWindow();
             }
         });
-        // JTextAreaÀÇ Çà°ú ¿­ Ç¥½Ã (ÀÓ½Ã)
+        // JTextAreaï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½ (ï¿½Ó½ï¿½)
         textArea1.addCaretListener(new CaretListener() {
             public void caretUpdate(CaretEvent e) {
                 JTextArea editArea = (JTextArea) e.getSource();
