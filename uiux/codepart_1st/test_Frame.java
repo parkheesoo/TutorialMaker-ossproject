@@ -10,11 +10,11 @@ public class test_Frame extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         setVisible(true);
-        setSize(600,450);
+        setSize(1050,800);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 
-/* ì‹¤í–‰ì„ ìœ„í•´ ì„ì‹œë¡œ í”„ë ˆì„ì„ ìƒì„±í–ˆìŠµë‹ˆë‹¤. */
+/* ½ÇÇàÀ» À§ÇØ ÀÓ½Ã·Î ÇÁ·¹ÀÓÀ» »ı¼ºÇß½À´Ï´Ù. */

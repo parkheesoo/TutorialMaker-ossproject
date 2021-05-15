@@ -3,15 +3,20 @@ import javax.swing.event.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.*;
 
 public class test_MainPanel extends JPanel {
-    private JPanel codepanel = new JPanel(); //ì½”ë“œ ë¶€ë¶„ ì „ì²´ panel
-    private JPanel txtpanel = new JPanel(); //ì½”ë“œ ì…ë ¥ ë¶€ë¶„ :: í˜ì´ì§€ ë„˜ì–´ê°ˆ ë•Œ panel êµì²´
-    private JPanel btnpanel = new JPanel(); //ë²„íŠ¼ :: ì½”ë“œ ì…ë ¥ ë¶€ë¶„ì˜ panel êµì²´ ì‹œ ë¶„ë¦¬ë  ìˆ˜ ìˆë„ë¡
-
-    // ë²„íŠ¼ ì„¸íŒ… - ì´ë¯¸ì§€ ì„¸íŒ…
+    private JPanel codepanel = new JPanel(); //ÄÚµå ºÎºĞ ÀüÃ¼ panel
+    private JPanel txtpanel = new JPanel(); //ÄÚµå ÀÔ·Â ºÎºĞ :: ÆäÀÌÁö ³Ñ¾î°¥ ¶§ panel ±³Ã¼
+    private JPanel btnpanel = new JPanel(); //¹öÆ° :: ÄÚµå ÀÔ·Â ºÎºĞÀÇ panel ±³Ã¼ ½Ã ºĞ¸®µÉ ¼ö ÀÖµµ·Ï
+    
+    private JPanel title = new JPanel(); // Á¦¸ñ ÀÔ·ÂÀ» À§ÇÑ ÆĞ³Î
+	private JPanel fileButton = new JPanel(); // Ã·ºÎÆÄÀÏ ¹öÆ°À» À§ÇÑ ÆĞ³Î
+    private JPanel content = new JPanel(); // ³»¿ë ÀÔ·ÂÀ» À§ÇÑ ÆĞ³Î
+    private JPanel fileName = new JPanel(); // Ã·ºÎÇÑ ÆÄÀÏÀ» º¸¿©ÁÖ±â À§ÇÑ ÆĞ³Î
+    
+    // ¹öÆ° ¼¼ÆÃ - ÀÌ¹ÌÁö ¼¼ÆÃ
     private JButton Pre_btn = new JButton();
     private JButton Next_btn = new JButton();
     private ImageIcon Next_btn_img = new ImageIcon("image\\nextbutton.png");
@@ -19,17 +24,31 @@ public class test_MainPanel extends JPanel {
     private ImageIcon Next_press_img = new ImageIcon("image\\nextbutton_press.png");
     private ImageIcon Pre_press_img = new ImageIcon("image\\prebutton_press.png");
 
-    // ì½”ë“œ ì…ë ¥ ë¶€ë¶„ component
-    private JTextArea textArea1 = new JTextArea(20, 30); //í¬ê¸°ì¡°ì • í•„ìš”
+    // ÄÚµå ÀÔ·Â ºÎºĞ component
+    private JTextArea textArea1 = new JTextArea(33, 50); //Å©±âÁ¶Á¤ ÇÊ¿ä
     private JScrollPane scroll = new JScrollPane(textArea1);
 
-    // JTextAreaì—ì„œ í–‰,ì—´ ì–»ì–´ì„œ ë³´ì—¬ì£¼ëŠ” ì„ì‹œ ë¼ë²¨(ì£¼ì„ë‹¬ ë•Œ í–‰ í•„ìš”í•˜ë©´ ì‚¬ìš©)
+    // JTextArea¿¡¼­ Çà,¿­ ¾ò¾î¼­ º¸¿©ÁÖ´Â ÀÓ½Ã ¶óº§(ÁÖ¼®´Ş ¶§ Çà ÇÊ¿äÇÏ¸é »ç¿ë)
     private JLabel status = new JLabel();
 
-
-    // +ì¶”ê°€í•˜ê¸°+ ì½”ë“œ ì…ë ¥ì‹œ ì£¼ì„ ë˜ëŠ” í€´ì¦ˆë¥¼ ë‹¬ ìˆ˜ ìˆëŠ” ë²„íŠ¼ ìƒì„±
-
-    test_MainPanel() {
+    TextArea fileNames = new TextArea(5, 50); // Ã·ºÎÆÄÀÏ ÁÖ¼Ò¸¦ Ãâ·ÂÇÏ´Â textArea
+    
+    File file = new File(".");
+	String path = file.getPath()+"\\image\\";
+	
+	// ÀÌ¹ÌÁö ÆÄÀÏÀ» ºÒ·¯¿Í ¾ÆÀÌÄÜÀ» »ı¼ºÇÏ°í ¹è¿­¿¡ ÀúÀå
+    ImageIcon [] images = { new ImageIcon(path+"image.png"), new ImageIcon(path+"video.png"),
+			new ImageIcon(path+"pdf.png"), new ImageIcon(path+"voice.png")};
+    
+    // Ã·ºÎÆÄÀÏ ¼±ÅÃÀ» À§ÇÑ ¹öÆ°
+    JButton image_btn = new JButton(images[0]);
+    JButton video_btn = new JButton(images[1]);
+    JButton pdf_btn = new JButton(images[2]);
+    JButton voice_btn = new JButton(images[3]);
+    
+    // +Ãß°¡ÇÏ±â+ ÄÚµå ÀÔ·Â½Ã ÁÖ¼® ¶Ç´Â ÄûÁî¸¦ ´Ş ¼ö ÀÖ´Â ¹öÆ° »ı¼º
+    public test_MainPanel() {
+    	MyActionListener actionListener = new MyActionListener();
         add(codepanel);
         codepanel.setLayout(new BorderLayout());
         codepanel.add(txtpanel, BorderLayout.CENTER);
@@ -57,20 +76,62 @@ public class test_MainPanel extends JPanel {
         txtpanel.add(scroll);
         btnpanel.add(Pre_btn);
         btnpanel.add(Next_btn);
-
+    	
+    	// title ÆĞ³Î ±¸Çö
+    	JTextField titleText = new JTextField(25);
+    	title.add(new JLabel("Title: "));
+    	title.add(titleText);
+    	
+    	// button ÆĞ³Î ±¸Çö    	
+    	fileButton.add(image_btn);
+    	fileButton.add(video_btn);
+    	fileButton.add(pdf_btn);
+    	fileButton.add(voice_btn);
+    	
+    	image_btn.addActionListener(actionListener);
+    	video_btn.addActionListener(actionListener);
+    	pdf_btn.addActionListener(actionListener);
+    	voice_btn.addActionListener(actionListener);
+    	
+    	// content ÆĞ³Î ±¸Çö
+    	TextArea contentText = new TextArea("Enter the content here", 25, 60);
+    	content.add(contentText);
+    	contentText.addFocusListener(new FocusListener() { // textArea Å¬¸¯ ½Ã ÃÊ±â ¹®±¸°¡ »ç¶óÁü
+    		public void focusLost(FocusEvent e) {}
+    		public void focusGained(FocusEvent e) {
+    			contentText.setText("");
+    		}
+    	});
+    	
+    	// fileName ÆĞ³Î ±¸Çö
+    	fileName.add(new JLabel("Attached files"));
+    	fileNames.setEnabled(false);
+    	fileName.add(fileNames);
+    	
+    	add(title);
+    	add(fileButton);
+    	add(content);
+    	add(fileName);
+    	
+    	setLayout( null );
+    	codepanel.setBounds(518, 30, 510, 670);
+    	title.setBounds(28, 15, 300, 30);
+    	fileButton.setBounds(60, 50, 370, 70);
+    	content.setBounds(10, 130, 500, 380);
+    	fileName.setBounds(10, 510, 500, 300);
         Pre_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ì´ì „ ë‹¨ê³„ í‘œì‹œ
+                // ÀÌÀü ´Ü°è Ç¥½Ã
             }
         });
         Next_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                test_newWindow newWindow = new test_newWindow(); // ì¡°ê±´ ì…ë ¥ ì°½ ë„ìš°ê¸°
+                test_newWindow newWindow = new test_newWindow(); // Á¶°Ç ÀÔ·Â Ã¢ ¶ç¿ì±â
             }
         });
-        // JTextAreaì˜ í–‰ê³¼ ì—´ í‘œì‹œ (ì„ì‹œ)
+        // JTextAreaÀÇ Çà°ú ¿­ Ç¥½Ã (ÀÓ½Ã)
         textArea1.addCaretListener(new CaretListener() {
             public void caretUpdate(CaretEvent e) {
                 JTextArea editArea = (JTextArea) e.getSource();
@@ -90,6 +151,32 @@ public class test_MainPanel extends JPanel {
             }
         });
     }
+    
+    class MyActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource().equals(image_btn)) { // ¹öÆ° ÀÔ·Â ½Ã ÆÄÀÏÅ½»öÃ¢ ¿­±â
+				fileChooser chooser = new fileChooser(new String[]{"gif", "png", "jpg"});
+				String filePath = chooser.filePath;
+				fileNames.setText(fileNames.getText() + filePath + "\n");
+			}
+			else if(e.getSource().equals(video_btn)) {
+				fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
+				String filePath = chooser.filePath;
+				fileNames.setText(fileNames.getText() + filePath + "\n");
+			}
+			else if(e.getSource().equals(pdf_btn)) {
+				fileChooser chooser = new fileChooser(new String[]{"pdf"});
+				String filePath = chooser.filePath;
+				fileNames.setText(fileNames.getText() + filePath + "\n");
+			}
+			else if(e.getSource().equals(voice_btn)) {
+				fileChooser chooser = new fileChooser(new String[]{"wav", "mp3"});
+				String filePath = chooser.filePath;
+				fileNames.setText(fileNames.getText() + filePath + "\n");
+			}
+		}
+    }
+    
     private void updateStatus(int linenumber, int columnnumber) {
         status.setText("Line: " + linenumber + " Column: " + columnnumber);
     }
