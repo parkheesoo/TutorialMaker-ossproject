@@ -5,14 +5,16 @@ import java.awt.GridLayout;
 public class test_Frame extends JFrame {
     public test_Frame(){
     	Container c = getContentPane();
-		c.setLayout(new GridLayout(1, 2));
+		c.setLayout(new BorderLayout());
     	
+		stagePanel StagePanel = new stagePanel();
         codePanel CodePanel = new codePanel();
         commentPanel CommentPanel = new commentPanel();
         
         setTitle("Tutorial Maker");
-        add(CommentPanel);
-        add(CodePanel);
+        add(StagePanel, BorderLayout.WEST);
+        add(CommentPanel, BorderLayout.CENTER);
+        add(CodePanel, BorderLayout.EAST);
         
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
