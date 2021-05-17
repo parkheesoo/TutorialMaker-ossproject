@@ -3,32 +3,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class AddStage extends JFrame {
-	String stageTitle;
-	JButton Ok_btn = new JButton("È®ÀÎ");
-	JTextField stageText = new JTextField(15);
+    String stageTitle;
+    JButton Ok_btn = new JButton("í™•ì¸");
+    JTextField stageText = new JTextField(15);
 
     public AddStage(){
         setTitle("Add Stage");
         setLayout(new GridLayout(2, 1));
-        
+
         JPanel getStage = new JPanel();
         JPanel buttons = new JPanel();
 
-        // getStage ÆĞ³Î ±¸Çö
+        // getStage íŒ¨ë„ êµ¬í˜„
         getStage.add(new JLabel("Stage title: "));
         getStage.add(stageText);
         add(getStage);
-        
-        // buttons ÆĞ³Î ±¸Çö
-        JButton Cancle_btn = new JButton("Ãë¼Ò");
+
+        // buttons íŒ¨ë„ êµ¬í˜„
+        JButton Cancle_btn = new JButton("ì·¨ì†Œ");
         buttons.add(Ok_btn);
         buttons.add(Cancle_btn);
         add(buttons);
-        
+
         Cancle_btn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { // cancle ¹öÆ°À» ´­·¶À» ¶§
+            public void actionPerformed(ActionEvent e) { // cancle ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ
+
                 dispose();
             }
         });
