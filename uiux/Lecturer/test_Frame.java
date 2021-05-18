@@ -14,16 +14,36 @@ public class test_Frame extends JFrame {
     public test_Frame(){
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
-
+        
+        // data를 저장하기 위한 폴더 생성
+        File recent = new File(".");
+        String path = recent.getPath() + "\\data"; //폴더 경로
+    	File Folder = new File(path);
+    	
+    	if (!Folder.exists()) { // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+    		try{
+    		    Folder.mkdir(); //폴더 생성합니다.
+    		    System.out.println("폴더가 생성되었습니다.");
+    	        } 
+    	        catch(Exception e){
+    		    e.getStackTrace();
+    		}              
+    	}
+    	
         stagePanel StagePanel = new stagePanel();
         commentPanel CommentPanel = new commentPanel();
         codePanel CodePanel = new codePanel();
         
+        // stage가 바뀔 때마다 작동
         StagePanel.stageList.addListSelectionListener(new ListSelectionListener() {
         	public void valueChanged(ListSelectionEvent e) // 리스트를 선택 했을 때
             {
+        		CommentPanel.writeFile();
+        		CodePanel.writeFile(CommentPanel.stageTitle.getText());
         		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
                 CommentPanel.stageTitle.setText(stageTitle);
+                CommentPanel.readFile(stageTitle);
+                CodePanel.readFile(stageTitle);
             }
         });
         

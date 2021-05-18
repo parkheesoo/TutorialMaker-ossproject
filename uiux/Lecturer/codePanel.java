@@ -5,6 +5,9 @@ import javax.swing.event.CaretListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -107,6 +110,41 @@ public class codePanel extends JPanel {
         status.setText("Line: " + linenumber + " Column: " + columnnumber);
     }
 
+    // 현재 code 내용을 text 파일로 쓰기
+    public void writeFile(String stageTitle){
+    	String code_str = textArea1.getText();
+    	if (!stageTitle.equals("No stage")) { // stage가 존재할 때만 실행
+        	String File_name = "data\\code_" + stageTitle + ".txt"; //Change to desired extension(ex. ".c")
+        	try {
+        		FileWriter writer = new FileWriter(File_name);
+        		writer.write(code_str);
+        		writer.close();
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        	}
+        }
+    }
+    
+    // 선택된 text 파일을 code에 읽어오기
+    public void readFile(String stageTitle){
+    	File file = new File(".");
+    	String path = file.getPath() + "\\data\\code_" + stageTitle + ".txt";
+    	StringBuffer code_str = new StringBuffer("");
+    	try {
+            String s;
+            File read = new File(path);
+            BufferedReader bReader = null;
+            bReader = new BufferedReader(new FileReader(read));
+            
+            // 더이상 읽어들일게 없을 때까지 읽어들이게 합니다.
+            while((s = bReader.readLine()) != null) {
+                code_str.append(s);
+                code_str.append("\n");
+            }
+        } catch(IOException e) {}
+    	
+    	textArea1.setText(code_str.toString());
+    }
 
     // 코드 패널에 있는 문장들 파일출력하는 메소드
     public void makeCodeFile(){

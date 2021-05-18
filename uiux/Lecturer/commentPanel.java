@@ -11,6 +11,7 @@ public class commentPanel extends JPanel {
     private JPanel fileName = new JPanel(); // 첨부한 파일을 보여주기 위한 패널
 
     JLabel stageTitle= new JLabel("No stage");
+    TextArea contentText = new TextArea("Enter the content here", 25, 50);
     TextArea fileNames = new TextArea(5, 50); // 첨부파일 주소를 출력하는 textArea
 
     // 이미지 파일을 위한 파일 경로 저장
@@ -46,12 +47,13 @@ public class commentPanel extends JPanel {
         voice_btn.addActionListener(actionListener);
 
         // content 패널 구현
-        TextArea contentText = new TextArea("Enter the content here", 25, 50);
         content.add(contentText);
         contentText.addFocusListener(new FocusListener() { // textArea 클릭 시 초기 문구가 사라짐
             public void focusLost(FocusEvent e) {}
             public void focusGained(FocusEvent e) {
-                contentText.setText("");
+            	if (contentText.getText().equals("Enter the content here")) {
+            		contentText.setText("");
+            	}
             }
         });
 
@@ -93,5 +95,41 @@ public class commentPanel extends JPanel {
                 fileNames.setText(fileNames.getText() + filePath + "\n");
             }
         }
+    }
+    
+    // 현재 content 내용을 text 파일로 쓰기
+    public void writeFile(){
+    	String comment_str = contentText.getText();
+    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
+        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+        	try {
+        		FileWriter writer = new FileWriter(File_name);
+        		writer.write(comment_str);
+        		writer.close();
+        	} catch (IOException ex) {}
+        }
+    }
+    
+    // 선택된 text 파일을 content에 읽어오기
+    public void readFile(String stageTitle){
+    	String path = file.getPath()+"\\data\\comment_" + stageTitle + ".txt";
+    	StringBuffer comment_str = new StringBuffer("");
+    	try {
+            String s;
+            File read = new File(path);
+            BufferedReader bReader = null;
+            bReader = new BufferedReader(new FileReader(read));
+            
+            // 더이상 읽어들일게 없을 때까지 읽어들이게 합니다.
+            while((s = bReader.readLine()) != null) {
+                comment_str.append(s);
+                comment_str.append("\n");
+            }
+        } catch(IOException e) {}
+    	
+    	if (comment_str.toString().length() == 0)
+    		contentText.setText("Enter the content here");
+    	else
+    		contentText.setText(comment_str.toString());
     }
 }
