@@ -1,4 +1,7 @@
+package Lecturer;
+
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -25,6 +28,10 @@ public class commentPanel extends JPanel {
     JButton video_btn = new JButton(images[1]);
     JButton pdf_btn = new JButton(images[2]);
     JButton voice_btn = new JButton(images[3]);
+
+    //첨부된 파일을 보여주기 위한 컴포넌트
+	private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
+	private JList fileNameList = new JList(fileNameListModel);
     
     public commentPanel() {
     	MyActionListener actionListener = new MyActionListener();
@@ -58,8 +65,9 @@ public class commentPanel extends JPanel {
     	// fileName 패널 구현
     	fileName.setLayout(new BorderLayout());
     	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
-    	fileNames.setEnabled(false);
-    	fileName.add(fileNames, BorderLayout.CENTER);
+    	fileName.setBorder(new LineBorder(Color.black));
+		fileNameList.setPreferredSize(new Dimension(400, 50));
+		fileName.add(fileNameList, BorderLayout.CENTER);
     	
     	add(title);
     	add(fileButton);
@@ -75,22 +83,22 @@ public class commentPanel extends JPanel {
 			if(e.getSource().equals(image_btn)) { // 버튼 입력 시 파일탐색창 열기
 				fileChooser chooser = new fileChooser(new String[]{"gif", "png", "jpg"});
 				String filePath = chooser.filePath;
-				fileNames.setText(fileNames.getText() + filePath + "\n");
+				fileNameListModel.addElement(filePath);
 			}
 			else if(e.getSource().equals(video_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
 				String filePath = chooser.filePath;
-				fileNames.setText(fileNames.getText() + filePath + "\n");
+				fileNameListModel.addElement(filePath);
 			}
 			else if(e.getSource().equals(pdf_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"pdf"});
 				String filePath = chooser.filePath;
-				fileNames.setText(fileNames.getText() + filePath + "\n");
+				fileNameListModel.addElement(filePath);
 			}
 			else if(e.getSource().equals(voice_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"wav", "mp3"});
 				String filePath = chooser.filePath;
-				fileNames.setText(fileNames.getText() + filePath + "\n");
+				fileNameListModel.addElement(filePath);
 			}
 		}
     }

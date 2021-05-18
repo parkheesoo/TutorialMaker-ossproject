@@ -1,3 +1,5 @@
+package Lecturer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.GridLayout;
