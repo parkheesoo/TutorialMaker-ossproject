@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -27,7 +28,10 @@ public class commentPanel extends JPanel {
     JButton video_btn = new JButton(images[1]);
     JButton pdf_btn = new JButton(images[2]);
     JButton voice_btn = new JButton(images[3]);
-
+    
+    private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
+	private JList fileNameList = new JList(fileNameListModel);
+	
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
 
@@ -58,11 +62,12 @@ public class commentPanel extends JPanel {
         });
 
         // fileName 패널 구현
-        fileName.setLayout(new BorderLayout());
-        fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
-        fileNames.setEnabled(false);
-        fileName.add(fileNames, BorderLayout.CENTER);
-
+    	fileName.setLayout(new BorderLayout());
+    	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
+    	fileName.setBorder(new LineBorder(Color.black));
+		fileNameList.setPreferredSize(new Dimension(400, 50));
+		fileName.add(fileNameList, BorderLayout.CENTER);
+		
         add(title);
         add(fileButton);
         add(content);
