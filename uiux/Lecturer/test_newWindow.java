@@ -8,8 +8,8 @@ public class test_newWindow extends JFrame {
     private JPanel txtPanel1 = new JPanel();
     private JPanel txtPanel2 = new JPanel();
 
-    private JButton OK_btn = new JButton("ÌôïÏù∏");
-    private JButton Cancle_btn = new JButton("Ï∑®ÏÜå");
+    private JButton OK_btn = new JButton("submit");
+    private JButton Cancle_btn = new JButton("cancle");
     private JLabel in_label = new JLabel("input");
     private JLabel out_label = new JLabel("output");
     private JTextField in_txt = new JTextField(10);
@@ -17,7 +17,7 @@ public class test_newWindow extends JFrame {
 
 
     public test_newWindow(){
-        setTitle("Îã§Ïùå Îã®Í≥Ñ Ï°∞Í±¥ ÏÑ§Ï†ï");
+        setTitle("¥Ÿ¿Ω ¥‹∞Ë ¡∂∞« º≥¡§");
         setLayout(new BorderLayout());
 
         txtPanel1.add(in_label);

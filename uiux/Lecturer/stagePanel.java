@@ -6,28 +6,29 @@ import java.awt.event.*;
 
 
 public class stagePanel extends JPanel {
-    // stage list ìƒì„±
+    // stage list »ı¼º
     DefaultListModel model = new DefaultListModel();
     JList stageList = new JList(model);
     JScrollPane scrolled = new JScrollPane(stageList);
 
-    JLabel recentStage= new JLabel("No stage");
+    //JLabel recentStage= new JLabel("No stage");
 
     JButton add_btn = new JButton("add");
     JButton delete_btn = new JButton("delete");
 
     stagePanel() {
-        MyListener myListener = new MyListener(); // ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ
+        MyListener myListener = new MyListener(); // ÀÌº¥Æ® ¸®½º³Ê
         setLayout(new BorderLayout());
 
-        // í˜„ì¬ stage í‘œì‹œ
-        add(recentStage, BorderLayout.NORTH);
+        // stage list ¹®±¸ Ãâ·Â
+        JLabel listLabel = new JLabel("Stage List");
+        listLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(listLabel, BorderLayout.NORTH);
 
-        // stage list í‘œì‹œ
+        // stage list Ç¥½Ã
         add(stageList, BorderLayout.CENTER);
-        stageList.addListSelectionListener(myListener);
 
-        // buttons íŒ¨ë„ êµ¬í˜„
+        // buttons ÆĞ³Î ±¸Çö
         JPanel buttons = new JPanel();
         buttons.add(add_btn);
         buttons.add(delete_btn);
@@ -40,9 +41,9 @@ public class stagePanel extends JPanel {
         setVisible(true);
     }
 
-    class MyListener implements ListSelectionListener, ActionListener {
+    class MyListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) { // add ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ
+        public void actionPerformed(ActionEvent e) { // add ¹öÆ°À» ´­·¶À» ¶§
             if(e.getSource().equals(add_btn)) {
                 AddStage addStage = new AddStage();
                 addStage.Ok_btn.addActionListener(new ActionListener() {
@@ -53,15 +54,6 @@ public class stagePanel extends JPanel {
                     }
                 });
             }
-            else if(e.getSource().equals(delete_btn)) { // delete ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ
-                model.remove(stageList.getSelectedIndex());
-                recentStage.setText("No stage");
-            }
-        }
-
-        public void valueChanged(ListSelectionEvent e) // ë¦¬ìŠ¤íŠ¸ë¥¼ ì„ íƒ í–ˆì„ ë•Œ
-        {
-            recentStage.setText((String) stageList.getSelectedValue());
         }
     }
 }

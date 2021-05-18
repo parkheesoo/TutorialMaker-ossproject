@@ -1,26 +1,45 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.GridLayout;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class test_Frame extends JFrame {
+public class test_Frame extends JFrame {    
     public test_Frame(){
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
 
         stagePanel StagePanel = new stagePanel();
-        codePanel CodePanel = new codePanel();
         commentPanel CommentPanel = new commentPanel();
-
+        codePanel CodePanel = new codePanel();
+        
+        StagePanel.stageList.addListSelectionListener(new ListSelectionListener() {
+        	public void valueChanged(ListSelectionEvent e) // ¸®½ºÆ®¸¦ ¼±ÅÃ ÇßÀ» ¶§
+            {
+        		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
+                CommentPanel.stageTitle.setText(stageTitle);
+            }
+        });
+        
+        StagePanel.delete_btn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		StagePanel.model.remove(StagePanel.stageList.getSelectedIndex());
+        		CommentPanel.stageTitle.setText("No stage");
+        	}
+        });
+        
         setTitle("Tutorial Maker");
         add(StagePanel, BorderLayout.WEST);
         add(CommentPanel, BorderLayout.CENTER);
         add(CodePanel, BorderLayout.EAST);
 
+        // ¸Ş´º¹Ù ±¸Çö
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenu edit = new JMenu("Edit");
@@ -28,13 +47,13 @@ public class test_Frame extends JFrame {
 
         file.add(new JMenuItem("New"));
         file.add(new JMenuItem("Open"));
-        //file.addSeparator();//ë¶„ë¦¬ì„  ì‚½ì…
+        //file.addSeparator();//ºĞ¸®¼± »ğÀÔ
         file.add(new JMenuItem("Save"));
         file.add(new JMenuItem("SaveAs"));
 
         edit.add(new JMenuItem("Delete"));
 
-        // run ë²„íŠ¼ì„ ì„ì‹œë¡œ ë¶„ë¥˜í–ˆìŠµë‹ˆë‹¤.
+        // run ¹öÆ°À» ÀÓ½Ã·Î ºĞ·ùÇß½À´Ï´Ù.
         JMenuItem runItem = new JMenuItem("run");
         JMenuItem compileItem = new JMenuItem("compile");
         run.add(runItem); //new JMenuItem("run")
@@ -47,7 +66,7 @@ public class test_Frame extends JFrame {
 
         setLocationRelativeTo(null);
         setVisible(true);
-        setSize(1000,700);
+        setSize(900,720);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,7 +77,7 @@ public class test_Frame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CodePanel.makeCodeFile();
-                //íŒŒì¼ ì¶œë ¥
+                //ÆÄÀÏ Ãâ·Â
                 compiler.compile();
             }
         });
@@ -73,31 +92,35 @@ public class test_Frame extends JFrame {
 }
 
 
-// ì»´íŒŒì¼ ë¶€ë¶„ - Mingw-w64ì„ ì´ìš©í–ˆìŠµë‹ˆë‹¤.
-// í•´ë‹¹ ë¶€ë¶„ì—ì„œì˜ ì²«ë²ˆì§¸ ì½”ë“œì˜ ê²½ë¡œë¶€ë¶„ì€ ì œ íŒŒì¼ ê²½ë¡œì— ë§ì¶˜ê±°ë¼ ë”°ë¡œ ë§ì¶°ì£¼ì…”ì•¼ í•  ê²ƒ ê°™ìŠµë‹ˆë‹¤.
+// ÄÄÆÄÀÏ ºÎºĞ - Mingw-w64À» ÀÌ¿ëÇß½À´Ï´Ù.
+// ÇØ´ç ºÎºĞ¿¡¼­ÀÇ Ã¹¹øÂ° ÄÚµåÀÇ °æ·ÎºÎºĞÀº Á¦ ÆÄÀÏ °æ·Î¿¡ ¸ÂÃá°Å¶ó µû·Î ¸ÂÃçÁÖ¼Å¾ß ÇÒ °Í °°½À´Ï´Ù.
 class Call_compiler{
+	
+	File file = new File(".");
+    String path = file.getPath();
+	
     public void compile(){
         String s;
 
         try {
-            Process oProcess = new ProcessBuilder("cmd", "/c", "cd", "C:\\Users\\User\\gitTest\\oss_pre2").start();
+            Process oProcess = new ProcessBuilder("cmd", "/c", "cd", path).start();
             Process Process1 = new ProcessBuilder("cmd", "/c", "gcc", "-o", "test", "out.c").start();
 
-            // ì™¸ë¶€ í”„ë¡œê·¸ë¨ ì¶œë ¥ ì½ê¸°
+            // ¿ÜºÎ ÇÁ·Î±×·¥ Ãâ·Â ÀĞ±â
             BufferedReader stdOut1   = new BufferedReader(new InputStreamReader(Process1.getInputStream()));
             BufferedReader stdError1 = new BufferedReader(new InputStreamReader(Process1.getErrorStream()));
 
-            // "í‘œì¤€ ì¶œë ¥"ê³¼ "í‘œì¤€ ì—ëŸ¬ ì¶œë ¥"ì„ ì¶œë ¥
+            // "Ç¥ÁØ Ãâ·Â"°ú "Ç¥ÁØ ¿¡·¯ Ãâ·Â"À» Ãâ·Â
             compileWindow window = new compileWindow();
             while ((s =   stdOut1.readLine()) != null) System.out.println(s);
             while ((s = stdError1.readLine()) != null) window.setResultArea(s);
 
-            // ì™¸ë¶€ í”„ë¡œê·¸ë¨ ë°˜í™˜ê°’ ì¶œë ¥ (ì´ ë¶€ë¶„ì€ í•„ìˆ˜ê°€ ì•„ë‹˜)
+            // ¿ÜºÎ ÇÁ·Î±×·¥ ¹İÈ¯°ª Ãâ·Â (ÀÌ ºÎºĞÀº ÇÊ¼ö°¡ ¾Æ´Ô)
             System.out.println("Exit Code: " + Process1.exitValue());
-            //System.exit(Process2.exitValue()); // ì™¸ë¶€ í”„ë¡œê·¸ë¨ì˜ ë°˜í™˜ê°’ì„, ì´ ìë°” í”„ë¡œê·¸ë¨ ìì²´ì˜ ë°˜í™˜ê°’ìœ¼ë¡œ ì‚¼ê¸°
+            //System.exit(Process2.exitValue()); // ¿ÜºÎ ÇÁ·Î±×·¥ÀÇ ¹İÈ¯°ªÀ», ÀÌ ÀÚ¹Ù ÇÁ·Î±×·¥ ÀÚÃ¼ÀÇ ¹İÈ¯°ªÀ¸·Î »ï±â
 
-        } catch (IOException e) { // ì—ëŸ¬ ì²˜ë¦¬
-            System.err.println("ì—ëŸ¬! ì™¸ë¶€ ëª…ë ¹ ì‹¤í–‰ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.\n" + e.getMessage());
+        } catch (IOException e) { // ¿¡·¯ Ã³¸®
+            System.err.println("¿¡·¯! ¿ÜºÎ ¸í·É ½ÇÇà¿¡ ½ÇÆĞÇß½À´Ï´Ù.\n" + e.getMessage());
             System.exit(-1);
         }
     }
@@ -106,10 +129,10 @@ class Call_compiler{
         String s;
 
         try {
-            Process oProcess = new ProcessBuilder("cmd", "/c", "cd", "C:\\Users\\User\\gitTest\\oss_pre2").start();
+            Process oProcess = new ProcessBuilder("cmd", "/c", "cd", path).start();
             Process Process2 = new ProcessBuilder("cmd", "/c", "test").start();
 
-            // ì™¸ë¶€ í”„ë¡œê·¸ë¨ ì¶œë ¥ ì½ê¸°
+            // ¿ÜºÎ ÇÁ·Î±×·¥ Ãâ·Â ÀĞ±â
             BufferedReader stdOut2   = new BufferedReader(new InputStreamReader(Process2.getInputStream()));
             BufferedReader stdError2 = new BufferedReader(new InputStreamReader(Process2.getErrorStream()));
 
@@ -118,16 +141,14 @@ class Call_compiler{
             while ((s = stdError2.readLine()) != null) window.setResultArea(s);
 
 
-            // ì™¸ë¶€ í”„ë¡œê·¸ë¨ ë°˜í™˜ê°’ ì¶œë ¥ (ì´ ë¶€ë¶„ì€ í•„ìˆ˜ê°€ ì•„ë‹˜)
+            // ¿ÜºÎ ÇÁ·Î±×·¥ ¹İÈ¯°ª Ãâ·Â (ÀÌ ºÎºĞÀº ÇÊ¼ö°¡ ¾Æ´Ô)
             System.out.println("Exit Code: " + Process2.exitValue());
-            //System.exit(Process2.exitValue()); // ì™¸ë¶€ í”„ë¡œê·¸ë¨ì˜ ë°˜í™˜ê°’ì„, ì´ ìë°” í”„ë¡œê·¸ë¨ ìì²´ì˜ ë°˜í™˜ê°’ìœ¼ë¡œ ì‚¼ê¸°
+            //System.exit(Process2.exitValue()); // ¿ÜºÎ ÇÁ·Î±×·¥ÀÇ ¹İÈ¯°ªÀ», ÀÌ ÀÚ¹Ù ÇÁ·Î±×·¥ ÀÚÃ¼ÀÇ ¹İÈ¯°ªÀ¸·Î »ï±â
 
-        } catch (IOException e) { // ì—ëŸ¬ ì²˜ë¦¬
-            System.err.println("ì—ëŸ¬! ì™¸ë¶€ ëª…ë ¹ ì‹¤í–‰ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.\n" + e.getMessage());
+        } catch (IOException e) { // ¿¡·¯ Ã³¸®
+            System.err.println("¿¡·¯! ¿ÜºÎ ¸í·É ½ÇÇà¿¡ ½ÇÆĞÇß½À´Ï´Ù.\n" + e.getMessage());
             System.exit(-1);
         }
     }
 
 }
-
-/* ì‹¤í–‰ì„ ìœ„í•´ ì„ì‹œë¡œ í”„ë ˆì„ì„ ìƒì„±í–ˆìŠµë‹ˆë‹¤. */

@@ -1,5 +1,3 @@
-
-
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.JFileChooser;
@@ -15,11 +13,11 @@ public class fileChooser extends JFrame {
         jfc.setCurrentDirectory(new File("/"));
         jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         for (int i = 0; i < extension.length; i++) {
-            jfc.setFileFilter(new FileNameExtensionFilter(extension[i], extension[i])); // filter È®ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+            jfc.setFileFilter(new FileNameExtensionFilter(extension[i], extension[i])); // filter È®ÀåÀÚ Ãß°¡
         }
 
         int returnVal = jfc.showOpenDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION) { // ï¿½ï¿½ï¿½â¸¦ Å¬ï¿½ï¿½
+        if(returnVal == JFileChooser.APPROVE_OPTION) { // ¿­±â¸¦ Å¬¸¯
             filePath = jfc.getSelectedFile().toString();
         }
     }

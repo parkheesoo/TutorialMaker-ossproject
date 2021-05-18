@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public class AddStage extends JFrame {
     String stageTitle;
-    JButton Ok_btn = new JButton("í™•ì¸");
+    JButton Ok_btn = new JButton("submit");
     JTextField stageText = new JTextField(15);
 
     public AddStage(){
@@ -16,20 +16,20 @@ public class AddStage extends JFrame {
         JPanel getStage = new JPanel();
         JPanel buttons = new JPanel();
 
-        // getStage íŒ¨ë„ êµ¬í˜„
+        // getStage ÆĞ³Î ±¸Çö
         getStage.add(new JLabel("Stage title: "));
         getStage.add(stageText);
         add(getStage);
 
-        // buttons íŒ¨ë„ êµ¬í˜„
-        JButton Cancle_btn = new JButton("ì·¨ì†Œ");
+        // buttons ÆĞ³Î ±¸Çö
+        JButton Cancle_btn = new JButton("cancle");
         buttons.add(Ok_btn);
         buttons.add(Cancle_btn);
         add(buttons);
 
         Cancle_btn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { // cancle ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ
+            public void actionPerformed(ActionEvent e) { // cancle ¹öÆ°À» ´­·¶À» ¶§
 
                 dispose();
             }
