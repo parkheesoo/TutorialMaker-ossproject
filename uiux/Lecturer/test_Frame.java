@@ -39,6 +39,7 @@ public class test_Frame extends JFrame {
         	public void valueChanged(ListSelectionEvent e) // 리스트를 선택 했을 때
             {
         		CommentPanel.writeFile();
+        		CommentPanel.makeattachedfolder();
         		CodePanel.writeFile(CommentPanel.stageTitle.getText());
         		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
                 CommentPanel.stageTitle.setText(stageTitle);

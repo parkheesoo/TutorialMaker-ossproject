@@ -1,9 +1,14 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.*;
+
+import Lecturer.fileChooser;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.io.File;
 
 public class commentPanel extends JPanel {
     private JPanel title = new JPanel(); // 제목 입력을 위한 패널
@@ -29,8 +34,9 @@ public class commentPanel extends JPanel {
     JButton pdf_btn = new JButton(images[2]);
     JButton voice_btn = new JButton(images[3]);
     
-    private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
-	private JList fileNameList = new JList(fileNameListModel);
+  //첨부된 파일을 보여주기 위한 컴포넌트
+  	private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
+  	private JList fileNameList = new JList(fileNameListModel);
 	
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
@@ -62,7 +68,7 @@ public class commentPanel extends JPanel {
         });
 
         // fileName 패널 구현
-    	fileName.setLayout(new BorderLayout());
+        fileName.setLayout(new BorderLayout());
     	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
     	fileName.setBorder(new LineBorder(Color.black));
 		fileNameList.setPreferredSize(new Dimension(400, 50));
@@ -78,30 +84,29 @@ public class commentPanel extends JPanel {
     }
 
     class MyActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            if(e.getSource().equals(image_btn)) { // 버튼 입력 시 파일탐색창 열기
-                fileChooser chooser = new fileChooser(new String[]{"gif", "png", "jpg"});
-                String filePath = chooser.filePath;
-                fileNames.setText(fileNames.getText() + filePath + "\n");
-            }
-            else if(e.getSource().equals(video_btn)) {
-                fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
-                String filePath = chooser.filePath;
-                fileNames.setText(fileNames.getText() + filePath + "\n");
-            }
-            else if(e.getSource().equals(pdf_btn)) {
-                fileChooser chooser = new fileChooser(new String[]{"pdf"});
-                String filePath = chooser.filePath;
-                fileNames.setText(fileNames.getText() + filePath + "\n");
-            }
-            else if(e.getSource().equals(voice_btn)) {
-                fileChooser chooser = new fileChooser(new String[]{"wav", "mp3"});
-                String filePath = chooser.filePath;
-                fileNames.setText(fileNames.getText() + filePath + "\n");
-            }
-        }
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource().equals(image_btn)) { // 버튼 입력 시 파일탐색창 열기
+				fileChooser chooser = new fileChooser(new String[]{"gif", "png", "jpg"});
+				String filePath = chooser.filePath;
+				fileNameListModel.addElement(filePath);
+			}
+			else if(e.getSource().equals(video_btn)) {
+				fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
+				String filePath = chooser.filePath;
+				fileNameListModel.addElement(filePath);
+			}
+			else if(e.getSource().equals(pdf_btn)) {
+				fileChooser chooser = new fileChooser(new String[]{"pdf"});
+				String filePath = chooser.filePath;
+				fileNameListModel.addElement(filePath);
+			}
+			else if(e.getSource().equals(voice_btn)) {
+				fileChooser chooser = new fileChooser(new String[]{"wav", "mp3"});
+				String filePath = chooser.filePath;
+				fileNameListModel.addElement(filePath);
+			}
+		}
     }
-    
     // 현재 content 내용을 text 파일로 쓰기
     public void writeFile(){
     	String comment_str = contentText.getText();
@@ -115,6 +120,22 @@ public class commentPanel extends JPanel {
         }
     }
     
+    public void makeattachedfolder(){
+	    File com = new File(".");
+	    String pa = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile"; //폴더 경로
+		File Fol = new File(pa);
+		
+		if(stageTitle.getText() != "No stage") {
+			if (!Fol.exists()) { // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+				try{
+				    Fol.mkdir(); //폴더 생성합니다.
+			        } 
+			        catch(Exception e){
+				    e.getStackTrace();
+				}              
+			}
+		}	
+    }
     // 선택된 text 파일을 content에 읽어오기
     public void readFile(String stageTitle){
     	String path = file.getPath()+"\\data\\comment_" + stageTitle + ".txt";
@@ -137,4 +158,5 @@ public class commentPanel extends JPanel {
     	else
     		contentText.setText(comment_str.toString());
     }
+    
 }
