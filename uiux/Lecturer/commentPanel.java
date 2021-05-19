@@ -1,9 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.*;
-
-import Lecturer.fileChooser;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
