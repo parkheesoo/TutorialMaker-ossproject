@@ -132,16 +132,130 @@ public class commentPanel extends JPanel {
 				fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
 				String filePath = chooser.filePath;
 				fileNameListModel.addElement(filePath);
+				//원본 파일경로
+		        String oriFilePath = filePath;
+		        File f = new File(filePath);
+		        String p ="";
+		        String filen = "";
+		        
+		        path = f.getParentFile().toString();
+		        filen = f.getName();
+		        //복사될 파일경로
+		        File com = new File(".");
+		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile\\" + filen; //폴더 경로
+		        
+		        //파일객체생성
+		        File oriFile = new File(oriFilePath);
+		        //복사파일객체생성
+		        File copyFile = new File(copyFilePath);
+		        
+		        try {
+		            
+		            FileInputStream fis = new FileInputStream(oriFile); //읽을파일
+		            FileOutputStream fos = new FileOutputStream(copyFile); //복사할파일
+		            
+		            int fileByte = 0; 
+		            // fis.read()가 -1 이면 파일을 다 읽은것
+		            while((fileByte = fis.read()) != -1) {
+		                fos.write(fileByte);
+		            }
+		            //자원사용종료
+		            fis.close();
+		            fos.close();
+		            
+		        } catch (FileNotFoundException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        } catch (IOException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        }
 			}
 			else if(e.getSource().equals(pdf_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"pdf"});
 				String filePath = chooser.filePath;
 				fileNameListModel.addElement(filePath);
+				//원본 파일경로
+		        String oriFilePath = filePath;
+		        File f = new File(filePath);
+		        String p ="";
+		        String filen = "";
+		        
+		        path = f.getParentFile().toString();
+		        filen = f.getName();
+		        //복사될 파일경로
+		        File com = new File(".");
+		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile\\" + filen; //폴더 경로
+		        
+		        //파일객체생성
+		        File oriFile = new File(oriFilePath);
+		        //복사파일객체생성
+		        File copyFile = new File(copyFilePath);
+		        
+		        try {
+		            
+		            FileInputStream fis = new FileInputStream(oriFile); //읽을파일
+		            FileOutputStream fos = new FileOutputStream(copyFile); //복사할파일
+		            
+		            int fileByte = 0; 
+		            // fis.read()가 -1 이면 파일을 다 읽은것
+		            while((fileByte = fis.read()) != -1) {
+		                fos.write(fileByte);
+		            }
+		            //자원사용종료
+		            fis.close();
+		            fos.close();
+		            
+		        } catch (FileNotFoundException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        } catch (IOException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        }
 			}
 			else if(e.getSource().equals(voice_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"wav", "mp3"});
 				String filePath = chooser.filePath;
 				fileNameListModel.addElement(filePath);
+				//원본 파일경로
+		        String oriFilePath = filePath;
+		        File f = new File(filePath);
+		        String p ="";
+		        String filen = "";
+		        
+		        path = f.getParentFile().toString();
+		        filen = f.getName();
+		        //복사될 파일경로
+		        File com = new File(".");
+		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile\\" + filen; //폴더 경로
+		        
+		        //파일객체생성
+		        File oriFile = new File(oriFilePath);
+		        //복사파일객체생성
+		        File copyFile = new File(copyFilePath);
+		        
+		        try {
+		            
+		            FileInputStream fis = new FileInputStream(oriFile); //읽을파일
+		            FileOutputStream fos = new FileOutputStream(copyFile); //복사할파일
+		            
+		            int fileByte = 0; 
+		            // fis.read()가 -1 이면 파일을 다 읽은것
+		            while((fileByte = fis.read()) != -1) {
+		                fos.write(fileByte);
+		            }
+		            //자원사용종료
+		            fis.close();
+		            fos.close();
+		            
+		        } catch (FileNotFoundException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        } catch (IOException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        }
 			}
 		}
     }
