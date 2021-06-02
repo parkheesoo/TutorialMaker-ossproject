@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -10,7 +11,6 @@ public class stagePanel extends JPanel {
     DefaultListModel model = new DefaultListModel();
     JList stageList = new JList(model);
     JScrollPane scrolled = new JScrollPane(stageList);
-
     //JLabel recentStage= new JLabel("No stage");
 
     JButton add_btn = new JButton("add");
@@ -23,11 +23,11 @@ public class stagePanel extends JPanel {
         // stage list 문구 출력
         JLabel listLabel = new JLabel("Stage List");
         listLabel.setHorizontalAlignment(JLabel.CENTER);
+        stageList.setBorder(new LineBorder(Color.lightGray));
         add(listLabel, BorderLayout.NORTH);
-
         // stage list 표시
         add(stageList, BorderLayout.CENTER);
-
+        
         // buttons 패널 구현
         JPanel buttons = new JPanel();
         buttons.add(add_btn);

@@ -59,7 +59,8 @@ public class test_Frame extends JFrame {
         add(StagePanel, BorderLayout.WEST);
         add(CommentPanel, BorderLayout.CENTER);
         add(CodePanel, BorderLayout.EAST);
-
+        
+        StagePanel.setBackground(Color.LIGHT_GRAY);
         // 메뉴바 구현
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
