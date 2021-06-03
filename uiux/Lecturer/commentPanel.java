@@ -17,7 +17,7 @@ public class commentPanel extends JPanel {
     private JPanel fileName = new JPanel(); // 첨부한 파일을 보여주기 위한 패널
 
     JLabel stageTitle= new JLabel("No stage");
-    TextArea contentText = new TextArea("Enter the content here", 25, 50);
+    TextArea contentText = new TextArea("Enter the content here", 26, 50);
     TextArea fileNames = new TextArea(5, 50); // 첨부파일 주소를 출력하는 textArea
 
     // 이미지 파일을 위한 파일 경로 저장
@@ -71,7 +71,7 @@ public class commentPanel extends JPanel {
         fileName.setLayout(new BorderLayout());
     	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
     	fileName.setBorder(new LineBorder(Color.black));
-		fileNameList.setPreferredSize(new Dimension(400, 50));
+		fileNameList.setPreferredSize(new Dimension(370, 70));
 		fileName.add(fileNameList, BorderLayout.CENTER);
 		
         add(title);

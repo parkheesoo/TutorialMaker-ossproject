@@ -88,7 +88,7 @@ public class test_Frame extends JFrame {
 
         setLocationRelativeTo(null);
         setVisible(true);
-        setSize(900,720);
+        setSize(900,700);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
