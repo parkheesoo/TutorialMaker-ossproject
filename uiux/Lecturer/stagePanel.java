@@ -15,7 +15,8 @@ public class stagePanel extends JPanel {
 
     JButton add_btn = new JButton("add");
     JButton delete_btn = new JButton("delete");
-
+    
+    
     stagePanel() {
         MyListener myListener = new MyListener(); // 이벤트 리스너
         setLayout(new BorderLayout());
@@ -24,7 +25,9 @@ public class stagePanel extends JPanel {
         JLabel listLabel = new JLabel("Stage List");
         listLabel.setHorizontalAlignment(JLabel.CENTER);
         stageList.setBorder(new LineBorder(Color.lightGray));
+
         add(listLabel, BorderLayout.NORTH);
+        
         // stage list 표시
         add(stageList, BorderLayout.CENTER);
         
@@ -33,10 +36,12 @@ public class stagePanel extends JPanel {
         buttons.add(add_btn);
         buttons.add(delete_btn);
         add(buttons, BorderLayout.SOUTH);
+        buttons.setBackground(Color.WHITE);
 
         add_btn.addActionListener(myListener);
         delete_btn.addActionListener(myListener);
-
+        add_btn.setBackground(Color.LIGHT_GRAY);
+        delete_btn.setBackground(Color.LIGHT_GRAY);
         setSize(100,700);
         setVisible(true);
     }

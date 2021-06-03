@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.GridLayout;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
@@ -60,7 +60,9 @@ public class test_Frame extends JFrame {
         add(CommentPanel, BorderLayout.CENTER);
         add(CodePanel, BorderLayout.EAST);
         
-        StagePanel.setBackground(Color.LIGHT_GRAY);
+        StagePanel.setBackground(Color.WHITE);
+        CommentPanel.setBackground(Color.WHITE);
+        CodePanel.setBackground(Color.WHITE);
         // 메뉴바 구현
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -88,7 +90,7 @@ public class test_Frame extends JFrame {
 
         setLocationRelativeTo(null);
         setVisible(true);
-        setSize(900,720);
+        setSize(1000,800);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

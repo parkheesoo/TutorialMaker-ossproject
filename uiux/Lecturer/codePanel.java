@@ -20,12 +20,10 @@ public class codePanel extends JPanel {
     private JButton Pre_btn = new JButton();
     private JButton Next_btn = new JButton();
     private ImageIcon Next_btn_img = new ImageIcon("image\\nextbutton.png");
-    private ImageIcon Pre_btn_img = new ImageIcon("image\\prebutton.png");
     private ImageIcon Next_press_img = new ImageIcon("image\\nextbutton_press.png");
-    private ImageIcon Pre_press_img = new ImageIcon("image\\prebutton_press.png");
 
     // 코드 입력 부분 component
-    private JTextArea textArea1 = new JTextArea(30, 30); //크기조정 필요
+    private JTextArea textArea1 = new JTextArea(36, 35); //크기조정 필요
     private JScrollPane scroll = new JScrollPane(textArea1);
 
     // JTextArea 에서 행,열을 얻어서 보여주는 임시 라벨(주석 달 때 행 필요하면 사용)
@@ -50,25 +48,12 @@ public class codePanel extends JPanel {
         Next_btn.setPressedIcon(Next_press_img);
         Next_btn.setRolloverIcon(Next_press_img);
 
-        //pre button setting
-        Pre_btn.setIcon(Pre_btn_img);
-        Pre_btn.setBorderPainted(false);
-        Pre_btn.setContentAreaFilled(false);
-        Pre_btn.setFocusPainted(false);
-        Pre_btn.setPreferredSize(new Dimension(103, 46));
-        Pre_btn.setPressedIcon(Pre_press_img);
-        Pre_btn.setRolloverIcon(Pre_press_img);
-
         txtpanel.add(scroll);
-        btnpanel.add(Pre_btn);
         btnpanel.add(Next_btn);
+        txtpanel.setBackground(Color.WHITE);
+        btnpanel.setBackground(Color.WHITE);
 
-        Pre_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 이전 단계 표시
-            }
-        });
+        
         Next_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

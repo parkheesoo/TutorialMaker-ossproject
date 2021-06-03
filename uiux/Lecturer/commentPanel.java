@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.*;
@@ -15,11 +16,11 @@ public class commentPanel extends JPanel {
     private JPanel fileButton = new JPanel(); // 첨부파일 버튼을 위한 패널
     private JPanel content = new JPanel(); // 내용 입력을 위한 패널
     private JPanel fileName = new JPanel(); // 첨부한 파일을 보여주기 위한 패널
-
+    private JPanel attachedPane = new JPanel();
+    
     JLabel stageTitle= new JLabel("No stage");
-    TextArea contentText = new TextArea("Enter the content here", 25, 50);
-    TextArea fileNames = new TextArea(5, 50); // 첨부파일 주소를 출력하는 textArea
-
+    TextArea contentText = new TextArea("Enter the content here", 30, 55);
+ 
     // 이미지 파일을 위한 파일 경로 저장
     File file = new File(".");
     String path = file.getPath()+"\\image\\";
@@ -38,6 +39,7 @@ public class commentPanel extends JPanel {
   	private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
   	private JList fileNameList = new JList(fileNameListModel);
 	
+  	
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
 
@@ -45,12 +47,24 @@ public class commentPanel extends JPanel {
         title.add(new JLabel("Title: "));
         title.add(stageTitle);
 
+        
         // button 패널 구현
         fileButton.add(image_btn);
         fileButton.add(video_btn);
         fileButton.add(pdf_btn);
         fileButton.add(voice_btn);
 
+   
+        image_btn.setBackground(Color.LIGHT_GRAY);
+        video_btn.setBackground(Color.LIGHT_GRAY);
+        pdf_btn.setBackground(Color.LIGHT_GRAY);
+        voice_btn.setBackground(Color.LIGHT_GRAY);
+        
+        image_btn.setPreferredSize(new Dimension(80, 50));
+        video_btn.setPreferredSize(new Dimension(80, 50));
+        pdf_btn.setPreferredSize(new Dimension(80, 50));
+        voice_btn.setPreferredSize(new Dimension(80, 50));
+        
         image_btn.addActionListener(actionListener);
         video_btn.addActionListener(actionListener);
         pdf_btn.addActionListener(actionListener);
@@ -70,16 +84,21 @@ public class commentPanel extends JPanel {
         // fileName 패널 구현
         fileName.setLayout(new BorderLayout());
     	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
-    	fileName.setBorder(new LineBorder(Color.black));
+    	fileName.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		fileNameList.setPreferredSize(new Dimension(400, 50));
 		fileName.add(fileNameList, BorderLayout.CENTER);
 		
+		title.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		title.setPreferredSize(new Dimension(400, 30));
+        
+		
         add(title);
         add(fileButton);
+        add(attachedPane);
         add(content);
         add(fileName);
-
-        setSize(500,700);
+   
+        setSize(500,1000);
         setVisible(true);
     }
 
@@ -105,7 +124,15 @@ public class commentPanel extends JPanel {
 		        File oriFile = new File(oriFilePath);
 		        //복사파일객체생성
 		        File copyFile = new File(copyFilePath);
+		        Image image = null;
+		        try {
+		        	File sourceimage = new File(oriFilePath);
+		        	image = ImageIO.read(sourceimage);
 		        
+		        	
+		        } catch (IOException eee) {
+		        	eee.printStackTrace();
+		        }
 		        try {
 		            
 		            FileInputStream fis = new FileInputStream(oriFile); //읽을파일
@@ -127,6 +154,9 @@ public class commentPanel extends JPanel {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
 		        }
+		        Image changeImg = image.getScaledInstance(300, 90, Image.SCALE_SMOOTH);
+		        JLabel label = new JLabel(new ImageIcon(changeImg));
+		        attachedPane.add(label);
 			}
 			else if(e.getSource().equals(video_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
