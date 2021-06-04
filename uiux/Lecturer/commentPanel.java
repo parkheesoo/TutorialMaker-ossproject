@@ -19,7 +19,7 @@ public class commentPanel extends JPanel {
     private JPanel attachedPane = new JPanel();
     
     JLabel stageTitle= new JLabel("No stage");
-    TextArea contentText = new TextArea("Enter the content here", 30, 55);
+    TextArea contentText = new TextArea("Enter the content here", 28, 55);
  
     // 이미지 파일을 위한 파일 경로 저장
     File file = new File(".");
@@ -53,7 +53,7 @@ public class commentPanel extends JPanel {
         fileButton.add(video_btn);
         fileButton.add(pdf_btn);
         fileButton.add(voice_btn);
-
+        fileButton.setBackground(Color.WHITE);
    
         image_btn.setBackground(Color.LIGHT_GRAY);
         video_btn.setBackground(Color.LIGHT_GRAY);
@@ -91,7 +91,11 @@ public class commentPanel extends JPanel {
 		title.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		title.setPreferredSize(new Dimension(400, 30));
         
-		
+		title.setBounds(46, 10, 400, 30);
+		fileButton.setBounds(15, 45, 465, 60);
+		attachedPane.setBounds(95, 105, 300, 150);
+		content.setBounds(5,260,470, 430);
+		fileName.setBounds(5, 693, 467, 60);
         add(title);
         add(fileButton);
         add(attachedPane);
@@ -154,7 +158,7 @@ public class commentPanel extends JPanel {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
 		        }
-		        Image changeImg = image.getScaledInstance(300, 90, Image.SCALE_SMOOTH);
+		        Image changeImg = image.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
 		        JLabel label = new JLabel(new ImageIcon(changeImg));
 		        attachedPane.add(label);
 			}
