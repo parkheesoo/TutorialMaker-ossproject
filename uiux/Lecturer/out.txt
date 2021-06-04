@@ -1,6 +1,1 @@
-#include <stdio.h>
-
-int main(){
-    printf("save");
-    return 0;
-}
+3¹ø ÄÚµå

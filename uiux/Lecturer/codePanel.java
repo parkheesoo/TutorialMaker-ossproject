@@ -29,7 +29,7 @@ public class codePanel extends JPanel {
     // JTextArea 에서 행,열을 얻어서 보여주는 임시 라벨(주석 달 때 행 필요하면 사용)
     private JLabel status = new JLabel();
 
-
+    private String stageTitle;
     // +추가하기+ 코드 입력 시 주석 또는 퀴즈를 달 수 있는 버튼 생성
 
     codePanel() {
@@ -68,7 +68,7 @@ public class codePanel extends JPanel {
                 }
 
                 // 조건 입력 창 띄우기
-                test_newWindow newWindow = new test_newWindow();
+                test_newWindow newWindow = new test_newWindow(stageTitle);
             }
         });
         // JTextArea의 행과 열 표시 (임시)
@@ -94,7 +94,11 @@ public class codePanel extends JPanel {
     private void updateStatus(int linenumber, int columnnumber) {
         status.setText("Line: " + linenumber + " Column: " + columnnumber);
     }
-
+    
+    public void setStageTitle(String stageTile) {
+    	this.stageTitle = stageTile;
+    }
+    
     // 현재 code 내용을 text 파일로 쓰기
     public void writeFile(String stageTitle){
     	String code_str = textArea1.getText();
@@ -141,4 +145,18 @@ public class codePanel extends JPanel {
             writer.close();
         } catch (IOException ex) {}
     }
+    
+    /*public void makeQuizFile(String stageTitle) {
+    	String code_str = textArea1.getText();
+    	if (!stageTitle.equals("No stage")) { // stage가 존재할 때만 실행
+        	String File_name = "data\\quiz_" + stageTitle + ".txt"; //Change to desired extension(ex. ".c")
+        	try {
+        		FileWriter writer = new FileWriter(File_name);
+        		writer.write(code_str);
+        		writer.close();
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        	}
+        }
+    }*/
 }

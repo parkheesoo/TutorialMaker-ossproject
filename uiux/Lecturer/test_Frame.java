@@ -68,6 +68,7 @@ public class test_Frame extends JFrame {
                 CommentPanel.stageTitle.setText(stageTitle);
                 CommentPanel.readFile(stageTitle);
                 CodePanel.readFile(stageTitle);
+                CodePanel.setStageTitle(stageTitle);
             }
         });
         

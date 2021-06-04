@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class commentPanel extends JPanel {
     private JPanel title = new JPanel(); // 제목 입력을 위한 패널
@@ -19,8 +20,11 @@ public class commentPanel extends JPanel {
     private JPanel attachedPane = new JPanel();
     
     JLabel stageTitle= new JLabel("No stage");
-    TextArea contentText = new TextArea("Enter the content here", 28, 55);
- 
+    
+    //TextArea가 원본
+    JTextArea contentText = new JTextArea("Enter the content here", 22, 35);
+    JScrollPane scroll = new JScrollPane(contentText);
+    
     // 이미지 파일을 위한 파일 경로 저장
     File file = new File(".");
     String path = file.getPath()+"\\image\\";
@@ -43,6 +47,8 @@ public class commentPanel extends JPanel {
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
 
+        contentText.setLineWrap(true); 
+        
         // title 패널 구현
         title.add(new JLabel("Title: "));
         title.add(stageTitle);
@@ -71,7 +77,11 @@ public class commentPanel extends JPanel {
         voice_btn.addActionListener(actionListener);
 
         // content 패널 구현
-        content.add(contentText);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        content.add(BorderLayout.CENTER, scroll);
+        //content.add(contentText);
         contentText.addFocusListener(new FocusListener() { // textArea 클릭 시 초기 문구가 사라짐
             public void focusLost(FocusEvent e) {}
             public void focusGained(FocusEvent e) {
@@ -296,8 +306,8 @@ public class commentPanel extends JPanel {
     // 현재 content 내용을 text 파일로 쓰기
     public void writeFile(){
     	String comment_str = contentText.getText();
-    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
-        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행    		
+    		String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
         	try {
         		FileWriter writer = new FileWriter(File_name);
         		writer.write(comment_str);
@@ -344,5 +354,43 @@ public class commentPanel extends JPanel {
     	else
     		contentText.setText(comment_str.toString());
     }
+    
+    
+   /*public String cut(String text) {
+    	
+    	//String text = "엑소브레인은 내 몸 바깥에 있는 인공 두뇌라는 뜻으로, 세계 최고인공지능 기술 선도라는 "
+        //		+ "비전을 달성하기 위한 과학기술정보통신부 소프트웨어 분야의 국가 혁신기술 개발형 연구개발 과제이다.";
+
+        ArrayList<String> entityList = new ArrayList<>();
+
+        int maxLength = 30;
+        int textLen = text.length();
+        int loopCnt = textLen / maxLength + 1;
+
+        String rssTitles = ""; 
+        for (int i = 0; i < loopCnt; i++) {
+
+        	int lastIndex = (i + 1) * maxLength; 
+        		  
+        	//글자길이보다 긴 lastIndex를 설정하면 StringIndexOutOfBoundsException 오류가 발생하므로 if문으로 분기
+        	if(textLen > lastIndex){
+        		rssTitles = text.substring(i * maxLength, lastIndex);
+        	}else{
+        		rssTitles = text.substring(i * maxLength);
+        	}
+
+        		  //형태소 분석 결과를 LIST 객체에 계속 저장
+        	entityList.add(rssTitles);
+        }
+        	
+        String a = "";
+        for(String str_t : entityList) {
+        	a=a+"\n"+str_t;
+        	System.out.println(str_t);
+        }
+        System.out.println(a);
+        
+        return a;
+    }*/
     
 }
