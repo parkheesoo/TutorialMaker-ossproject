@@ -23,7 +23,7 @@ public class codePanel extends JPanel {
     private ImageIcon Next_press_img = new ImageIcon("image\\nextbutton_press.png");
 
     // 코드 입력 부분 component
-    private JTextArea textArea1 = new JTextArea(36, 35); //크기조정 필요
+    private JTextArea textArea1 = new JTextArea(37, 35); //크기조정 필요
     private JScrollPane scroll = new JScrollPane(textArea1);
 
     // JTextArea 에서 행,열을 얻어서 보여주는 임시 라벨(주석 달 때 행 필요하면 사용)

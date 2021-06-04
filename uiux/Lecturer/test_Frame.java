@@ -54,7 +54,9 @@ public class test_Frame extends JFrame {
     	StagePanel = new stagePanel();
         commentPanel CommentPanel = new commentPanel();
         codePanel CodePanel = new codePanel();
-        
+        CommentPanel.setLayout(null);
+
+
         // stage가 바뀔 때마다 작동
         StagePanel.stageList.addListSelectionListener(new ListSelectionListener() {
         	public void valueChanged(ListSelectionEvent e) // 리스트를 선택 했을 때
@@ -81,7 +83,7 @@ public class test_Frame extends JFrame {
         add(CommentPanel, BorderLayout.CENTER);
         add(CodePanel, BorderLayout.EAST);
         
-        StagePanel.setBackground(Color.WHITE);
+        //StagePanel.setBackground(Color.WHITE);
         CommentPanel.setBackground(Color.WHITE);
         CodePanel.setBackground(Color.WHITE);
         // 메뉴바 구현
@@ -113,7 +115,7 @@ public class test_Frame extends JFrame {
 
         setLocationRelativeTo(null);
         setVisible(true);
-        setSize(1000,800);
+        setSize(1000,820);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
