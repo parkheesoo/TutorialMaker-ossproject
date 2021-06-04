@@ -1,19 +1,39 @@
-import javax.swing.*;
-import java.awt.*;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class test_Frame extends JFrame {    
+    JMenuItem saveItem = new JMenuItem("Save");
+    JMenuItem saveAsItem = new JMenuItem("SaveAs");
+    JMenuItem openItem = new JMenuItem("Open");
+    
+    stagePanel StagePanel;
+	String savepathname; //사용자가 지정한 저장 경로
+
     public test_Frame(){
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
+        MyActionListener actionListener = new MyActionListener();
+        
         
         // data를 저장하기 위한 폴더 생성
         File recent = new File(".");
@@ -30,7 +50,8 @@ public class test_Frame extends JFrame {
     		}              
     	}
     	
-        stagePanel StagePanel = new stagePanel();
+        //stagePanel StagePanel = new stagePanel();
+    	StagePanel = new stagePanel();
         commentPanel CommentPanel = new commentPanel();
         codePanel CodePanel = new codePanel();
         
@@ -69,12 +90,14 @@ public class test_Frame extends JFrame {
         JMenu edit = new JMenu("Edit");
         JMenu run = new JMenu("Run");
 
-        file.add(new JMenuItem("New"));
-        file.add(new JMenuItem("Open"));
-        //file.addSeparator();//분리선 삽입
-        file.add(new JMenuItem("Save"));
-        file.add(new JMenuItem("SaveAs"));
-
+        JMenuItem newItem = new JMenuItem("New");
+        file.add(newItem);
+        //file.add(new JMenuItem("New"));
+        file.add(openItem);		   //file.add(new JMenuItem("Open));
+        //file.addSeparator();//분리선 삽입        
+        file.add(saveItem);        //file.add(new JMenuItem("Save"));
+        file.add(saveAsItem);      //file.add(new JMenuItem("SaveAs"));
+        
         edit.add(new JMenuItem("Delete"));
 
         // run 버튼을 임시로 분류했습니다.
@@ -95,7 +118,12 @@ public class test_Frame extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
+        
+        //actionListener 추가하기
+        saveItem.addActionListener(actionListener);
+        saveAsItem.addActionListener(actionListener);
+        openItem.addActionListener(actionListener);
+        
         Call_compiler compiler = new Call_compiler();
         compileItem.addActionListener(new ActionListener() {
             @Override
@@ -111,8 +139,213 @@ public class test_Frame extends JFrame {
                 compiler.run();
             }
         });
+        
+        newItem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		// 프로그램 새로 열기
+        	}
+        });
 
     }
+    public static void copy(File sourceF, File targetF){
+    	File[] target_file = sourceF.listFiles();
+    	for (File file : target_file) {
+    		File temp = new File(targetF.getAbsolutePath() + File.separator + file.getName());
+    		if(file.isDirectory()){
+    			temp.mkdir();
+    			copy(file, temp);
+    		} else {
+    			FileInputStream fis = null;
+    			FileOutputStream fos = null;
+    			try {
+    				fis = new FileInputStream(file);
+    				fos = new FileOutputStream(temp) ;
+    				byte[] b = new byte[4096];
+    				int cnt = 0;
+    				while((cnt=fis.read(b)) != -1){
+    					fos.write(b, 0, cnt);
+    				}
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			} finally{
+    				try {
+    					fis.close();
+    					fos.close();
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}	
+    			}
+    		}
+    	}	
+    }
+    class MyActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource().equals(saveItem)) {
+				if(savepathname == null) {
+					savepathname = "C:\\savefile";
+					File Folder = new File(savepathname);
+					
+					int addnum = 1;
+					String t_savepathname = savepathname;
+					
+					while(Folder.exists()) {
+						System.out.println("들어왔나요?");
+						t_savepathname = savepathname+"_("+addnum+")";
+						Folder = new File(t_savepathname);
+						addnum++;
+					}
+					savepathname = t_savepathname;
+					String savedatapath = savepathname+"\\data";
+					//File dataFolder = new File(savedatapath);
+					
+					if(!Folder.exists()) {
+						try {
+							Folder.mkdir(); //폴더 생성
+							//dataFolder.mkdir(); //data 폴더 생성
+							
+							System.out.println("폴더가 생성되었습니다.");
+							System.out.println(savepathname);
+						
+						}catch(Exception ex) {
+							ex.getStackTrace();
+						}
+					}else {
+						System.out.println("이미 폴더가 생성되었습니다.");
+						System.out.println(savepathname);					
+					}
+					filesave();
+				}
+				else {
+					filesave();
+				}
+			}
+			else if(e.getSource().equals(saveAsItem)) { // 버튼 입력 시 파일탐색창 열기		
+				
+		    	File savefile;
+				//String savepathname; //사용자가 지정한 저장 경로
+				String savedatapath; // + data 폴더 저장 경로
+				
+				StagePanel.getStageList();
+				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new File ("C:\\"));
+				chooser.setFileSelectionMode(chooser.DIRECTORIES_ONLY);
+						
+				int re=chooser.showSaveDialog(null);
+				
+				if(re==JFileChooser.APPROVE_OPTION) {
+					savefile = chooser.getSelectedFile();
+					String foldername = JOptionPane.showInputDialog("파일명을 입력하세요.");
+					savepathname = savefile.getAbsolutePath()+"\\"+foldername;
+					savedatapath = savepathname+"\\data";
+					File Folder = new File(savepathname);
+					File dataFolder = new File(savedatapath);
+					
+					if(!Folder.exists() && foldername!=null) {
+						try {
+							Folder.mkdir(); //폴더 생성
+							//dataFolder.mkdir(); //data 폴더 생성
+							
+							System.out.println("폴더가 생성되었습니다.");
+							System.out.println(savepathname);
+							
+						}catch(Exception ex) {
+							ex.getStackTrace();
+						}
+					}else {
+						if(foldername==null) System.out.println("폴더 생성이 취소되었습니다.");
+						else{
+							System.out.println("이미 폴더가 생성되었습니다.");
+							System.out.println(savepathname);
+						}
+					}					
+				}else {
+					JOptionPane.showMessageDialog(null, "경로를 선택하지 않았습니다.");
+					return;
+				}
+				
+				filesave();				
+			}
+			else if(e.getSource().equals(openItem)) {
+				// 경로 지정해서 파일 열 수 있도록
+		        JFileChooser jfc = new JFileChooser();
+		        jfc.setCurrentDirectory(new File("/"));
+		        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		        
+		        int returnVal = jfc.showOpenDialog(null);
+		        if(returnVal == JFileChooser.APPROVE_OPTION) { // 열기를 클릭
+		            savepathname = jfc.getSelectedFile().toString();
+		            System.out.println(savepathname);
+			}
+		}
+    }
+    public void filesave() {
+    	ArrayList<String> stagelist;// = new ArrayList<String>();
+		stagelist = StagePanel.getStageList();
+		System.out.println(stagelist.size());
+		for(String str : stagelist) {
+			System.out.println(str);
+			int listindex = stagelist.indexOf(str);
+			
+			File com = new File(".");
+        // 자바 파일 경로에 저장되어있는 코드 및 주석 복사
+        // 파일 객체 생성
+			String oriFilePath = com.getPath()  +"\\data\\"+ str + "_attachedfile"; //폴더 경로
+			File oriFile = new File(oriFilePath);
+			String copyFilePath = savepathname+"\\" + str + "_attachedfile";
+			File copyFile = new File(copyFilePath);
+			try {
+				copyFile.mkdir(); //data 폴더 생성		
+			}catch(Exception ex) {
+				ex.getStackTrace();
+			}
+			
+			copy(oriFile, copyFile);
+			
+			
+			String ori_codeFilePath = com.getPath() +"\\data\\"+"code_"+str+".txt"; //폴더 경로
+			String copy_codeFilePath = savepathname +"\\"+"code"+listindex+"_"+str+".txt";
+			File ori_codeFile = new File(ori_codeFilePath);
+			File copy_codeFile = new File(copy_codeFilePath);
+			
+			String ori_commentFilePath = com.getPath()+ "\\data\\"+"comment_" + str + ".txt"; //폴더 경로
+			String copy_commentFilePath = savepathname+"\\"+"comment"+listindex+"_"+str+".txt";
+			File ori_commentFile = new File(ori_commentFilePath);
+			File copy_commentFile = new File(copy_commentFilePath);
+			 try {
+		            
+		            FileInputStream code_fis = new FileInputStream(ori_codeFile); //읽을파일
+		            FileOutputStream code_fos = new FileOutputStream(copy_codeFile); //복사할파일
+		            
+		            int fileByte = 0; 
+		            // fis.read()가 -1 이면 파일을 다 읽은것
+		            while((fileByte = code_fis.read()) != -1) {
+		                code_fos.write(fileByte);
+		            }
+		            //자원사용종료
+		            code_fis.close();
+		            code_fos.close();
+		            
+		            ///////////////////////////////////////////////////////
+		            FileInputStream comment_fis = new FileInputStream(ori_commentFile); //읽을파일
+		            FileOutputStream comment_fos = new FileOutputStream(copy_commentFile); //복사할파일
+		            
+		            fileByte = 0; 
+		            // fis.read()가 -1 이면 파일을 다 읽은것
+		            while((fileByte = comment_fis.read()) != -1) {
+		                comment_fos.write(fileByte);
+		            }
+		            //자원사용종료
+		            comment_fis.close();
+		            comment_fos.close();
+		           
+		     } catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}					            
+
+		}			
+	}  
 }
 
 
@@ -174,5 +407,5 @@ class Call_compiler{
             System.exit(-1);
         }
     }
-
+}
 }

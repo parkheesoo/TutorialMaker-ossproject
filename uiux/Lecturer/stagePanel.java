@@ -1,9 +1,16 @@
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-import java.awt.event.*;
 
 
 public class stagePanel extends JPanel {
@@ -60,5 +67,19 @@ public class stagePanel extends JPanel {
                 });
             }
         }
+    }
+    
+    public ArrayList<String> getStageList(){
+    	
+    	ArrayList<String> stagelist = new ArrayList<String>();
+    	
+    	int listSize = stageList.getModel().getSize();
+    	for(int i=0; i<listSize; i++) {
+    		Object item = stageList.getModel().getElementAt(i);
+    		stagelist.add(item.toString());   		
+    		System.out.println("item = "+item);
+    	}
+    	
+    	return stagelist;
     }
 }
