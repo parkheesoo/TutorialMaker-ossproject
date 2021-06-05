@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="Learner/src/|Lecturer/|OldLecturer/" kind="src" path=""/>
+	<classpathentry kind="src" path="Learner/src"/>
+	<classpathentry kind="src" path="Lecturer"/>
+	<classpathentry kind="src" path="OldLecturer"/>
+	<classpathentry kind="output" path="Learner/bin"/>
+</classpath>
