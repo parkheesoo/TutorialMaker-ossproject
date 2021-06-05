@@ -20,7 +20,6 @@ public class commentPanel extends JPanel {
     JLabel stageTitle= new JLabel("No stage");
     private JScrollPane scroll = new JScrollPane();
     private File file = new File("");
-    private Dimension size = new Dimension();//사이즈를 지정하기 위한 객체 생성
 	
     public commentPanel() {
     	setLayout(new BorderLayout());
@@ -47,7 +46,8 @@ public class commentPanel extends JPanel {
     	String path = file.getPath() + "\\comment" + Integer.toString(stageIndex + 1)
     						+ "_" + stageTitle + ".txt";
     	StringBuffer comment_str = new StringBuffer("");
-    	JTextArea text;
+    	//JTextArea text;
+    	int height = 0;
     	
     	try {
             String s;
@@ -59,16 +59,20 @@ public class commentPanel extends JPanel {
             while((s = bReader.readLine()) != null) {
             	
             	if (s.startsWith("[image]")) {
-            		text = new JTextArea(comment_str.toString());
-            		text.setColumns(30);
-            		text.setLineWrap(true);
-            		text.setWrapStyleWord(true);
-            		//text.setRows(text.getLineCount());
-            		content.add(text);
+            		
+            		height += addText(comment_str.toString().substring(0, comment_str.toString().length() - 1));
             		comment_str.setLength(0);
             		
-            		ImageIcon img_icon = new ImageIcon(file.getPath() + "\\" + stageTitle + "_attachedfile\\" + s.substring(7));	
-            		content.add(new JLabel(imageSetSize(img_icon, 365, 280)));
+            		File img_file = new File(file.getPath() + "\\" + stageTitle + "_attachedfile\\" + s.substring(7));
+                    BufferedImage img = ImageIO.read(img_file);
+            		
+                    Image image = ImageIO.read(new File(file.getPath() + "\\" + stageTitle + "_attachedfile\\" + s.substring(7)));
+            		int imageWidth = image.getWidth(null);
+                    int imageHeight = image.getHeight(null);
+                    int h = 350 * imageHeight / imageWidth;
+                    
+            		content.add(new JLabel(imageSetSize(new ImageIcon(img), 350, h)));
+            		height += h + 10;
             	}
             	else {
             		comment_str.append(s);
@@ -78,25 +82,35 @@ public class commentPanel extends JPanel {
         } catch(IOException e) {}
     	
     	if (comment_str.toString().length() != 0) {
-    		text = new JTextArea(comment_str.toString());
-    		text.setColumns(30);
-    		text.setLineWrap(true);
-    		text.setWrapStyleWord(true);
-    		content.add(text);
+    		height += addText(comment_str.toString().substring(0, comment_str.toString().length() - 1));
     	}
-
+    	
+    	content.setPreferredSize(new Dimension(365, height));
     }
     
+    // content 패널 초기 설정
     public void initContent() {
     	content = new JPanel();
-    	content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-    	//content.setLayout(new GridLayout(4, 1));
-    	//content.setPreferredSize(new Dimension(365, 300));
+    	content.setPreferredSize(new Dimension(365, 0));
+    	content.setBackground(Color.WHITE);
         scroll.setViewportView(content); //스크롤 팬 위에 패널을 올린다.
     	add(scroll, BorderLayout.CENTER);
     }
     
-    ImageIcon imageSetSize(ImageIcon icon, int i, int j) { // image Size Setting
+    // 입력받은 문자열로 jtextarea 생성
+    public int addText(String string) {
+    	JTextArea text = new JTextArea(string);
+		text.setColumns(31);
+		text.setLineWrap(true);
+		text.setWrapStyleWord(true);
+		text.setEditable(false);
+		content.add(text);
+		
+		return (text.getLineCount() * 36) + 10;
+    }
+    
+    // 이미지 크기 조정
+    ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
 		Image ximg = icon.getImage();  //ImageIcon을 Image로 변환.
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg); 
