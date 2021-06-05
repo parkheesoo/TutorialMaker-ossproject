@@ -5,6 +5,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class stagePanel extends JPanel {
@@ -67,5 +68,18 @@ public class stagePanel extends JPanel {
 			}
 			setFocus(0);
 		}
+    }
+    public ArrayList<String> getStageList(){
+    	
+    	ArrayList<String> stagelist = new ArrayList<String>();
+    	
+    	int listSize = stageList.getModel().getSize();
+    	for(int i=0; i<listSize; i++) {
+    		Object item = stageList.getModel().getElementAt(i);
+    		stagelist.add(item.toString());   		
+    		System.out.println("item = "+item);
+    	}
+    	
+    	return stagelist;
     }
 }

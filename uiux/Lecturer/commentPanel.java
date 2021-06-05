@@ -347,6 +347,7 @@ public class commentPanel extends JPanel {
                 comment_str.append(s);
                 comment_str.append("\n");
             }
+            bReader.close();
         } catch(IOException e) {}
     	
     	if (comment_str.toString().length() == 0)

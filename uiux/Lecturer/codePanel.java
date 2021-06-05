@@ -130,6 +130,7 @@ public class codePanel extends JPanel {
                 code_str.append(s);
                 code_str.append("\n");
             }
+            bReader.close();
         } catch(IOException e) {}
     	
     	textArea1.setText(code_str.toString());
