@@ -10,6 +10,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class commentPanel extends JPanel {
     private JPanel title = new JPanel(); // 제목 입력을 위한 패널
@@ -137,6 +140,7 @@ public class commentPanel extends JPanel {
 		        } catch (IOException eee) {
 		        	eee.printStackTrace();
 		        }
+		        
 		        try {
 		            
 		            FileInputStream fis = new FileInputStream(oriFile); //읽을파일
@@ -161,6 +165,39 @@ public class commentPanel extends JPanel {
 		        Image changeImg = image.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
 		        JLabel label = new JLabel(new ImageIcon(changeImg));
 		        attachedPane.add(label);
+		        
+		        String comment_str = contentText.getText();
+		    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
+		        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+		        	try {
+		        		FileWriter writer = new FileWriter(File_name);
+		        		writer.write(comment_str+ '\n'+ "[image]" + filen);
+		        		writer.close();
+		        	} catch (IOException ex) {}
+		        }
+		    	String path = file.getPath()+"\\data\\comment_" + stageTitle.getText() + ".txt";
+		    	File file = new File(path);
+		    	StringBuffer comment_str1 = new StringBuffer("");
+		    	try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		    		
+		    	    String line;
+		    	    while ((line = br.readLine()) != null) {
+		    	    	
+		    	    	comment_str1.append(line);
+		                comment_str1.append("\n");
+
+		    	    }
+		    	} catch (IOException ex) {
+		    	    ex.printStackTrace();
+		    	};
+		    	
+		    	if (comment_str.toString().length() == 0)
+		    		contentText.setText("Enter the content here");
+		    	else {
+		    		
+		    		contentText.setText(comment_str1.toString());
+		    	}
+		    		
 			}
 			else if(e.getSource().equals(video_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
