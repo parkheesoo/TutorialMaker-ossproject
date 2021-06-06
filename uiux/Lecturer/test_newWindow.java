@@ -5,7 +5,9 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -17,21 +19,22 @@ public class test_newWindow extends JFrame {
     
     private JButton OK_btn = new JButton("submit");
     private JButton Cancle_btn = new JButton("cancle");
-    //private JLabel in_label = new JLabel("Quiz");
-
+    
     private JLabel out_label = new JLabel("output");
     private JLabel title = new JLabel("title");
     private JTextArea title_txt = new JTextArea(1,10);
     private JTextArea in_txt = new JTextArea(13, 45); //크기조정 필요
     private JTextArea out_txt = new JTextArea(1, 40); //크기조정 필요
-    String stageT;
+    
+    String stageT = " ";
+    public void title_get(String title_co){
+    	
+        stageT = title_co;
+    }
+    
     public test_newWindow(){
-    	stageT = "";
-    	byte[] x = stageT.getBytes();
-    	String data = new String(x);
-
-    	System.out.println(data);
-        setTitle(data + "문제 만들기");
+    	
+        setTitle("새 문제 만들기");
         setLayout(new BorderLayout());
 
         //txtPanel1.add(in_label, BorderLayout.NORTH);
@@ -54,19 +57,17 @@ public class test_newWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             	String fileName = "data\\Quiz_" + stageT + ".txt"; ;
-                try{
-                                 
-                    // BufferedWriter 와 FileWriter를 조합하여 사용 (속도 향상)
-                    BufferedWriter fw = new BufferedWriter(new FileWriter(fileName, true));
-                    // 파일안에 문자열 쓰기
-                    fw.write("hi");
-                    // 객체 닫기
-                    fw.close();     
-                     
-                }catch(Exception el){
-                    el.printStackTrace();
+                try {
+                	BufferedWriter bos = new BufferedWriter(new FileWriter(fileName, true));
+                	bos.write(title.getText() +"/");
+                	bos.write(in_txt.getText()+"/");
+                	bos.write(out_txt.getText()+"\r\n");
+                	bos.close();
+                	dispose();
+                	
+                }catch(Exception ex) {
+                	
                 }
-                dispose();
             }
         });
 

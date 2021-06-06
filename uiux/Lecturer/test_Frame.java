@@ -58,7 +58,6 @@ public class test_Frame extends JFrame {
         
         codePanel CodePanel = new codePanel();
         CommentPanel.setLayout(null);
-        test_newWindow newWindow = new test_newWindow();
         
         // stage가 바뀔 때마다 작동
         StagePanel.stageList.addListSelectionListener(new ListSelectionListener() {
@@ -70,7 +69,7 @@ public class test_Frame extends JFrame {
         		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
                 CommentPanel.stageTitle.setText(stageTitle);
                 CommentPanel.readFile(stageTitle);
-                newWindow.stageT = stageTitle;
+                //newWindow.stageTitle.setText(stageTitle);
             }
         });
         
