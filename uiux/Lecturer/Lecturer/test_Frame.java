@@ -1,4 +1,4 @@
-
+package Lecturer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -27,13 +27,15 @@ public class test_Frame extends JFrame {
     JMenuItem saveItem = new JMenuItem("Save");
     JMenuItem saveAsItem = new JMenuItem("SaveAs");
     JMenuItem openItem = new JMenuItem("Open");
+    JMenuItem runItem = new JMenuItem("run");
+    JMenuItem compileItem = new JMenuItem("compile");
     
     stagePanel StagePanel;
 	String savepathname; //사용자가 지정한 저장 경로
 
     public test_Frame(){
     	this.addWindowListener(new WinEvent());
-
+    	
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
         MyActionListener actionListener = new MyActionListener();
@@ -57,10 +59,10 @@ public class test_Frame extends JFrame {
         //stagePanel StagePanel = new stagePanel();
     	StagePanel = new stagePanel();
         commentPanel CommentPanel = new commentPanel();
-        
         codePanel CodePanel = new codePanel();
         CommentPanel.setLayout(null);
-        
+
+
         // stage가 바뀔 때마다 작동
         StagePanel.stageList.addListSelectionListener(new ListSelectionListener() {
         	public void valueChanged(ListSelectionEvent e) // 리스트를 선택 했을 때
@@ -71,7 +73,6 @@ public class test_Frame extends JFrame {
         		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
                 CommentPanel.stageTitle.setText(stageTitle);
                 CommentPanel.readFile(stageTitle);
-                //newWindow.stageTitle.setText(stageTitle);
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
             }
@@ -79,7 +80,6 @@ public class test_Frame extends JFrame {
         
         StagePanel.delete_btn.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		//StagePanel.model.remove(StagePanel.stageList.getSelectedIndex());
         		int index = StagePanel.stageList.getSelectedIndex();
         		String stagename = StagePanel.model.get(index).toString();
         		StagePanel.model.remove(index);
@@ -126,8 +126,7 @@ public class test_Frame extends JFrame {
         edit.add(new JMenuItem("Delete"));
 
         // run 버튼을 임시로 분류했습니다.
-        JMenuItem runItem = new JMenuItem("run");
-        JMenuItem compileItem = new JMenuItem("compile");
+
         run.add(runItem); //new JMenuItem("run")
         run.add(compileItem); //new JMenuItem("compile")
 
@@ -167,8 +166,8 @@ public class test_Frame extends JFrame {
         
         newItem.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		// 프로그램 새로 열기
-        		
+        		// 프로그램 새로 열기   
+                
         		int result = JOptionPane.showConfirmDialog(null, "작업 중인 파일을 저장하지 않고 새 파일을 엽니다.\n"
         				, "확인", JOptionPane.YES_NO_OPTION);
         		if(result == JOptionPane.YES_OPTION) {
@@ -247,7 +246,7 @@ public class test_Frame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource().equals(saveItem)) {
 				if(savepathname == null) {
-					savepathname = "C:\\savefile";
+					savepathname = "C:\\Tutor_savefile";
 					File Folder = new File(savepathname);
 					
 					int addnum = 1;
@@ -260,7 +259,7 @@ public class test_Frame extends JFrame {
 						addnum++;
 					}
 					savepathname = t_savepathname;
-					String savedatapath = savepathname+"\\data";
+					//String savedatapath = savepathname+"\\data";
 					//File dataFolder = new File(savedatapath);
 					
 					if(!Folder.exists()) {
@@ -282,37 +281,6 @@ public class test_Frame extends JFrame {
 				}
 				else {
 					filesave();
-					ArrayList<String> stagelist;
-					stagelist = StagePanel.getStageList();
-					//System.out.println(stagelist.size());
-	
-	        		deleteFile delete_file = new deleteFile();
-
-					int result = 0;
-					//File com = new File(".");
-					String[] filenames = showFilesInDIr(savepathname);
-					for(int i=0; i<filenames.length; i++) {
-						result=0;
-						System.out.println(filenames[i]+" 판단");
-						for(String stagename : stagelist) {
-							System.out.println(stagename);
-							if(filenames[i].contains("code"+stagename+"_")
-									|| filenames[i].contains("comment"+stagename+"_")
-									|| filenames[i].contains(stagename+"_attachedfile")) {
-								System.out.println(filenames[i]+" 저장");
-								result = 1;
-								break;
-							}								
-						}
-						System.out.println("result: "+result);
-						if(result==0)
-		        		{
-							String delete_FilePath = savepathname  +"\\"+ filenames[i];
-							File D_file = new File(delete_FilePath);
-							System.out.println(filenames[i]+"삭제");						
-							delete_file.delete(D_file);
-		        		}
-					}						
 				}
 			}
 			else if(e.getSource().equals(saveAsItem)) { // 버튼 입력 시 파일탐색창 열기		
@@ -372,6 +340,13 @@ public class test_Frame extends JFrame {
 		            savepathname = jfc.getSelectedFile().toString();
 		            System.out.println(savepathname);
 			}
+		    else if(e.getSource().equals(compileItem)) {
+		       /* Call_compiler compiler = new Call_compiler();
+                CodePanel.makeCodeFile();
+                //파일 출력
+                compiler.compile();
+		    	*/
+		    }
 		}
     }
     public void filesave() {
@@ -387,7 +362,7 @@ public class test_Frame extends JFrame {
         // 파일 객체 생성
 			String oriFilePath = com.getPath()  +"\\data\\"+ str + "_attachedfile"; //폴더 경로
 			File oriFile = new File(oriFilePath);
-			String copyFilePath = savepathname+"\\" + str + "_attachedfile";
+			String copyFilePath = savepathname+"\\"+ str + "_attachedfile";
 			File copyFile = new File(copyFilePath);
 			try {
 				copyFile.mkdir(); //data 폴더 생성		
@@ -399,12 +374,12 @@ public class test_Frame extends JFrame {
 			
 			
 			String ori_codeFilePath = com.getPath() +"\\data\\"+"code_"+str+".txt"; //폴더 경로
-			String copy_codeFilePath = savepathname +"\\"+"code"+listindex+"_"+str+".txt";
+			String copy_codeFilePath = savepathname +"\\code"+listindex+"_"+str+".txt";
 			File ori_codeFile = new File(ori_codeFilePath);
 			File copy_codeFile = new File(copy_codeFilePath);
 			
 			String ori_commentFilePath = com.getPath()+ "\\data\\"+"comment_" + str + ".txt"; //폴더 경로
-			String copy_commentFilePath = savepathname+"\\"+"comment"+listindex+"_"+str+".txt";
+			String copy_commentFilePath = savepathname+"\\comment"+listindex+"_"+str+".txt";
 			File ori_commentFile = new File(ori_commentFilePath);
 			File copy_commentFile = new File(copy_commentFilePath);
 			 try {
@@ -441,15 +416,6 @@ public class test_Frame extends JFrame {
 
 		}			
 	}
-    public String[] showFilesInDIr(String dirPath) {
-        File dir = new File(dirPath);
-        String[] filenames = dir.list();
-        for (int i = 0; i < filenames.length; i++) {
-            System.out.println("file: " + filenames[i]);
-        }
-        
-        return filenames;
-    }
 }
 
 

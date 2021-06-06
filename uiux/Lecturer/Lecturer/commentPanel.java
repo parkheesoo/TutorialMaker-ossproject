@@ -1,3 +1,4 @@
+package Lecturer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -10,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -23,7 +25,7 @@ public class commentPanel extends JPanel {
     
     JLabel stageTitle= new JLabel("No stage");
     TextArea contentText = new TextArea("Enter the content here", 28, 55);
- 
+    
     // 이미지 파일을 위한 파일 경로 저장
     File file = new File(".");
     String path = file.getPath()+"\\image\\";
@@ -45,7 +47,7 @@ public class commentPanel extends JPanel {
   	
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
-
+        
         // title 패널 구현
         title.add(new JLabel("Title: "));
         title.add(stageTitle);
@@ -333,8 +335,8 @@ public class commentPanel extends JPanel {
     // 현재 content 내용을 text 파일로 쓰기
     public void writeFile(){
     	String comment_str = contentText.getText();
-    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
-        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행    		
+    		String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
         	try {
         		FileWriter writer = new FileWriter(File_name);
         		writer.write(comment_str);
@@ -382,5 +384,5 @@ public class commentPanel extends JPanel {
     	else
     		contentText.setText(comment_str.toString());
     }
-    
+      
 }
