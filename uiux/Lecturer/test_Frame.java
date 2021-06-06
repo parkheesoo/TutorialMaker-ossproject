@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -10,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -53,10 +55,11 @@ public class test_Frame extends JFrame {
         //stagePanel StagePanel = new stagePanel();
     	StagePanel = new stagePanel();
         commentPanel CommentPanel = new commentPanel();
+        
         codePanel CodePanel = new codePanel();
         CommentPanel.setLayout(null);
-
-
+        test_newWindow newWindow = new test_newWindow();
+        
         // stage가 바뀔 때마다 작동
         StagePanel.stageList.addListSelectionListener(new ListSelectionListener() {
         	public void valueChanged(ListSelectionEvent e) // 리스트를 선택 했을 때
@@ -67,7 +70,7 @@ public class test_Frame extends JFrame {
         		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
                 CommentPanel.stageTitle.setText(stageTitle);
                 CommentPanel.readFile(stageTitle);
-                CodePanel.readFile(stageTitle);
+                newWindow.stageT = stageTitle;
             }
         });
         

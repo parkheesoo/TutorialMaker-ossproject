@@ -11,7 +11,6 @@ public class compileWindow extends JFrame {
     public compileWindow(){
         setTitle("result");
         setLayout(new BorderLayout());
-
         txtPanel.add(scroll);
         getContentPane().add(txtPanel, BorderLayout.CENTER);
 
