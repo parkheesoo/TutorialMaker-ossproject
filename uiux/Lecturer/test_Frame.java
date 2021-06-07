@@ -183,11 +183,12 @@ public class test_Frame extends JFrame {
 			
 			File com = new File(".");
 			for(String str : stagelist) {
+				int listnum = stagelist.indexOf(str)+1;
 				String attach_FilePath = com.getPath()  +"\\data\\"+ str + "_attachedfile"; //폴더 경로
 				File attach_File = new File(attach_FilePath);
 		        String code_path = com.getPath() + "\\data\\code_"+str+".txt"; //폴더 경로
 		    	File code_txt = new File(code_path);
-		        String comment_path = com.getPath() + "\\data\\comment_"+str+".txt"; //폴더 경로
+		        String comment_path = com.getPath() + "\\data\\comment"+listnum+"_"+str+".txt"; //폴더 경로
 		    	File comment_txt = new File(comment_path);
 		        String quiz_path = com.getPath() + "\\data\\Quiz_"+str+".txt"; //폴더 경로
 		    	File quiz_txt = new File(quiz_path);
