@@ -32,6 +32,7 @@ public class test_Frame extends JFrame {
 
     stagePanel StagePanel;
     commentPanel CommentPanel;
+    codePanel CodePanel;
 	String savepathname; //사용자가 지정한 저장 경로
 
     public test_Frame(){
@@ -60,8 +61,7 @@ public class test_Frame extends JFrame {
         //stagePanel StagePanel = new stagePanel();
     	StagePanel = new stagePanel();
         CommentPanel = new commentPanel();
-        
-        codePanel CodePanel = new codePanel();
+        CodePanel = new codePanel();
         CommentPanel.setLayout(null);
         
         // stage가 바뀔 때마다 작동
@@ -71,9 +71,13 @@ public class test_Frame extends JFrame {
         		CommentPanel.writeFile();
         		CommentPanel.makeattachedfolder();
         		CodePanel.writeFile(CommentPanel.stageTitle.getText());
+        		
         		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
+        		int stageIndex = StagePanel.stageList.getSelectedIndex();
+        		
                 CommentPanel.stageTitle.setText(stageTitle);
-                CommentPanel.readFile(stageTitle);
+                CommentPanel.readFile(stageIndex, stageTitle);
+                CommentPanel.getAttachedFile(stageTitle);
                 //newWindow.stageTitle.setText(stageTitle);
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
@@ -335,15 +339,19 @@ public class test_Frame extends JFrame {
 			}
 			else if(e.getSource().equals(openItem)) {
 				// 경로 지정해서 파일 열 수 있도록
-		        JFileChooser jfc = new JFileChooser();
-		        jfc.setCurrentDirectory(new File("/"));
-		        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		        
-		        int returnVal = jfc.showOpenDialog(null);
-		        if(returnVal == JFileChooser.APPROVE_OPTION) { // 열기를 클릭
-		            savepathname = jfc.getSelectedFile().toString();
-		            System.out.println(savepathname);
-		        }
+				JFileChooser jfc = new JFileChooser();
+    			jfc.setCurrentDirectory(new File("."));
+    			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    			jfc.showOpenDialog(null);
+
+    			File dir = jfc.getSelectedFile();
+    			//openpath = dir.getAbsolutePath();
+    			CommentPanel.setFile(dir);
+    			StagePanel.initStage(dir);
+        		CodePanel.setFile(dir);
+        		
+        		CommentPanel.readFile(0, StagePanel.stageList.getSelectedValue().toString());
+        		CodePanel.readFile(StagePanel.stageList.getSelectedValue().toString());
 			}
 			else if(e.getSource().equals(newItem)) {
 				int result = JOptionPane.showConfirmDialog(null, "작업 중인 파일을 저장하지 않고 새 파일을 엽니다.\n"

@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -68,6 +69,23 @@ public class stagePanel extends JPanel {
                 });
             }
         }
+    }
+    
+    public void setFocus(int index) {
+    	stageList.setSelectedIndex(index);
+    }
+    
+    public void initStage(File dir) {
+    	String[] files = dir.list((f,name)->name.startsWith("comment"));
+		
+		if (files.length > 0) {    	
+			model.removeAllElements();
+			for (int i = 0; i < files.length; i++) {
+				String stageName = files[i].substring(9, files[i].length()-4); // 앞 9글자, 뒤 4글자 제거
+				model.addElement(stageName);
+			}
+			setFocus(0);
+		}
     }
     
     public ArrayList<String> getStageList(){
