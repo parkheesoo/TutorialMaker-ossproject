@@ -31,7 +31,6 @@ public class codePanel extends JPanel {
     // JTextArea 에서 행,열을 얻어서 보여주는 임시 라벨(주석 달 때 행 필요하면 사용)
     private JLabel status = new JLabel();
 
-
     // +추가하기+ 코드 입력 시 주석 또는 퀴즈를 달 수 있는 버튼 생성
 
     codePanel() {
@@ -122,7 +121,6 @@ public class codePanel extends JPanel {
         	}
         }
     }
-    
     // 선택된 text 파일을 code에 읽어오기
     public void readFile(String stageTitle){
     	File file = new File(".");
@@ -139,6 +137,7 @@ public class codePanel extends JPanel {
                 code_str.append(s);
                 code_str.append("\n");
             }
+            bReader.close();
         } catch(IOException e) {}
     	
     	textArea1.setText(code_str.toString());
