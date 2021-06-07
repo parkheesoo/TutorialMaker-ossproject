@@ -356,8 +356,8 @@ public class test_Frame extends JFrame {
 
     			File dir = jfc.getSelectedFile();
     			openpath = dir.getAbsolutePath();
-    			CommentPanel.setFile(dir);
-    			StagePanel.initStage(dir);
+    			//CommentPanel.setFile(dir);
+    			//StagePanel.initStage(dir);
         		//CodePanel.setFile(dir);
         		
         		String oriFilePath = openpath; //폴더 경로        		
@@ -369,6 +369,7 @@ public class test_Frame extends JFrame {
 
         		copy(oriFile, copyFile);
         		
+    			StagePanel.initStage(dir);
         		
         		CommentPanel.readFile(0, StagePanel.stageList.getSelectedValue().toString());
         		CodePanel.readFile(StagePanel.stageList.getSelectedValue().toString());
