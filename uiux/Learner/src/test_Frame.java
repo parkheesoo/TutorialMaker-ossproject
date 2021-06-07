@@ -126,6 +126,7 @@ public class test_Frame extends JFrame {
     			openpath = dir.getAbsolutePath();
     			CommentPanel.setFile(dir);
         		StagePanel.initStage(dir);
+        		CodePanel.setFile(dir);
     		}
     		else if(e.getSource().equals(saveItem)) {
     			// save 클릭 시 발생
