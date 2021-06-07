@@ -1,7 +1,6 @@
-#include <stdio.h>
-
-int main()
-{
-	printf("Hello, World!");
-	return 0;
-}
+<<<<<<< HEAD
+1111
+=======
+dasff
+cvxxvcx
+>>>>>>> c858cf77286ba5258479a343112469f514d233ac

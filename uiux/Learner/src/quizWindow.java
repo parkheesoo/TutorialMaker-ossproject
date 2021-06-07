@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class test_newWindow extends JFrame {
+public class quizWindow extends JFrame {
     private static final ActionListener ActionListener = null;
 	private JPanel btnPanel = new JPanel();
     private JPanel txtPanel1 = new JPanel();
@@ -36,7 +36,7 @@ public class test_newWindow extends JFrame {
         //title.setText(title_t);
     }
     
-    public test_newWindow(){
+    public quizWindow(){
     	
         setTitle("¹®Á¦");
         setLayout(new BorderLayout());

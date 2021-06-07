@@ -82,7 +82,7 @@ public class codePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 이전 단계 표시
-            	test_newWindow newWindow = new test_newWindow();
+            	quizWindow newWindow = new quizWindow();
             	
             	newWindow.title_get(temp, file.getPath());
             	newWindow.readFile(temp);
@@ -145,7 +145,8 @@ public class codePanel extends JPanel {
         }
     }
     // 선택된 text 파일을 code에 읽어오기
-    public void readFile(String stageTitle){
+    public void readFile(String stageTitle){ 	
+    	File file = new File(".");
     	temp = stageTitle;
     	String path = file.getPath() + "\\data\\code_" + stageTitle + ".txt";
     	StringBuffer code_str = new StringBuffer("");
