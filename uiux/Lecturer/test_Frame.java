@@ -109,9 +109,6 @@ public class test_Frame extends JFrame {
         add(CommentPanel, BorderLayout.CENTER);
         add(CodePanel, BorderLayout.EAST);
         
-        //StagePanel.setBackground(Color.WHITE);
-        CommentPanel.setBackground(Color.WHITE);
-        CodePanel.setBackground(Color.WHITE);
         // 메뉴바 구현
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");

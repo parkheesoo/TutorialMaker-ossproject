@@ -18,7 +18,6 @@ public class stagePanel extends JPanel {
     DefaultListModel model = new DefaultListModel();
     JList stageList = new JList(model);
     JScrollPane scrolled = new JScrollPane(stageList);
-    //JLabel recentStage= new JLabel("No stage");
 
     JButton add_btn = new JButton("add");
     JButton delete_btn = new JButton("delete");
@@ -29,13 +28,16 @@ public class stagePanel extends JPanel {
         setLayout(new BorderLayout());
 
         // stage list 문구 출력
+        JPanel listLabelPanel = new JPanel();
+        listLabelPanel.setBackground(Color.LIGHT_GRAY);
+        add(listLabelPanel, BorderLayout.NORTH);
+        
         JLabel listLabel = new JLabel("Stage List");
         listLabel.setHorizontalAlignment(JLabel.CENTER);
-        stageList.setBorder(new LineBorder(Color.lightGray));
-
-        add(listLabel, BorderLayout.NORTH);
+        listLabelPanel.add(listLabel);
         
         // stage list 표시
+        stageList.setBorder(new LineBorder(Color.lightGray));
         add(stageList, BorderLayout.CENTER);
         
         // buttons 패널 구현
@@ -43,7 +45,6 @@ public class stagePanel extends JPanel {
         buttons.add(add_btn);
         buttons.add(delete_btn);
         add(buttons, BorderLayout.SOUTH);
-        buttons.setBackground(Color.WHITE);
 
         add_btn.addActionListener(myListener);
         delete_btn.addActionListener(myListener);
