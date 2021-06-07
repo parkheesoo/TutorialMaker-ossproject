@@ -356,7 +356,7 @@ public class test_Frame extends JFrame {
                 	if(filenames[i].contains("code_"))
                 	{
                 		if(!filenames[i].contains("_S.txt")) {
-                			System.out.print("학습자 작성 코드// ");
+                			System.out.print("강의자 작성 코드// ");
                                 		
                 			File com = new File(".");
                 			String ori_LcodeFilePath = openpath +"\\"+filenames[i]; //폴더 경로
