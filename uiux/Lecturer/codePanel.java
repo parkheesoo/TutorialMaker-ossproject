@@ -52,8 +52,6 @@ public class codePanel extends JPanel {
 
         txtpanel.add(scroll);
         btnpanel.add(Next_btn);
-        txtpanel.setBackground(Color.WHITE);
-        btnpanel.setBackground(Color.WHITE);
 
         
         Next_btn.addActionListener(new ActionListener() {

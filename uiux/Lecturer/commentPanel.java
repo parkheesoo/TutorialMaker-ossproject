@@ -22,7 +22,7 @@ public class commentPanel extends JPanel {
     private JPanel attachedPane = new JPanel();
     
     JLabel stageTitle= new JLabel("No stage");
-    TextArea contentText = new TextArea("Enter the content here", 28, 55);
+    TextArea contentText = new TextArea("Enter the content here", 25, 55);
  
     // 이미지 파일을 위한 파일 경로 저장
     File file = new File(".");
@@ -56,7 +56,7 @@ public class commentPanel extends JPanel {
         fileButton.add(video_btn);
         fileButton.add(pdf_btn);
         fileButton.add(voice_btn);
-        fileButton.setBackground(Color.WHITE);
+        //fileButton.setBackground(Color.WHITE);
    
         image_btn.setBackground(Color.LIGHT_GRAY);
         video_btn.setBackground(Color.LIGHT_GRAY);
@@ -94,11 +94,14 @@ public class commentPanel extends JPanel {
 		title.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		title.setPreferredSize(new Dimension(400, 30));
         
-		title.setBounds(46, 10, 400, 30);
-		fileButton.setBounds(15, 45, 465, 60);
-		attachedPane.setBounds(95, 105, 300, 150);
-		content.setBounds(5,260,470, 430);
-		fileName.setBounds(5, 693, 467, 60);
+		title.setBounds(30, 10, 400, 30);
+		fileButton.setBounds(0, 45, 465, 60);
+		attachedPane.setBounds(64, 110, 336, 150);
+		attachedPane.setBackground(Color.WHITE);
+		attachedPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		content.setBounds(0,267,465, 400);
+		fileName.setBounds(31, 680, 400, 70);
+		
         add(title);
         add(fileButton);
         add(attachedPane);
