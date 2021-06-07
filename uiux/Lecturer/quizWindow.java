@@ -7,11 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class test_newWindow extends JFrame {
+public class quizWindow extends JFrame {
     private static final ActionListener ActionListener = null;
 	private JPanel btnPanel = new JPanel();
     private JPanel txtPanel1 = new JPanel();
@@ -23,16 +24,19 @@ public class test_newWindow extends JFrame {
     private JLabel out_label = new JLabel("output");
     private JLabel title = new JLabel("title");
     private JTextArea title_txt = new JTextArea(1,10);
-    private JTextArea in_txt = new JTextArea(13, 45); //크기조정 필요
+    private JTextArea in_txt = new JTextArea(14, 45); //크기조정 필요
     private JTextArea out_txt = new JTextArea(1, 40); //크기조정 필요
     
-    String stageT = " ";
+    File file = new File("");
+    String stageTitle;
     public void title_get(String title_co){
     	
-        stageT = title_co;
+        stageTitle = title_co;
     }
     
-    public test_newWindow(){
+    public quizWindow(String stageTitle, File dir){
+    	this.stageTitle = stageTitle;
+    	file = dir;
     	
         setTitle("새 문제 만들기");
         setLayout(new BorderLayout());
@@ -46,17 +50,24 @@ public class test_newWindow extends JFrame {
         txtPanel2.add(out_txt);
         out_txt.setBorder(new LineBorder(Color.LIGHT_GRAY,1));
         in_txt.setBorder(new LineBorder(Color.LIGHT_GRAY,5));
+        in_txt.setLineWrap(true);
+        in_txt.setWrapStyleWord(true);
+        
+        Cancle_btn.setBackground(Color.LIGHT_GRAY);
         btnPanel.add(Cancle_btn);
+        OK_btn.setBackground(Color.LIGHT_GRAY);
         btnPanel.add(OK_btn);
-        txtPanel1.setPreferredSize(new Dimension(400, 280));
+        txtPanel1.setPreferredSize(new Dimension(400, 300));
         getContentPane().add(txtPanel1, BorderLayout.NORTH);
         getContentPane().add(txtPanel2, BorderLayout.CENTER);
         getContentPane().add(btnPanel, BorderLayout.SOUTH);
         
+        readFile(stageTitle);
+        
         OK_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	String fileName = "data\\Quiz_" + stageT + ".txt"; ;
+            	String fileName = "data\\Quiz_" + stageTitle + ".txt"; ;
                 try {
                 	BufferedWriter bos = new BufferedWriter(new FileWriter(fileName, true));
                 	bos.write(title.getText() +"/");
@@ -83,6 +94,41 @@ public class test_newWindow extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
 
+    }
+    
+    public void readFile(String stageTitle){
+    	
+    	String path = file + "\\Quiz_" + stageTitle + ".txt";
+    	
+    	StringBuffer comment_str = new StringBuffer("");
+    	try {
+            String s;
+            File read = new File(path);
+            FileReader reader = new FileReader(read);
+
+            int cnt = 0;
+            int ch = 0;
+            // 더이상 읽어들일게 없을 때까지 읽어들이게 합니다.
+            while((ch = reader.read()) != -1) {
+            	if((char)ch == '/' && cnt == 0) {
+            		title_txt.setText(comment_str.toString());
+            		comment_str.setLength(0);
+            		cnt++;
+            	}
+            	else if((char)ch == '/' && cnt == 1){
+            		in_txt.setText(comment_str.toString());
+            		comment_str.setLength(0);
+            		cnt++;
+            	}
+            	else {
+            		comment_str.append((char)ch);
+            	} 
+            	
+            }
+            reader.close();
+        } catch(IOException e) {}
+    	
+    	out_txt.setText(comment_str.toString());
     }
   
     

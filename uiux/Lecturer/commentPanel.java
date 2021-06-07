@@ -22,11 +22,13 @@ public class commentPanel extends JPanel {
     private JPanel attachedPane = new JPanel();
     
     JLabel stageTitle= new JLabel("No stage");
-    TextArea contentText = new TextArea("Enter the content here", 25, 55);
+    TextArea contentText = new TextArea("Enter the content here", 23, 55);
+    
+    File file = new File("");
  
     // 이미지 파일을 위한 파일 경로 저장
-    File file = new File(".");
-    String path = file.getPath()+"\\image\\";
+    File imageFile = new File(".");
+    String path = imageFile.getPath()+"\\image\\";
 
     // 이미지 파일을 불러와 아이콘을 생성하고 배열에 저장
     ImageIcon [] images = { new ImageIcon(path+"image.png"), new ImageIcon(path+"video.png"),
@@ -85,12 +87,15 @@ public class commentPanel extends JPanel {
         });
 
         // fileName 패널 구현
+        JScrollPane scroll = new JScrollPane();
+		scroll.setViewportView(fileNameList);
+		scroll.setPreferredSize(new Dimension(380, 80));
+        
         fileName.setLayout(new BorderLayout());
     	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
     	fileName.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		fileNameList.setPreferredSize(new Dimension(400, 50));
-		fileName.add(fileNameList, BorderLayout.CENTER);
-		
+		fileName.add(scroll, BorderLayout.CENTER);
+
 		title.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		title.setPreferredSize(new Dimension(400, 30));
         
@@ -99,8 +104,8 @@ public class commentPanel extends JPanel {
 		attachedPane.setBounds(64, 110, 336, 150);
 		attachedPane.setBackground(Color.WHITE);
 		attachedPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		content.setBounds(0,267,465, 400);
-		fileName.setBounds(31, 680, 400, 70);
+		content.setBounds(0,267,465, 370);
+		fileName.setBounds(31, 650, 400, 100);
 		
         add(title);
         add(fileButton);
@@ -346,6 +351,23 @@ public class commentPanel extends JPanel {
         }
     }
     
+    public void getAttachedFile(String stageTitle) {
+    	File attachedFile = new File(file.getPath() + "\\" + stageTitle + "_attachedfile");
+    	File[] files = attachedFile.listFiles();
+    	fileNameListModel.removeAllElements();
+    	
+		if (files.length > 0) {    	
+			for (int i = 0; i < files.length; i++) {
+				String stageName = files[i].getPath();
+				fileNameListModel.addElement(stageName);
+			}
+		}
+    }
+    
+    public void setFile(File dir) {
+    	file = dir;
+    }
+    
     public void makeattachedfolder(){
 	    File com = new File(".");
 	    String pa = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile"; //폴더 경로
@@ -363,8 +385,9 @@ public class commentPanel extends JPanel {
 		}	
     }
     // 선택된 text 파일을 content에 읽어오기
-    public void readFile(String stageTitle){
-    	String path = file.getPath()+"\\data\\comment_" + stageTitle + ".txt";
+    public void readFile(int stageIndex, String stageTitle){
+    	String path = file.getPath() + "\\comment" + Integer.toString(stageIndex + 1)
+						+ "_" + stageTitle + ".txt";
     	StringBuffer comment_str = new StringBuffer("");
     	try {
             String s;

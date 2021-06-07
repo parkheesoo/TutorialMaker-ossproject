@@ -32,7 +32,9 @@ public class test_Frame extends JFrame {
 
     stagePanel StagePanel;
     commentPanel CommentPanel;
+    codePanel CodePanel;
 	String savepathname; //사용자가 지정한 저장 경로
+	String openpath; //사용자가 지정한 저장 경로
 
     public test_Frame(){
     	this.addWindowListener(new WinEvent());
@@ -60,8 +62,7 @@ public class test_Frame extends JFrame {
         //stagePanel StagePanel = new stagePanel();
     	StagePanel = new stagePanel();
         CommentPanel = new commentPanel();
-        
-        codePanel CodePanel = new codePanel();
+        CodePanel = new codePanel();
         CommentPanel.setLayout(null);
         
         // stage가 바뀔 때마다 작동
@@ -71,9 +72,13 @@ public class test_Frame extends JFrame {
         		CommentPanel.writeFile();
         		CommentPanel.makeattachedfolder();
         		CodePanel.writeFile(CommentPanel.stageTitle.getText());
+        		
         		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
+        		int stageIndex = StagePanel.stageList.getSelectedIndex();
+        		
                 CommentPanel.stageTitle.setText(stageTitle);
-                CommentPanel.readFile(stageTitle);
+                CommentPanel.readFile(stageIndex, stageTitle);
+                CommentPanel.getAttachedFile(stageTitle);
                 //newWindow.stageTitle.setText(stageTitle);
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
@@ -335,15 +340,55 @@ public class test_Frame extends JFrame {
 			}
 			else if(e.getSource().equals(openItem)) {
 				// 경로 지정해서 파일 열 수 있도록
-		        JFileChooser jfc = new JFileChooser();
-		        jfc.setCurrentDirectory(new File("/"));
-		        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		        
-		        int returnVal = jfc.showOpenDialog(null);
-		        if(returnVal == JFileChooser.APPROVE_OPTION) { // 열기를 클릭
-		            savepathname = jfc.getSelectedFile().toString();
-		            System.out.println(savepathname);
-		        }
+				JFileChooser jfc = new JFileChooser();
+    			jfc.setCurrentDirectory(new File("."));
+    			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    			jfc.showOpenDialog(null);
+
+    			File dir = jfc.getSelectedFile();
+    			openpath = dir.getAbsolutePath();
+    			CommentPanel.setFile(dir);
+    			StagePanel.initStage(dir);
+        		//CodePanel.setFile(dir);
+        		
+                String[] filenames = dir.list();
+                for (int i = 0; i < filenames.length; i++) {
+                	if(filenames[i].contains("code_"))
+                	{
+                		if(!filenames[i].contains("_S.txt")) {
+                			System.out.print("학습자 작성 코드// ");
+                                		
+                			File com = new File(".");
+                			String ori_LcodeFilePath = openpath +"\\"+filenames[i]; //폴더 경로
+                    	
+                			String filename = filenames[i].replace("_S", "");
+                			String copy_LcodeFilePath = com.getPath()+"\\data\\"+filename; //+filenames[i].replace("_S", "");
+                			File ori_LcodeFile = new File(ori_LcodeFilePath);
+                			File copy_LcodeFile = new File(copy_LcodeFilePath);           		
+                			try {
+            		            
+                				FileInputStream Lcode_fis = new FileInputStream(ori_LcodeFile); //읽을파일
+            		            FileOutputStream Lcode_fos = new FileOutputStream(copy_LcodeFile); //복사할파일
+            		            
+            		            int fileByte = 0; 
+            		            // fis.read()가 -1 이면 파일을 다 읽은것
+            		            while((fileByte = Lcode_fis.read()) != -1) {
+            		                Lcode_fos.write(fileByte);
+            		            }
+            		            //자원사용종료
+            		            Lcode_fis.close();
+            		            Lcode_fos.close();
+
+                			} catch (IOException e1) {
+            					// TODO Auto-generated catch block
+            					e1.printStackTrace();
+                			}	
+                		}
+                	}
+                }
+        		
+        		CommentPanel.readFile(0, StagePanel.stageList.getSelectedValue().toString());
+        		CodePanel.readFile(StagePanel.stageList.getSelectedValue().toString());
 			}
 			else if(e.getSource().equals(newItem)) {
 				int result = JOptionPane.showConfirmDialog(null, "작업 중인 파일을 저장하지 않고 새 파일을 엽니다.\n"
