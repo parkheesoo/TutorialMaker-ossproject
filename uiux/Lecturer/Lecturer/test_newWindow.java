@@ -1,45 +1,76 @@
-package Lecturer;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class test_newWindow extends JFrame {
-    private JPanel btnPanel = new JPanel();
+    private static final ActionListener ActionListener = null;
+	private JPanel btnPanel = new JPanel();
     private JPanel txtPanel1 = new JPanel();
     private JPanel txtPanel2 = new JPanel();
-
+    
     private JButton OK_btn = new JButton("submit");
     private JButton Cancle_btn = new JButton("cancle");
-    private JLabel in_label = new JLabel("input");
+    
     private JLabel out_label = new JLabel("output");
-    private JTextField in_txt = new JTextField(10);
-    private JTextField out_txt = new JTextField(15);
-
-    public test_newWindow(String stageTitle){
-        setTitle("다음 단계 조건 설정");
+    private JLabel title = new JLabel("title");
+    private JTextArea title_txt = new JTextArea(1,10);
+    private JTextArea in_txt = new JTextArea(13, 45); //크기조정 필요
+    private JTextArea out_txt = new JTextArea(1, 40); //크기조정 필요
+    
+    String stageT = " ";
+    public void title_get(String title_co){
+    	
+        stageT = title_co;
+    }
+    
+    public test_newWindow(){
+    	
+        setTitle("새 문제 만들기");
         setLayout(new BorderLayout());
 
-        txtPanel1.add(in_label);
+        //txtPanel1.add(in_label, BorderLayout.NORTH);
+        txtPanel1.add(title);
+        txtPanel1.add(title_txt);
         txtPanel1.add(in_txt);
+        
         txtPanel2.add(out_label);
         txtPanel2.add(out_txt);
-
+        out_txt.setBorder(new LineBorder(Color.LIGHT_GRAY,1));
+        in_txt.setBorder(new LineBorder(Color.LIGHT_GRAY,5));
         btnPanel.add(Cancle_btn);
         btnPanel.add(OK_btn);
-
+        txtPanel1.setPreferredSize(new Dimension(400, 280));
         getContentPane().add(txtPanel1, BorderLayout.NORTH);
         getContentPane().add(txtPanel2, BorderLayout.CENTER);
         getContentPane().add(btnPanel, BorderLayout.SOUTH);
-
-        OK_btn.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		makeQuizFile(stageTitle);
-        	}
-        });
         
+        OK_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String fileName = "data\\Quiz_" + stageT + ".txt"; ;
+                try {
+                	BufferedWriter bos = new BufferedWriter(new FileWriter(fileName, true));
+                	bos.write(title_txt.getText() +"/");
+                	bos.write(in_txt.getText()+"/");
+                	bos.write(out_txt.getText());
+                	bos.close();
+                	dispose();
+                	
+                }catch(Exception ex) {
+                	
+                }
+            }
+        });
+
         Cancle_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,30 +78,12 @@ public class test_newWindow extends JFrame {
             }
         });
 
-        setSize(300,150);
+        setSize(500,400);
         setResizable(false);
         setVisible(true);
         setLocationRelativeTo(null);
 
     }
+  
     
-    public void makeQuizFile(String stageTitle) {
-    	String input_str = in_txt.getText();
-    	String output_str = out_txt.getText();
-    	if (!stageTitle.equals("No stage")) { // stage가 존재할 때만 실행
-        	String i_File_name = "data\\quiz_input_" + stageTitle + ".txt"; //Change to desired extension(ex. ".c")
-        	String o_File_name = "data\\quiz_output_" + stageTitle + ".txt";
-        	try {
-        		FileWriter i_writer = new FileWriter(i_File_name);
-        		i_writer.write(input_str);
-        		i_writer.close();
-        		
-        		FileWriter o_writer = new FileWriter(o_File_name);
-        		o_writer.write(output_str);
-        		o_writer.close();
-        	} catch (IOException e) {
-        		e.printStackTrace();
-        	}        	
-        }
-    }
 }

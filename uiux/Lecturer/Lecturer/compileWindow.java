@@ -1,4 +1,3 @@
-package Lecturer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ public class compileWindow extends JFrame {
     public compileWindow(){
         setTitle("result");
         setLayout(new BorderLayout());
-
         txtPanel.add(scroll);
         getContentPane().add(txtPanel, BorderLayout.CENTER);
 

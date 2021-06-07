@@ -1,4 +1,3 @@
-package Lecturer;
 import java.io.File;
 
 public class deleteFile {

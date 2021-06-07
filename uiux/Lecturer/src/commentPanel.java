@@ -169,11 +169,23 @@ public class commentPanel extends JPanel {
 		        
 		        String comment_str = contentText.getText();
 		        String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
-	        	try {
-	        		FileWriter writer = new FileWriter(File_name);
-	        		writer.write(comment_str+ '\n'+ "[image]" + filen);
-	        		writer.close();
-	        	} catch (IOException ex) {}
+
+
+		        if (comment_str.equals("Enter the content here")) {
+		        	try {
+		        		FileWriter writer = new FileWriter(File_name);
+		        		writer.write("[image]" + filen);
+		        		writer.close();
+		        	} catch (IOException ex) {}
+		        }
+		        else {
+		        	try {
+		        		FileWriter writer = new FileWriter(File_name);
+		        		writer.write(comment_str+'\n'+ "[image]" + filen);
+		        		writer.close();
+		        	} catch (IOException ex) {}
+		        }
+		        
 		    	
 		    	String path = file.getPath()+"\\data\\comment_" + stageTitle.getText() + ".txt";
 		    	File file = new File(path);

@@ -1,4 +1,3 @@
-package Lecturer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -11,7 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -25,7 +23,7 @@ public class commentPanel extends JPanel {
     
     JLabel stageTitle= new JLabel("No stage");
     TextArea contentText = new TextArea("Enter the content here", 28, 55);
-    
+ 
     // 이미지 파일을 위한 파일 경로 저장
     File file = new File(".");
     String path = file.getPath()+"\\image\\";
@@ -47,7 +45,7 @@ public class commentPanel extends JPanel {
   	
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
-        
+
         // title 패널 구현
         title.add(new JLabel("Title: "));
         title.add(stageTitle);
@@ -74,7 +72,7 @@ public class commentPanel extends JPanel {
         video_btn.addActionListener(actionListener);
         pdf_btn.addActionListener(actionListener);
         voice_btn.addActionListener(actionListener);
-
+        
         // content 패널 구현
         content.add(contentText);
         contentText.addFocusListener(new FocusListener() { // textArea 클릭 시 초기 문구가 사라짐
@@ -166,17 +164,17 @@ public class commentPanel extends JPanel {
 		        }
 		        Image changeImg = image.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
 		        JLabel label = new JLabel(new ImageIcon(changeImg));
+		        attachedPane.removeAll();
 		        attachedPane.add(label);
 		        
 		        String comment_str = contentText.getText();
-		    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
-		        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
-		        	try {
-		        		FileWriter writer = new FileWriter(File_name);
-		        		writer.write(comment_str+ '\n'+ "[image]" + filen);
-		        		writer.close();
-		        	} catch (IOException ex) {}
-		        }
+		        String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+	        	try {
+	        		FileWriter writer = new FileWriter(File_name);
+	        		writer.write(comment_str+ '\n'+ "[image]" + filen);
+	        		writer.close();
+	        	} catch (IOException ex) {}
+		    	
 		    	String path = file.getPath()+"\\data\\comment_" + stageTitle.getText() + ".txt";
 		    	File file = new File(path);
 		    	StringBuffer comment_str1 = new StringBuffer("");
@@ -335,8 +333,8 @@ public class commentPanel extends JPanel {
     // 현재 content 내용을 text 파일로 쓰기
     public void writeFile(){
     	String comment_str = contentText.getText();
-    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행    		
-    		String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
+        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
         	try {
         		FileWriter writer = new FileWriter(File_name);
         		writer.write(comment_str);
@@ -376,7 +374,6 @@ public class commentPanel extends JPanel {
                 comment_str.append(s);
                 comment_str.append("\n");
             }
-            bReader.close();
         } catch(IOException e) {}
     	
     	if (comment_str.toString().length() == 0)
@@ -384,5 +381,5 @@ public class commentPanel extends JPanel {
     	else
     		contentText.setText(comment_str.toString());
     }
-      
+    
 }
