@@ -3,9 +3,10 @@ import java.awt.*;
 import java.awt.GridLayout;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,7 +33,9 @@ public class test_Frame extends JFrame {
     private String openpath;
     
     public test_Frame(){
-        Container c = getContentPane();
+    	this.addWindowListener(new WinEvent());
+    	
+    	Container c = getContentPane();
         c.setLayout(new BorderLayout(10, 10));
         
         // data를 저장하기 위한 폴더 생성
@@ -65,6 +68,7 @@ public class test_Frame extends JFrame {
                 CommentPanel.initContent();
                 CommentPanel.readFile(stageIndex, stageTitle);
                 CodePanel.readFile(stageTitle);
+                
             }
         });
     
@@ -126,46 +130,56 @@ public class test_Frame extends JFrame {
     			openpath = dir.getAbsolutePath();
     			CommentPanel.setFile(dir);
         		StagePanel.initStage(dir);
-        		CodePanel.setFile(dir);
+        		//CodePanel.setFile(dir);
+        		
+                String[] filenames = dir.list();
+                for (int i = 0; i < filenames.length; i++) {
+                	if(filenames[i].contains("_S.txt")) {
+                		System.out.print("학습자 작성 코드// ");
+                                		
+                		File com = new File(".");
+                    	String ori_LcodeFilePath = openpath +"\\"+filenames[i]; //폴더 경로
+                    	
+                    	String filename = filenames[i].replace("_S", "");
+            			String copy_LcodeFilePath = com.getPath()+"\\data\\"+filename; //+filenames[i].replace("_S", "");
+            			File ori_LcodeFile = new File(ori_LcodeFilePath);
+            			File copy_LcodeFile = new File(copy_LcodeFilePath);           		
+            			 try {
+            		            
+            		            FileInputStream Lcode_fis = new FileInputStream(ori_LcodeFile); //읽을파일
+            		            FileOutputStream Lcode_fos = new FileOutputStream(copy_LcodeFile); //복사할파일
+            		            
+            		            int fileByte = 0; 
+            		            // fis.read()가 -1 이면 파일을 다 읽은것
+            		            while((fileByte = Lcode_fis.read()) != -1) {
+            		                Lcode_fos.write(fileByte);
+            		            }
+            		            //자원사용종료
+            		            Lcode_fis.close();
+            		            Lcode_fos.close();
+
+            		     } catch (IOException e1) {
+            					// TODO Auto-generated catch block
+            					e1.printStackTrace();
+            		     }	
+                	}
+                    System.out.println("file: " + filenames[i]);
+                }
+                
+        		CommentPanel.readFile(0, StagePanel.stageList.getSelectedValue().toString());
+        		CodePanel.readFile(StagePanel.stageList.getSelectedValue().toString());
+        	
     		}
     		else if(e.getSource().equals(saveItem)) {
     			// save 클릭 시 발생
     			if(savepathname == null) {
-					savepathname = "C:\\Learner_savefile";
-					File Folder = new File(savepathname);
-					
-					int addnum = 1;
-					String t_savepathname = savepathname;
-					
-					while(Folder.exists()) {
-						System.out.println("들어왔나요?");
-						t_savepathname = savepathname+"_("+addnum+")";
-						Folder = new File(t_savepathname);
-						addnum++;
-					}
-					savepathname = t_savepathname;
-					//String savedatapath = savepathname+"\\data";
-					//File dataFolder = new File(savedatapath);
-					
-					if(!Folder.exists()) {
-						try {
-							Folder.mkdir(); //폴더 생성
-							//dataFolder.mkdir(); //data 폴더 생성
-							
-							System.out.println("폴더가 생성되었습니다.");
-							System.out.println(savepathname);
-						
-						}catch(Exception ex) {
-							ex.getStackTrace();
-						}
-					}else {
-						System.out.println("이미 폴더가 생성되었습니다.");
-						System.out.println(savepathname);					
-					}
-					filesave();
+    				savepathname = openpath;
+    				System.out.println("첫 번째 save: "+savepathname);
+					filesave2();
 				}
-				else {
-					filesave();
+				else {    				
+					System.out.println("save: "+savepathname);
+					filesave2(); //학습자 작성 코드만 다시 저장
 				}
     		}
     		else if(e.getSource().equals(saveasItem)) {
@@ -243,6 +257,31 @@ public class test_Frame extends JFrame {
     		}
     	}
     }
+    class WinEvent implements WindowListener{
+		public void windowOpened(WindowEvent e) {}
+		public void windowClosing(WindowEvent e) {// 윈도우가 닫히려고 할 때
+			// 자바 data 파일에 저장되어있는 임시 텍스트 파일 삭제 (불필요하면 삭제)
+			ArrayList<String> stagelist;
+			stagelist = StagePanel.getStageList();
+			System.out.println(stagelist.size());
+			
+			File com = new File(".");
+			for(String str : stagelist) {
+		        String code_path = com.getPath() + "\\data\\code_"+str+".txt"; //폴더 경로
+		    	File code_txt = new File(code_path);
+				System.out.println(str+"삭제");
+				
+				//임시파일 삭제 - 굳이 삭제할 필요가 없다 느껴지시면 해당 코드 삭제하셔도 상관 없습니다!			
+				deleteFile delete_file = new deleteFile();				
+				delete_file.delete(code_txt); //임시 코드파일 삭제			
+			}			
+		}
+		public void windowClosed(WindowEvent e) { }
+		public void windowIconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {}
+		public void windowDeactivated(WindowEvent e) {}
+    }
     private void copy(File sourceF, File targetF){
     	File[] target_file = sourceF.listFiles();
     	for (File file : target_file) {
@@ -276,26 +315,29 @@ public class test_Frame extends JFrame {
     	}	
     }
     public void filesave() {
-    	ArrayList<String> stagelist;// = new ArrayList<String>();
+    	//오픈 파일 복사
+		String oriFilePath = openpath; //폴더 경로
+		File oriFile = new File(oriFilePath);
+		String copyFilePath = savepathname;
+		File copyFile = new File(copyFilePath);
+
+		copy(oriFile, copyFile);
+		
+		//작성 코드 저장
+		ArrayList<String> stagelist;
 		stagelist = StagePanel.getStageList();
 		System.out.println(stagelist.size());
+		
 		for(String str : stagelist) {
-			System.out.println(str);
-			int listindex = stagelist.indexOf(str)+1;
-			
+			System.out.println(str);			
 			File com = new File(".");
 			
 			// 저장된 파일 자체가 이미 저장했던 걸 다시 저장하는 거라서 listindex num가 포함된 파일명이어야함.
 			String ori_codeFilePath = com.getPath() +"\\data\\code_"+str+".txt"; //폴더 경로
-			String copy_codeFilePath = savepathname +"\\code"+listindex+"_"+str+".txt";
+			String copy_codeFilePath = savepathname +"\\code_"+str+"_S.txt";
 			File ori_codeFile = new File(ori_codeFilePath);
 			File copy_codeFile = new File(copy_codeFilePath);
-			
-			String ori_commentFilePath = openpath+"\\comment"+listindex+"_" + str + ".txt"; //폴더 경로
-			String copy_commentFilePath = savepathname+"\\comment"+listindex+"_"+str+".txt";
-			File ori_commentFile = new File(ori_commentFilePath);
-			File copy_commentFile = new File(copy_commentFilePath);
-			
+
 			 try {
 		            
 		            FileInputStream code_fis = new FileInputStream(ori_codeFile); //읽을파일
@@ -309,42 +351,52 @@ public class test_Frame extends JFrame {
 		            //자원사용종료
 		            code_fis.close();
 		            code_fos.close();
-		            
-		            ///////////////////////////////////////////////////////
-		            FileInputStream comment_fis = new FileInputStream(ori_commentFile); //읽을파일
-		            FileOutputStream comment_fos = new FileOutputStream(copy_commentFile); //복사할파일
-		            
-		            fileByte = 0; 
-		            // fis.read()가 -1 이면 파일을 다 읽은것
-		            while((fileByte = comment_fis.read()) != -1) {
-		                comment_fos.write(fileByte);
-		            }
-		            //자원사용종료
-		            comment_fis.close();
-		            comment_fos.close();
-		            
+
 		     } catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
-			 
-        // 자바 파일 경로에 저장되어있는 코드 및 주석 복사
-        // 파일 객체 생성
-			String oriFilePath = openpath +"\\"+ str + "_attachedfile"; //폴더 경로
-			File oriFile = new File(oriFilePath);
-			String copyFilePath = savepathname+"\\" + str + "_attachedfile";
-			File copyFile = new File(copyFilePath);
-			try {
-				copyFile.mkdir(); //data 폴더 생성		
-			}catch(Exception ex) {
-				ex.getStackTrace();
-			}
-			
-			copy(oriFile, copyFile);
-			
-		}			
-	} 
+			}	
+		}
+    }
     
+    public void filesave2() {
+    	System.out.println("학습자 작성 코드 저장하기");
+    	
+		//작성 코드 저장
+		ArrayList<String> stagelist;
+		stagelist = StagePanel.getStageList();
+		System.out.println(stagelist.size());
+		
+		for(String str : stagelist) {
+			System.out.println(str);			
+			File com = new File(".");
+			
+			// 저장된 파일 자체가 이미 저장했던 걸 다시 저장하는 거라서 listindex num가 포함된 파일명이어야함.
+			String ori_codeFilePath = com.getPath() +"\\data\\code_"+str+".txt"; //폴더 경로
+			String copy_codeFilePath = savepathname +"\\code_"+str+"_S.txt";
+			File ori_codeFile = new File(ori_codeFilePath);
+			File copy_codeFile = new File(copy_codeFilePath);
+
+			 try {
+		            
+		            FileInputStream code_fis = new FileInputStream(ori_codeFile); //읽을파일
+		            FileOutputStream code_fos = new FileOutputStream(copy_codeFile); //복사할파일
+		            
+		            int fileByte = 0; 
+		            // fis.read()가 -1 이면 파일을 다 읽은것
+		            while((fileByte = code_fis.read()) != -1) {
+		                code_fos.write(fileByte);
+		            }
+		            //자원사용종료
+		            code_fis.close();
+		            code_fos.close();
+
+		     } catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}	
+		}
+    }
 }
 
 
@@ -392,7 +444,7 @@ class Call_compiler{
             BufferedReader stdOut2   = new BufferedReader(new InputStreamReader(Process2.getInputStream()));
             BufferedReader stdError2 = new BufferedReader(new InputStreamReader(Process2.getErrorStream()));
 
-            codePane window = new compileWindow();
+            compileWindow window = new compileWindow();
             while ((s =   stdOut2.readLine()) != null) window.setResultArea(s);
             while ((s = stdError2.readLine()) != null) window.setResultArea(s);
 
@@ -441,5 +493,4 @@ class Call_compiler{
             System.exit(-1);
         }
     }
-
 }

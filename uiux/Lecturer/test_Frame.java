@@ -455,7 +455,7 @@ public class test_Frame extends JFrame {
 			
 			
 			String ori_codeFilePath = com.getPath() +"\\data\\"+"code_"+str+".txt"; //폴더 경로
-			String copy_codeFilePath = savepathname +"\\"+"code"+listindex+"_"+str+".txt";
+			String copy_codeFilePath = savepathname +"\\"+"code_"+str+".txt";
 			File ori_codeFile = new File(ori_codeFilePath);
 			File copy_codeFile = new File(copy_codeFilePath);
 			
@@ -465,7 +465,7 @@ public class test_Frame extends JFrame {
 			File copy_commentFile = new File(copy_commentFilePath);
 			
 			String ori_quizFilePath = com.getPath()+ "\\data\\"+"Quiz_" + str + ".txt"; //폴더 경로
-			String copy_quizFilePath = savepathname+"\\"+"Quiz"+listindex+"_"+str+".txt";
+			String copy_quizFilePath = savepathname+"\\"+"Quiz_"+str+".txt";
 			File ori_quizFile = new File(ori_quizFilePath);
 			File copy_quizFile = new File(copy_quizFilePath);
 			 try {

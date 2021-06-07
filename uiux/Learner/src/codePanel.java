@@ -146,6 +146,9 @@ public class codePanel extends JPanel {
     }
     // 선택된 text 파일을 code에 읽어오기
     public void readFile(String stageTitle){
+    	System.out.println("읽기");
+    	
+    	File file = new File(".");
     	temp = stageTitle;
     	String path = file.getPath() + "\\data\\code_" + stageTitle + ".txt";
     	StringBuffer code_str = new StringBuffer("");
