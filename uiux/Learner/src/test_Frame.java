@@ -26,6 +26,8 @@ public class test_Frame extends JFrame {
     JMenuItem saveItem = new JMenuItem("Save");
     JMenuItem saveasItem = new JMenuItem("SaveAs");
     
+    JMenuItem deleteItem = new JMenuItem("Delete");
+    
     JMenuItem runItem = new JMenuItem("run");
     JMenuItem compileItem = new JMenuItem("compile");
 	
@@ -68,7 +70,7 @@ public class test_Frame extends JFrame {
                 CommentPanel.initContent();
                 CommentPanel.readFile(stageIndex, stageTitle);
                 CodePanel.readFile(stageTitle);
-                
+                CodePanel.setStageTitle(stageTitle);
             }
         });
     
@@ -92,13 +94,14 @@ public class test_Frame extends JFrame {
         openItem.addActionListener(actionListener);
         saveItem.addActionListener(actionListener);
         saveasItem.addActionListener(actionListener);
+        deleteItem.addActionListener(actionListener);
 
         file.add(openItem);
         //file.addSeparator();//분리선 삽입
         file.add(saveItem);
         file.add(saveasItem);
 
-        edit.add(new JMenuItem("Delete"));
+        edit.add(deleteItem);
 
         // run 버튼을 임시로 분류했습니다.
         run.add(runItem); //new JMenuItem("run")
@@ -130,7 +133,7 @@ public class test_Frame extends JFrame {
     			openpath = dir.getAbsolutePath();
     			CommentPanel.setFile(dir);
         		StagePanel.initStage(dir);
-        		//CodePanel.setFile(dir);
+        		CodePanel.setFile(dir);
         		
                 String[] filenames = dir.list();
                 for (int i = 0; i < filenames.length; i++) {
@@ -254,6 +257,44 @@ public class test_Frame extends JFrame {
     		}
     		else if(e.getSource().equals(runItem)) {
     			compiler.run();
+    		}
+    		else if(e.getSource().equals(deleteItem)) {    		
+    			int result = JOptionPane.showConfirmDialog(null, "작업 중인 파일을 삭제합니다.\n"
+        				, "확인", JOptionPane.YES_NO_OPTION);
+        		if(result == JOptionPane.YES_OPTION) {
+        			// 예 버튼 눌렀을 때, 화면 내 모든 내용 삭제
+        			ArrayList<String> stagelist;
+        			stagelist = StagePanel.getStageList();
+        			System.out.println(stagelist.size());
+            		
+        			//int index = StagePanel.stageList.getSelectedIndex();
+            		//String stagename = StagePanel.model.get(index).toString();
+            		StagePanel.model.removeAllElements();
+            		CommentPanel.stageTitle.setText("No stage");
+            		
+            		String code_path;
+        			File com = new File(".");
+        			for(String str : stagelist) {
+        		        code_path = com.getPath() + "\\data\\code_"+str+".txt"; //폴더 경로
+        		        File code_txt_T = new File(code_path);
+        				System.out.println(str+"임시파일 삭제");
+        				
+        				//임시파일 삭제 - 굳이 삭제할 필요가 없다 느껴지시면 해당 코드 삭제하셔도 상관 없습니다!			
+        				deleteFile delete_file = new deleteFile();
+        				
+        				delete_file.delete(code_txt_T); //임시 코드파일 삭제
+
+    	        		String[] filenames = showFilesInDIr(savepathname);
+    					for(int i=0; i<filenames.length; i++) {
+    						if(filenames[i].contains("_S.txt")) {
+        						String delete_FilePath = savepathname  +"\\"+ filenames[i];
+        						File D_file = new File(delete_FilePath);
+        						System.out.println(filenames[i]+"삭제");						
+        						delete_file.delete(D_file);
+    						}
+    					}	
+        			}
+        		}
     		}
     	}
     }
@@ -397,6 +438,15 @@ public class test_Frame extends JFrame {
 			}	
 		}
     }
+    public String[] showFilesInDIr(String dirPath) {
+        File dir = new File(dirPath);
+        String[] filenames = dir.list();
+        for (int i = 0; i < filenames.length; i++) {
+            System.out.println("file: " + filenames[i]);
+        }
+        
+        return filenames;
+    }
 }
 
 
@@ -471,16 +521,20 @@ class Call_compiler{
             BufferedReader stdError2 = new BufferedReader(new InputStreamReader(Process2.getErrorStream()));
 
             
-            while ((s =   stdOut2.readLine()) != null) {
-            	if(s == tempresult) {
-            		System.out.println("저저저저저저저정다바바바바바");
+            while ((s = stdOut2.readLine()) != null) {
+            	if(s.equals(tempresult)) {
+            		JOptionPane.showMessageDialog(null, "Right Answer.\n"
+            				, "result", JOptionPane.INFORMATION_MESSAGE);
+            		System.out.println(s + "정답");
             	}
             	else {
-            		System.out.println("xmxmxmxmxmx틀려려려려");
+            		JOptionPane.showMessageDialog(null, "Wrong Answer.\n"
+            				, "result", JOptionPane.INFORMATION_MESSAGE);
+            		System.out.println(s + "오답");
             	}
             }
             while ((s = stdError2.readLine()) != null) {
-            	System.out.println("xmxmxmxmxmx틀려려려려");
+            	System.out.println("오답");
             }
 
 

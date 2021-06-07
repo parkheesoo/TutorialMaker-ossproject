@@ -30,8 +30,10 @@ public class codePanel extends JPanel {
     // JTextArea 에서 행,열을 얻어서 보여주는 임시 라벨(주석 달 때 행 필요하면 사용)
     private JLabel status = new JLabel();
     private File file = new File("");
+    private File temp = new File(".");
 
-    String temp = " ";
+    String stageTitle = "";
+    //String temp = " ";
 
     // +추가하기+ 코드 입력 시 주석 또는 퀴즈를 달 수 있는 버튼 생성
     codePanel() {
@@ -82,10 +84,10 @@ public class codePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 이전 단계 표시
-            	quizWindow newWindow = new quizWindow();
+            	quizWindow newWindow = new quizWindow(stageTitle, file);
             	
-            	newWindow.title_get(temp, file.getPath());
-            	newWindow.readFile(temp);
+            	newWindow.title_get(stageTitle, file.getPath());
+            	newWindow.readFile(stageTitle);
             }
         });
         
@@ -94,8 +96,8 @@ public class codePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // 이전 단계 표시
             	lecturercode_view lec = new lecturercode_view();
-            	lec.title_get(temp, file.getPath());
-            	lec.readFile(temp);
+            	lec.title_get(stageTitle, file.getPath());
+            	lec.readFile(stageTitle);
             }
         });
         
@@ -130,6 +132,11 @@ public class codePanel extends JPanel {
 	public void setFile(File dir) {
     	file = dir;
     }
+	
+	public void setStageTitle(String stageTitle) {
+    	this.stageTitle = stageTitle;
+    }
+	
     // 현재 code 내용을 text 파일로 쓰기
     public void writeFile(String stageTitle){
     	String code_str = textArea1.getText();
@@ -147,7 +154,7 @@ public class codePanel extends JPanel {
     // 선택된 text 파일을 code에 읽어오기
     public void readFile(String stageTitle){ 	
     	File file = new File(".");
-    	temp = stageTitle;
+    	//temp = stageTitle;
     	String path = file.getPath() + "\\data\\code_" + stageTitle + ".txt";
     	StringBuffer code_str = new StringBuffer("");
     	try {

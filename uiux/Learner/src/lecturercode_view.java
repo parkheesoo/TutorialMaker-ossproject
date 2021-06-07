@@ -56,6 +56,7 @@ public class lecturercode_view extends JFrame {
         setLocationRelativeTo(null);
 
     }
+    
     public void readFile(String stageTitle){
     	String path = pathth + "\\code_" + stageTitle + ".txt";
     	System.out.print(path);

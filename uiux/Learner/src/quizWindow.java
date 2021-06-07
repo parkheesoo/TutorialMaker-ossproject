@@ -19,24 +19,28 @@ public class quizWindow extends JFrame {
     private JPanel txtPanel2 = new JPanel();
    
     private JButton OK_btn = new JButton("채점하기");
-    private JButton Cancle_btn = new JButton("코드보기");
     
     private JLabel out_label = new JLabel("output");
     private JLabel title = new JLabel("title");
-    private JTextArea in_txt = new JTextArea(13, 45); //크기조정 필요
+    private JTextArea in_txt = new JTextArea(14, 45); //크기조정 필요
 
     
     private JTextArea out_txt = new JTextArea(1, 40); //크기조정 필요
     String pathth = " ";
     String compileResult = " ";
-    String stageT = " ";
+    
+    String stageTitle = " ";
+    File file = new File(".\\data");
+    
     public void title_get(String title_co, String filepath){
-        stageT = title_co;
+        stageTitle = title_co;
         pathth = filepath;
         //title.setText(title_t);
     }
     
-    public quizWindow(){
+    public quizWindow(String stageTitle, File dir){
+    	this.stageTitle = stageTitle;
+    	file = dir;
     	
         setTitle("문제");
         setLayout(new BorderLayout());
@@ -47,6 +51,7 @@ public class quizWindow extends JFrame {
         txtPanel1.add(in_txt);
         in_txt.setEditable(false);
         in_txt.setLineWrap(true);
+        out_txt.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(in_txt);  //스크롤판 추가
          //화면에 추가
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);//수평 스크롤 안쓰게함.
@@ -59,9 +64,10 @@ public class quizWindow extends JFrame {
         txtPanel2.add(out_txt);
         out_txt.setBorder(new LineBorder(Color.LIGHT_GRAY,1));
         in_txt.setBorder(new LineBorder(Color.LIGHT_GRAY,5));
-        btnPanel.add(Cancle_btn);
+        
+        OK_btn.setBackground(Color.LIGHT_GRAY);
         btnPanel.add(OK_btn);
-        txtPanel1.setPreferredSize(new Dimension(400, 280));
+        txtPanel1.setPreferredSize(new Dimension(400, 300));
         getContentPane().add(txtPanel1, BorderLayout.NORTH);
         getContentPane().add(txtPanel2, BorderLayout.CENTER);
         getContentPane().add(btnPanel, BorderLayout.SOUTH);
@@ -70,7 +76,7 @@ public class quizWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-            	String path = pathth + "\\Quiz_" + stageT + ".txt";
+            	String path = file.getPath() + "\\Quiz_" + stageTitle + ".txt";
             	StringBuffer comment_str = new StringBuffer("");
             	try {
                     String s;
@@ -95,15 +101,6 @@ public class quizWindow extends JFrame {
 
             	Call_compiler compile = new Call_compiler();
             	compile.runforquiz(comment_str.toString());
-            }
-        });
-
-        Cancle_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	lecturercode_view newlecturercodeView = new lecturercode_view();
-            	newlecturercodeView.title_get(stageT, pathth);
-            	newlecturercodeView.readFile(stageT);
             }
         });
 

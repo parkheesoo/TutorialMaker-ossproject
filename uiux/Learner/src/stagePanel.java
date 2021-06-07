@@ -23,34 +23,9 @@ public class stagePanel extends JPanel {
         add(listLabel, BorderLayout.NORTH);
                        
         // stage list 표시
-        //stageList.setEnabled(false);
         stageList.setBorder(new LineBorder(Color.lightGray));
         stageList.setPreferredSize(new Dimension(100, 700));
         add(stageList, BorderLayout.CENTER);
-        
-        // skip button 구현
-        //JPanel buttons = new JPanel();
-        
-        /*JButton back_btn = new JButton("back");
-        back_btn.setBackground(Color.LIGHT_GRAY);
-        buttons.add(back_btn);
-        back_btn.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		int currentIndex = stageList.getSelectedIndex();
-        		if (currentIndex > 0)
-        			setFocus(stageList.getSelectedIndex()-1);
-        	}
-        });  
-
-        JButton skip_btn = new JButton("skip");
-        skip_btn.setBackground(Color.LIGHT_GRAY);
-        buttons.add(skip_btn);
-        skip_btn.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		setFocus(stageList.getSelectedIndex()+1);
-        	}
-        });     
-        add(buttons, BorderLayout.SOUTH);*/
 
         setSize(100,700);
         setVisible(true);
