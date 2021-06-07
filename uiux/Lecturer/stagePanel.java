@@ -65,8 +65,10 @@ public class stagePanel extends JPanel {
                     public void actionPerformed(ActionEvent e) {
                         model.addElement(addStage.stageText.getText());
                         addStage.dispose();
+                        setFocus(model.size() - 1);
                     }
                 });
+                
             }
         }
     }

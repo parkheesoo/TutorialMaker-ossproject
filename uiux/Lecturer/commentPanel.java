@@ -24,7 +24,7 @@ public class commentPanel extends JPanel {
     JLabel stageTitle= new JLabel("No stage");
     TextArea contentText = new TextArea("Enter the content here", 23, 55);
     
-    File file = new File("");
+    File file = new File(".\\data");
  
     // 이미지 파일을 위한 파일 경로 저장
     File imageFile = new File(".");
@@ -43,7 +43,8 @@ public class commentPanel extends JPanel {
   //첨부된 파일을 보여주기 위한 컴포넌트
   	private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
   	private JList fileNameList = new JList(fileNameListModel);
-	
+  	
+  	int stageIndex = 0;
   	
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
@@ -342,7 +343,7 @@ public class commentPanel extends JPanel {
     public void writeFile(){
     	String comment_str = contentText.getText();
     	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
-        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+        	String File_name = file.getPath() + "\\comment" + (stageIndex + 1) + "_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
         	try {
         		FileWriter writer = new FileWriter(File_name);
         		writer.write(comment_str);

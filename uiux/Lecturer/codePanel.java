@@ -31,7 +31,7 @@ public class codePanel extends JPanel {
     
     private String stageTitle;
 
-    File file = new File("");
+    File file = new File(".\\data");
     String temp = " ";
     // +추가하기+ 코드 입력 시 주석 또는 퀴즈를 달 수 있는 버튼 생성
 
@@ -110,7 +110,7 @@ public class codePanel extends JPanel {
     	String code_str = textArea1.getText();
     	temp = stageTitle;
     	if (!stageTitle.equals("No stage")) { // stage가 존재할 때만 실행
-        	String File_name = file.getPath() + "data\\code_" + stageTitle + ".txt"; //Change to desired extension(ex. ".c")
+        	String File_name = file.getPath() + "\\code_" + stageTitle + ".txt"; //Change to desired extension(ex. ".c")
         	try {
         		FileWriter writer = new FileWriter(File_name);
         		writer.write(code_str);
@@ -123,8 +123,7 @@ public class codePanel extends JPanel {
     
     // 선택된 text 파일을 code에 읽어오기
     public void readFile(String stageTitle){
-    	File file = new File(".");
-    	String path = file.getPath() + "\\data\\code_" + stageTitle + ".txt";
+    	String path = file.getPath() + "\\code_" + stageTitle + ".txt";
     	StringBuffer code_str = new StringBuffer("");
     	try {
             String s;

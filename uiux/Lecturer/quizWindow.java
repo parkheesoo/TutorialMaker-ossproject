@@ -27,7 +27,7 @@ public class quizWindow extends JFrame {
     private JTextArea in_txt = new JTextArea(14, 45); //크기조정 필요
     private JTextArea out_txt = new JTextArea(1, 40); //크기조정 필요
     
-    File file = new File("");
+    File file = new File(".\\data");
     String stageTitle;
     public void title_get(String title_co){
     	
@@ -67,7 +67,7 @@ public class quizWindow extends JFrame {
         OK_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	String fileName = "data\\Quiz_" + stageTitle + ".txt"; ;
+            	String fileName = file.getPath() + "\\Quiz_" + stageTitle + ".txt"; ;
                 try {
                 	BufferedWriter bos = new BufferedWriter(new FileWriter(fileName, true));
                 	bos.write(title.getText() +"/");
@@ -98,7 +98,7 @@ public class quizWindow extends JFrame {
     
     public void readFile(String stageTitle){
     	
-    	String path = file + "\\Quiz_" + stageTitle + ".txt";
+    	String path = file.getPath() + "\\Quiz_" + stageTitle + ".txt";
     	
     	StringBuffer comment_str = new StringBuffer("");
     	try {

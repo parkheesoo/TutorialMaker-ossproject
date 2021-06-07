@@ -79,6 +79,7 @@ public class test_Frame extends JFrame {
                 CommentPanel.stageTitle.setText(stageTitle);
                 CommentPanel.readFile(stageIndex, stageTitle);
                 CommentPanel.getAttachedFile(stageTitle);
+                CommentPanel.stageIndex = stageIndex;
                 //newWindow.stageTitle.setText(stageTitle);
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
@@ -98,7 +99,7 @@ public class test_Frame extends JFrame {
 				File attach_File = new File(attach_FilePath);
 		        String code_path = com.getPath() + "\\data\\code_"+stagename+".txt"; //폴더 경로
 		    	File code_txt = new File(code_path);
-		        String comment_path = com.getPath() + "\\data\\comment_"+stagename+".txt"; //폴더 경로
+		        String comment_path = com.getPath() + "\\data\\comment"+ Integer.toString(index+1)+ "_" + stagename+".txt"; //폴더 경로
 		    	File comment_txt = new File(comment_path);
 				System.out.println(stagename+"삭제");
         		
@@ -349,7 +350,7 @@ public class test_Frame extends JFrame {
     			openpath = dir.getAbsolutePath();
     			CommentPanel.setFile(dir);
     			StagePanel.initStage(dir);
-        		//CodePanel.setFile(dir);
+        		CodePanel.setFile(dir);
         		
                 String[] filenames = dir.list();
                 for (int i = 0; i < filenames.length; i++) {
