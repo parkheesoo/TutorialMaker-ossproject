@@ -17,7 +17,10 @@ public class codePanel extends JPanel {
     private JPanel btnpanel = new JPanel(); //버튼 :: 코드 입력 부분의 panel 교체 시 분리될 수 있도록
 
     // 버튼 세팅 - 이미지 세팅
+    private JButton code_View = new JButton();
     private JButton Pre_btn = new JButton();
+    private ImageIcon Code_btn_img = new ImageIcon("image\\codebutton.png");
+    private ImageIcon Code_press_img = new ImageIcon("image\\codebutton_press.png");
     private ImageIcon Pre_btn_img = new ImageIcon("image\\prebutton.png");
     private ImageIcon Pre_press_img = new ImageIcon("image\\prebutton_press.png");
     // 코드 입력 부분 component
@@ -36,11 +39,15 @@ public class codePanel extends JPanel {
         Image pre_Btn_img = pre_btn_img.getScaledInstance(100, 50, java.awt.Image.SCALE_SMOOTH);
         ImageIcon Pre_btn_img = new ImageIcon(pre_Btn_img); //Image로 ImageIcon 생성
         Image pre_press_img = Pre_press_img.getImage();  //ImageIcon을 Image로 변환.
-
         Image Pre_Press_img = pre_press_img.getScaledInstance(100, 50, java.awt.Image.SCALE_SMOOTH);
-
         ImageIcon Pre_press_img = new ImageIcon(Pre_Press_img); //Image로 ImageIcon 생성
         
+        Image code_btn_img = Code_btn_img.getImage();  //ImageIcon을 Image로 변환.
+        Image code_Btn_img = code_btn_img.getScaledInstance(100, 50, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon Code_btn_img = new ImageIcon(code_Btn_img); //Image로 ImageIcon 생성
+        Image code_press_img = Code_press_img.getImage();  //ImageIcon을 Image로 변환.
+        Image code_Press_img = code_press_img.getScaledInstance(100, 50, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon Code_press_img = new ImageIcon(code_Press_img); //Image로 ImageIcon 생성
         codepanel.setLayout(new BorderLayout());
         codepanel.add(txtpanel, BorderLayout.CENTER);
         codepanel.add(btnpanel, BorderLayout.SOUTH);
@@ -56,9 +63,20 @@ public class codePanel extends JPanel {
         Pre_btn.setPressedIcon(Pre_press_img);
         Pre_btn.setRolloverIcon(Pre_press_img);
 
+       //pre button setting
+        code_View.setIcon(Code_btn_img);
+        code_View.setBorderPainted(false);
+        code_View.setContentAreaFilled(false);
+        code_View.setFocusPainted(false);
+        
+        code_View.setPreferredSize(new Dimension(130, 50));
+        code_View.setPressedIcon(Code_press_img);
+        code_View.setRolloverIcon(Code_press_img);
+        
         txtpanel.add(scroll);
         btnpanel.add(Pre_btn);
-
+        btnpanel.add(code_View);
+        
         Pre_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,6 +85,16 @@ public class codePanel extends JPanel {
             	
             	newWindow.title_get(temp, file.getPath());
             	newWindow.readFile(temp);
+            }
+        });
+        
+        code_View.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 이전 단계 표시
+            	lecturercode_view lec = new lecturercode_view();
+            	lec.title_get(temp, file.getPath());
+            	lec.readFile(temp);
             }
         });
         
