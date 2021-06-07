@@ -18,7 +18,7 @@ public class test_newWindow extends JFrame {
     private JPanel txtPanel1 = new JPanel();
     private JPanel txtPanel2 = new JPanel();
    
-    private JButton OK_btn = new JButton("submit");
+    private JButton OK_btn = new JButton("채점하기");
     private JButton Cancle_btn = new JButton("코드보기");
     
     private JLabel out_label = new JLabel("output");
@@ -28,6 +28,7 @@ public class test_newWindow extends JFrame {
     
     private JTextArea out_txt = new JTextArea(1, 40); //크기조정 필요
     String pathth = " ";
+    String compileResult = " ";
     String stageT = " ";
     public void title_get(String title_co, String filepath){
         stageT = title_co;
@@ -68,8 +69,32 @@ public class test_newWindow extends JFrame {
         OK_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	String fileName = "data\\Quiz_" + stageT + ".txt"; 
-            	
+
+            	String path = pathth + "\\Quiz_" + stageT + ".txt";
+            	StringBuffer comment_str = new StringBuffer("");
+            	try {
+                    String s;
+                    File read = new File(path);
+                    FileReader reader = new FileReader(read);
+
+                    int cnt = 0;
+                    int ch = 0;
+                    // 더이상 읽어들일게 없을 때까지 읽어들이게 합니다.
+                    while((ch = reader.read()) != -1) {
+                    	if((char)ch == '/' && cnt <= 1) {
+                    		comment_str.setLength(0);
+                    		cnt++;
+                    	}
+                    	else {
+                    		comment_str.append((char)ch);
+                    	} 
+                    	
+                    }
+                    reader.close();
+                } catch(IOException edd) {}
+
+            	Call_compiler compile = new Call_compiler();
+            	compile.runforquiz(comment_str.toString());
             }
         });
 
@@ -88,6 +113,7 @@ public class test_newWindow extends JFrame {
         setLocationRelativeTo(null);
 
     }
+    
     public void readFile(String stageTitle){
     	
     	String path = pathth + "\\Quiz_" + stageTitle + ".txt";
