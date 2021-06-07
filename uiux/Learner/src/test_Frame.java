@@ -134,7 +134,7 @@ public class test_Frame extends JFrame {
     			CommentPanel.setFile(dir);
         		StagePanel.initStage(dir);
         		
-    	        String[] filenames = dir.list();
+    	        /*String[] filenames = dir.list();
     			File com = new File(".");
     	        for (int i = 0; i < filenames.length; i++) {
     	            if(filenames[i].contains("_S.txt"))
@@ -170,7 +170,8 @@ public class test_Frame extends JFrame {
     	   			 
     	            }
     	        	System.out.println("file: " + filenames[i]);
-    	        }        		
+    	        }  */      		
+        		CodePanel.setFile(dir);
     		}
     		else if(e.getSource().equals(saveItem)) {
     			// save 클릭 시 발생
