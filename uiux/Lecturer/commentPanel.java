@@ -134,7 +134,7 @@ public class commentPanel extends JPanel {
 		        filen = f.getName();
 		        //복사될 파일경로
 		        File com = new File(".");
-		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile\\" + filen; //폴더 경로
+		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText().toString() + "_attachedfile\\" + filen; //폴더 경로
 		        
 		        //파일객체생성
 		        File oriFile = new File(oriFilePath);
@@ -171,22 +171,33 @@ public class commentPanel extends JPanel {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
 		        }
+		        	        
 		        Image changeImg = image.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
 		        JLabel label = new JLabel(new ImageIcon(changeImg));
+		        
+		        attachedPane = new JPanel();
+		    	attachedPane.setBounds(64, 110, 336, 150);
+				attachedPane.setBackground(Color.WHITE);
+				attachedPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
+				add(attachedPane);
+				
 		        attachedPane.add(label);
+		        attachedPane.revalidate();
 		        
 		        String comment_str = contentText.getText();
 		    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
-		        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+		        	String File_name = ".\\data\\comment" + (stageIndex + 1) + "_" + stageTitle.getText().toString() + ".txt"; //Change to desired extension(ex. ".c")
 		        	try {
 		        		FileWriter writer = new FileWriter(File_name);
-		        		writer.write(comment_str+ '\n'+ "[image]" + filen);
+		        		writer.write(comment_str + "[image]" + filen);
 		        		writer.close();
 		        	} catch (IOException ex) {}
 		        }
-		    	String path = file.getPath()+"\\data\\comment_" + stageTitle.getText() + ".txt";
+		    	
+		    	String path = ".\\data\\comment" + (stageIndex + 1) + "_" + stageTitle.getText().toString() + ".txt";
 		    	File file = new File(path);
 		    	StringBuffer comment_str1 = new StringBuffer("");
+		    	
 		    	try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 		    		
 		    	    String line;
@@ -200,12 +211,8 @@ public class commentPanel extends JPanel {
 		    	    ex.printStackTrace();
 		    	};
 		    	
-		    	if (comment_str.toString().length() == 0)
-		    		contentText.setText("Enter the content here");
-		    	else {
-		    		
-		    		contentText.setText(comment_str1.toString());
-		    	}
+		    	
+		    	contentText.setText(comment_str1.toString());
 		    		
 			}
 			else if(e.getSource().equals(video_btn)) {
@@ -222,7 +229,7 @@ public class commentPanel extends JPanel {
 		        filen = f.getName();
 		        //복사될 파일경로
 		        File com = new File(".");
-		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile\\" + filen; //폴더 경로
+		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText().toString() + "_attachedfile\\" + filen; //폴더 경로
 		        
 		        //파일객체생성
 		        File oriFile = new File(oriFilePath);
@@ -265,7 +272,7 @@ public class commentPanel extends JPanel {
 		        filen = f.getName();
 		        //복사될 파일경로
 		        File com = new File(".");
-		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile\\" + filen; //폴더 경로
+		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText().toString() + "_attachedfile\\" + filen; //폴더 경로
 		        
 		        //파일객체생성
 		        File oriFile = new File(oriFilePath);
@@ -308,7 +315,7 @@ public class commentPanel extends JPanel {
 		        filen = f.getName();
 		        //복사될 파일경로
 		        File com = new File(".");
-		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText() + "_attachedfile\\" + filen; //폴더 경로
+		        String copyFilePath = com.getPath() + "\\data\\" + stageTitle.getText().toString() + "_attachedfile\\" + filen; //폴더 경로
 		        
 		        //파일객체생성
 		        File oriFile = new File(oriFilePath);
@@ -363,10 +370,15 @@ public class commentPanel extends JPanel {
 				fileNameListModel.addElement(stageName);
 			}
 		}
+		
     }
     
     public void setFile(File dir) {
     	file = dir;
+    }
+    
+    public void setIndex(int index) {
+    	stageIndex = index;
     }
     
     public void makeattachedfolder(){
@@ -385,6 +397,7 @@ public class commentPanel extends JPanel {
 			}
 		}	
     }
+       
     // 선택된 text 파일을 content에 읽어오기
     public void readFile(int stageIndex, String stageTitle){
     	String path = file.getPath() + "\\comment" + Integer.toString(stageIndex + 1)

@@ -81,6 +81,7 @@ public class test_Frame extends JFrame {
                 CommentPanel.getAttachedFile(stageTitle);
                 CommentPanel.stageIndex = stageIndex;
                 //newWindow.stageTitle.setText(stageTitle);
+                
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
             }
