@@ -192,6 +192,8 @@ public class test_Frame extends JFrame {
 		    	File comment_txt = new File(comment_path);
 		        String quiz_path = com.getPath() + "\\data\\Quiz_"+str+".txt"; //폴더 경로
 		    	File quiz_txt = new File(quiz_path);
+		        String Lcode_path = com.getPath() + "\\data\\code_"+str+"_S.txt"; //폴더 경로
+		        File Lcode_txt = new File(Lcode_path);
 				System.out.println(str+"삭제");
 				
 				//임시파일 삭제 - 굳이 삭제할 필요가 없다 느껴지시면 해당 코드 삭제하셔도 상관 없습니다!			
@@ -200,7 +202,8 @@ public class test_Frame extends JFrame {
 				delete_file.delete(attach_File); //임시 첨부파일 삭제
 				delete_file.delete(code_txt); //임시 코드파일 삭제
 				delete_file.delete(comment_txt); //임시 주석파일 삭제
-				delete_file.delete(quiz_txt);
+				delete_file.delete(quiz_txt); //임시 코드파일 삭제
+				delete_file.delete(Lcode_txt); //추가로 저장됐던 학습자 작성 코드 삭제
 			
 			}			
 		}
@@ -246,17 +249,20 @@ public class test_Frame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource().equals(saveItem)) {
 				if(savepathname == null) {
-					savepathname = "C:\\savefile";
-					File Folder = new File(savepathname);
-					
-					int addnum = 1;
-					String t_savepathname = savepathname;
-					
-					while(Folder.exists()) {
-						System.out.println("들어왔나요?");
-						t_savepathname = savepathname+"_("+addnum+")";
-						Folder = new File(t_savepathname);
-						addnum++;
+					if(openpath!=null) {
+						savepathname = openpath;
+					}else {
+						savepathname = "C:\\savefile";
+						File Folder = new File(savepathname);
+						
+						int addnum = 1;
+						String t_savepathname = savepathname;
+						
+						while(Folder.exists()) {
+							System.out.println("들어왔나요?");
+							t_savepathname = savepathname+"_("+addnum+")";
+							Folder = new File(t_savepathname);
+							addnum++;
 					}
 					savepathname = t_savepathname;
 					String savedatapath = savepathname+"\\data";
@@ -278,7 +284,8 @@ public class test_Frame extends JFrame {
 						System.out.println(savepathname);					
 					}
 					filesave();
-				}
+					}
+					}
 				else {		
 					ArrayList<String> stagelist;
 					stagelist = StagePanel.getStageList();	
@@ -351,43 +358,17 @@ public class test_Frame extends JFrame {
     			openpath = dir.getAbsolutePath();
     			CommentPanel.setFile(dir);
     			StagePanel.initStage(dir);
-        		CodePanel.setFile(dir);
+        		//CodePanel.setFile(dir);
         		
-                String[] filenames = dir.list();
-                for (int i = 0; i < filenames.length; i++) {
-                	if(filenames[i].contains("code_"))
-                	{
-                		if(!filenames[i].contains("_S.txt")) {
-                			System.out.print("강의자 작성 코드// ");
-                                		
-                			File com = new File(".");
-                			String ori_LcodeFilePath = openpath +"\\"+filenames[i]; //폴더 경로
-                    	
-                			String filename = filenames[i].replace("_S", "");
-                			String copy_LcodeFilePath = com.getPath()+"\\data\\"+filename; //+filenames[i].replace("_S", "");
-                			File ori_LcodeFile = new File(ori_LcodeFilePath);
-                			File copy_LcodeFile = new File(copy_LcodeFilePath);           		
-                			try {
-            		            
-                				FileInputStream Lcode_fis = new FileInputStream(ori_LcodeFile); //읽을파일
-            		            FileOutputStream Lcode_fos = new FileOutputStream(copy_LcodeFile); //복사할파일
-            		            
-            		            int fileByte = 0; 
-            		            // fis.read()가 -1 이면 파일을 다 읽은것
-            		            while((fileByte = Lcode_fis.read()) != -1) {
-            		                Lcode_fos.write(fileByte);
-            		            }
-            		            //자원사용종료
-            		            Lcode_fis.close();
-            		            Lcode_fos.close();
+        		String oriFilePath = openpath; //폴더 경로        		
+        		File oriFile = new File(oriFilePath);
+        		
+        		File com = new File(".\\data");
+        		String copyFilePath = com.getPath();//savepathname;
+        		File copyFile = new File(copyFilePath);
 
-                			} catch (IOException e1) {
-            					// TODO Auto-generated catch block
-            					e1.printStackTrace();
-                			}	
-                		}
-                	}
-                }
+        		copy(oriFile, copyFile);
+        		
         		
         		CommentPanel.readFile(0, StagePanel.stageList.getSelectedValue().toString());
         		CodePanel.readFile(StagePanel.stageList.getSelectedValue().toString());
@@ -416,6 +397,8 @@ public class test_Frame extends JFrame {
         		    	File comment_txt = new File(comment_path);
         		        String quiz_path = com.getPath() + "\\data\\Quiz_"+str+".txt"; //폴더 경로
         		        File quiz_txt = new File(quiz_path);
+        		        String Lcode_path = com.getPath() + "\\data\\code_"+str+"_S.txt"; //폴더 경로
+        		        File Lcode_txt = new File(Lcode_path);
         				System.out.println(str+"삭제");
         				
         				//임시파일 삭제 - 굳이 삭제할 필요가 없다 느껴지시면 해당 코드 삭제하셔도 상관 없습니다!			
@@ -424,7 +407,8 @@ public class test_Frame extends JFrame {
         				delete_file.delete(attach_File); //임시 첨부파일 삭제
         				delete_file.delete(code_txt); //임시 코드파일 삭제
         				delete_file.delete(comment_txt); //임시 주석파일 삭제     
-        				delete_file.delete(quiz_txt); //임시 주석파일 삭제        			
+        				delete_file.delete(quiz_txt); //임시 주석파일 삭제        
+        				delete_file.delete(Lcode_txt); //추가로 저장되던 학습자 코드 삭제
         			}
         		}
 			}
@@ -446,6 +430,8 @@ public class test_Frame extends JFrame {
             		String code_path;
             		String comment_path;
             		String quiz_path;
+            		String Lcode_path;
+            		
         			File com = new File(".");
         			for(String str : stagelist) {
         				attach_FilePath = com.getPath()  +"\\data\\"+ str + "_attachedfile"; //폴더 경로
@@ -456,6 +442,8 @@ public class test_Frame extends JFrame {
         		        File comment_txt_T = new File(comment_path);
         		        quiz_path = com.getPath() + "\\data\\Quiz_"+str+".txt"; //폴더 경로
         		        File quiz_txt_T = new File(quiz_path);
+        		        Lcode_path = com.getPath() + "\\data\\code_"+str+"_S.txt"; //폴더 경로
+        		        File Lcode_txt_T = new File(Lcode_path);
         				System.out.println(str+"임시파일 삭제");
         				
         				//임시파일 삭제 - 굳이 삭제할 필요가 없다 느껴지시면 해당 코드 삭제하셔도 상관 없습니다!			
@@ -465,6 +453,7 @@ public class test_Frame extends JFrame {
         				delete_file.delete(code_txt_T); //임시 코드파일 삭제
         				delete_file.delete(comment_txt_T); //임시 주석파일 삭제
         				delete_file.delete(quiz_txt_T); //임시 퀴즈파일 삭제
+        				delete_file.delete(Lcode_txt_T); //추가로 저장되던 학습자 코드 삭제
 
     	        		String[] filenames = showFilesInDIr(savepathname);
     					for(int i=0; i<filenames.length; i++) {
@@ -506,7 +495,7 @@ public class test_Frame extends JFrame {
 			File ori_codeFile = new File(ori_codeFilePath);
 			File copy_codeFile = new File(copy_codeFilePath);
 			
-			String ori_commentFilePath = com.getPath()+ "\\data\\"+"comment_" + str + ".txt"; //폴더 경로
+			String ori_commentFilePath = com.getPath()+ "\\data\\"+"comment"+listindex+"_" + str + ".txt"; //폴더 경로
 			String copy_commentFilePath = savepathname+"\\"+"comment"+listindex+"_"+str+".txt";
 			File ori_commentFile = new File(ori_commentFilePath);
 			File copy_commentFile = new File(copy_commentFilePath);
