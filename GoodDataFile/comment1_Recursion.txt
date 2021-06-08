@@ -1,0 +1,17 @@
+The first class recursion in the concept to explain.Iran easily said, 
+'Recursion' is a function 'circulation', and recursion recursion.Recursion function
+in every language c is mean the function that calls themselves.
+I'll understand through the code.
+
+[image]recursion.png
+
+However, if you use Recurrence like this, there will be a problem. 
+There is no way out, so you keep calling yourself, and you end up
+in an infinite loop. To solve this problem, Recurrence must make a way out.
+
+If you make a way out, you can get the result you want without falling into 
+an infinite loop. 
+It's not just for this kind of output, it can do a lot of different things.
+
+
+[image]recursion2.png

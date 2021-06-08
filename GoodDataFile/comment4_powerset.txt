@@ -1,0 +1,49 @@
+Power Set - Powerset
+Every subset of a set is called a power set.
+
+Any subset of the set data = {a, b, c, d} can be found in the following order:
+
+2©ú = 16.
+
+List all subsets using Recurrence
+To list all subsets of {a, b, c, d, e, f}
+
+First, the subset that does not contain a.
+
+It can be divided into subsets containing a.
+
+Therefore, it can be expressed as follows.
+
+Subset that does not contain a
+
+List all subsets of {b, c, d, e, f} except a.
+
+Subset containing a
+
+Lists all subsets of {b, c, d, e, f} with {a}.
+
+If the above two are combined, the number of cases is 2????.
+
+If so, to list all subsets of {b, c, d, e, f} that have {a} added to them:
+
+Once again, a subset that does not contain b.
+
+It is divided into subsets containing b.
+
+therefore
+
+Subset that does not contain b
+
+List all subsets of {c, d, e, f} with {a} added.
+
+Subset containing b
+
+Lists all subsets of {c, d, e, f} with {a, b}.
+
+Again, to list all subsets of {c, d, e, f} with {a} added:
+
+Lists all subsets of {d, e, f} with {a} added.
+
+Lists the sets {a, c} added to all subsets of {d, e, and f}.
+
+[image]powerset.png

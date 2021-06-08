@@ -1,0 +1,4 @@
+title/Let's print out a program that takes two integers as factors and outputs the least common multiple.
+Use this function to specify two numbers and write a program that outputs the maximum common divisor.
+
+input : 84, 180/12

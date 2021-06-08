@@ -1,0 +1,19 @@
+Basic1. n square of x
+Recurrence is mathematically perfectly organized.
+ Assuming that recursionF(x, n) is a function that calculates 
+the n-square of x, the next recall(x, n-1) is a function that calculates 
+the n-1-square of x, so multiplying by x returns exactly the n-square value of x.
+
+[image]basic.png
+
+Basic2. Fibonacci
+Fibonacci sequence problem starting from 1.
+ As proof, assuming that recusionF(n) is a function of obtaining the nth 
+Fibonacci number, the Fibonacci number adds the n-1st and n-2nd terms, 
+so recusionF(n-1) + recusionF(n-2) is perfectly established.
+
+[image]basic2.png
+
+[image]basic3.png
+
+There's a hint of the quiz in the code. Be careful!

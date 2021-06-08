@@ -1,0 +1,35 @@
+intensive1. Counting Cells in a Blob
+-Binary image is given as input.
+-Each pixel is either a background pixel (white) or an image pixel (blue).
+-A set of interconnected image pixels is called Blob.
+-Also connected in top-to-bottom, left-right and diagonal directions are 
+  considered Blob.
+
+[image]intensive.png
+
+Therefore, the following Blob sets exist in the figure above.
+There are four blobs in total.
+
+[image]intensive2.png
+
+Recursive Thinking
+To count the size of the blob to which the current pixel belongs
+
+If the current pixel is not an image color,
+
+Returns zero.
+
+If the current pixel is an image color,
+
+First, count the current pixel (count=1)
+
+It is painted in a different color to prevent the current pixel from being 
+over-counted.
+
+For every pixel adjacent to the current pixel (8 pixels)
+
+Count the size of the Blob to which the pixel belongs and add it to the counter.
+
+Returns the counter.
+
+
