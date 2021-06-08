@@ -20,6 +20,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -73,14 +74,14 @@ public class test_Frame extends JFrame {
         		CommentPanel.makeattachedfolder();
         		CodePanel.writeFile(CommentPanel.stageTitle.getText());
         		
-        		String stageTitle = (String) StagePanel.stageList.getSelectedValue();
+        		String stageTitle = StagePanel.stageList.getSelectedValue().toString();
         		int stageIndex = StagePanel.stageList.getSelectedIndex();
         		
                 CommentPanel.stageTitle.setText(stageTitle);
                 CommentPanel.readFile(stageIndex, stageTitle);
                 CommentPanel.getAttachedFile(stageTitle);
                 CommentPanel.stageIndex = stageIndex;
-                //newWindow.stageTitle.setText(stageTitle);
+  
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
             }
@@ -90,9 +91,9 @@ public class test_Frame extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		//StagePanel.model.remove(StagePanel.stageList.getSelectedIndex());
         		int index = StagePanel.stageList.getSelectedIndex();
-        		String stagename = StagePanel.model.get(index).toString();
+        		String stagename = StagePanel.stageList.getSelectedValue().toString();
+        		StagePanel.setFocus(index-1);
         		StagePanel.model.remove(index);
-        		CommentPanel.stageTitle.setText("No stage");
         		
     			File com = new File(".");
         		String attach_FilePath = com.getPath()  +"\\data\\"+ stagename + "_attachedfile"; //폴더 경로
@@ -107,6 +108,7 @@ public class test_Frame extends JFrame {
         		delete_file.delete(attach_File);
         		delete_file.delete(code_txt);
         		delete_file.delete(comment_txt);
+
         	}
         });
         

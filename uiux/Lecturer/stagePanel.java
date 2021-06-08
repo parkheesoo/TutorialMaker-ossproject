@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -65,6 +67,7 @@ public class stagePanel extends JPanel {
                     public void actionPerformed(ActionEvent e) {
                         model.addElement(addStage.stageText.getText());
                         addStage.dispose();
+                        makeFile(model.size(), addStage.stageText.getText());
                         setFocus(model.size() - 1);
                     }
                 });
@@ -88,6 +91,17 @@ public class stagePanel extends JPanel {
 			}
 			setFocus(0);
 		}
+    }
+    
+    public void makeFile(int stageIndex, String stageTitle){
+    	File comment = new File(".\\data\\comment" + stageIndex + "_" + stageTitle + ".txt");
+        File code = new File(".\\data\\code_" + stageTitle + ".txt");
+        try {
+        	comment.createNewFile();
+        	code.createNewFile();
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }  
     }
     
     public ArrayList<String> getStageList(){

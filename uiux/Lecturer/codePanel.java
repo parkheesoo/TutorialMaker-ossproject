@@ -23,7 +23,7 @@ public class codePanel extends JPanel {
     private ImageIcon Next_press_img = new ImageIcon("image\\nextbutton_press.png");
 
     // 코드 입력 부분 component
-    private JTextArea textArea1 = new JTextArea(37, 35); //크기조정 필요
+    JTextArea textArea1 = new JTextArea(37, 35); //크기조정 필요
     private JScrollPane scroll = new JScrollPane(textArea1);
 
     // JTextArea 에서 행,열을 얻어서 보여주는 임시 라벨(주석 달 때 행 필요하면 사용)
@@ -125,6 +125,7 @@ public class codePanel extends JPanel {
     public void readFile(String stageTitle){
     	String path = file.getPath() + "\\code_" + stageTitle + ".txt";
     	StringBuffer code_str = new StringBuffer("");
+    	
     	try {
             String s;
             File read = new File(path);
@@ -139,7 +140,12 @@ public class codePanel extends JPanel {
             bReader.close();
         } catch(IOException e) {}
     	
-    	textArea1.setText(code_str.toString());
+    	if (code_str.toString().length() == 0)
+    		textArea1.setText("");
+    	else
+    		textArea1.setText(code_str.toString());
+    		
+
     }
 
     // 코드 패널에 있는 문장들 파일출력하는 메소드
