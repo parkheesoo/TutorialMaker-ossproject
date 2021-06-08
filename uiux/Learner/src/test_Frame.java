@@ -67,7 +67,7 @@ public class test_Frame extends JFrame {
         		int stageIndex = StagePanel.stageList.getSelectedIndex();
         		
                 CommentPanel.stageTitle.setText(stageTitle);
-                CommentPanel.initContent();
+                //CommentPanel.initContent();
                 CommentPanel.readFile(stageIndex, stageTitle);
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
@@ -169,7 +169,7 @@ public class test_Frame extends JFrame {
                     System.out.println("file: " + filenames[i]);
                 }
                 
-        		CommentPanel.readFile(0, StagePanel.stageList.getSelectedValue().toString());
+        		CommentPanel.readFile(StagePanel.stageList.getSelectedIndex(), StagePanel.stageList.getSelectedValue().toString());
         		CodePanel.readFile(StagePanel.stageList.getSelectedValue().toString());
         	
     		}
