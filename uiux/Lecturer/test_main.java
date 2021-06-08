@@ -1,7 +1,4 @@
 
-import Lecturer.LangFrame;
-
-
 import java.awt.Color;
 
 
