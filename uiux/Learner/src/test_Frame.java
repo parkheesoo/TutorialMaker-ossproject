@@ -67,7 +67,7 @@ public class test_Frame extends JFrame {
         		int stageIndex = StagePanel.stageList.getSelectedIndex();
         		
                 CommentPanel.stageTitle.setText(stageTitle);
-                //CommentPanel.initContent();
+                CommentPanel.initContent();
                 CommentPanel.readFile(stageIndex, stageTitle);
                 CodePanel.readFile(stageTitle);
                 CodePanel.setStageTitle(stageTitle);
@@ -238,18 +238,16 @@ public class test_Frame extends JFrame {
 		        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		        
 		        int returnVal = jfc.showOpenDialog(null);
+		        File dir = jfc.getSelectedFile();
+    			openpath = dir.getAbsolutePath();
+    			CommentPanel.setFile(dir);
 		        if(returnVal == JFileChooser.APPROVE_OPTION) { // 열기를 클릭
 		            savepathname = jfc.getSelectedFile().toString();
 		            System.out.println(savepathname);
-			}
-		    else if(e.getSource().equals(compileItem)) {
-		       /* Call_compiler compiler = new Call_compiler();
-                CodePanel.makeCodeFile();
-                //파일 출력
-                compiler.compile();
-		    	*/
+		        }
+		        //StagePanel.initStage(dir);
+        		//CodePanel.setFile(dir);
 		    }
-    		}
     		else if(e.getSource().equals(compileItem)) {
     			CodePanel.makeCodeFile();
     			//파일 출력

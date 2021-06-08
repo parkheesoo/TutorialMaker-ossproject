@@ -39,6 +39,7 @@ public class quizWindow extends JFrame {
     }
     
     public quizWindow(String stageTitle, File dir){
+    	
     	this.stageTitle = stageTitle;
     	file = dir;
     	

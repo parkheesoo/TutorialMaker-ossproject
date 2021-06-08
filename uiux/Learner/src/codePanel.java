@@ -155,7 +155,7 @@ public class codePanel extends JPanel {
     public void readFile(String stageTitle){ 	
     	File file = new File(".");
     	//temp = stageTitle;
-    	String path = file.getPath() + "\\data\\code_" + stageTitle + ".txt";
+    	String path = "data\\code_" + stageTitle + ".txt";
     	StringBuffer code_str = new StringBuffer("");
     	try {
             String s;

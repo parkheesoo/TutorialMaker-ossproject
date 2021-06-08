@@ -50,7 +50,7 @@ public class commentPanel extends JPanel {
     	int height = 0;
     	
     	try {
-    		initContent();
+    		//initContent();
     		
             String s;
             File read = new File(path);
@@ -59,11 +59,13 @@ public class commentPanel extends JPanel {
             
             // 더이상 읽어들일게 없을 때까지 읽어들이게 합니다.
             while((s = bReader.readLine()) != null) {
-            	
+            	System.out.println(s);
+            	System.out.println(s.startsWith("[image]"));
             	if (s.startsWith("[image]")) {
+            		System.out.println("^^^^^^^^^^^^^^^");
+            		height += addText(comment_str.toString().substring(0, comment_str.toString().length()));
+            		comment_str.setLength(0);
             		
-            		//height += addText(comment_str.toString().substring(0, comment_str.toString().length() - 1));
-            		//comment_str.setLength(0);
             		
             		File img_file = new File(file.getPath() + "\\" + stageTitle + "_attachedfile\\" + s.substring(7));
                     BufferedImage img = ImageIO.read(img_file);
@@ -77,9 +79,9 @@ public class commentPanel extends JPanel {
             		height += h + 10;
             	}
             	else {
-            		height += addText(s.substring(0, s.length() - 1));
-            		//comment_str.append(s);
-                    //comment_str.append("\n");
+            		height += addText(s.substring(0, s.length()));
+            		comment_str.append(s);
+                    comment_str.append("\n");
             	}
             }
             bReader.close();
