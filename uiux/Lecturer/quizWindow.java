@@ -70,7 +70,7 @@ public class quizWindow extends JFrame {
             	String fileName = file.getPath() + "\\Quiz_" + stageTitle + ".txt"; ;
                 try {
                 	BufferedWriter bos = new BufferedWriter(new FileWriter(fileName, true));
-                	bos.write(title.getText() +"/");
+                	bos.write(title_txt.getText() +"/");
                 	bos.write(in_txt.getText()+"/");
                 	bos.write(out_txt.getText()+"\r\n");
                 	bos.close();
