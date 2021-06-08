@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -28,6 +29,7 @@ public class test_Frame extends JFrame {
     
     stagePanel StagePanel;
 	String savepathname; //사용자가 지정한 저장 경로
+
 
     public test_Frame(){
         Container c = getContentPane();
