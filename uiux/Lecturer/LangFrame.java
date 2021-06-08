@@ -1,5 +1,3 @@
-package Lecturer;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -14,6 +12,7 @@ public class LangFrame extends JFrame implements ActionListener{
     private Button launchButton;
 
     LangFrame(){
+    	
         setPreferredSize(new Dimension(300, 300));
         setSize(300, 200);
         launchButton = new Button("Launch");
@@ -28,6 +27,8 @@ public class LangFrame extends JFrame implements ActionListener{
         add(launchButton, BorderLayout.SOUTH);
         langList.setPreferredSize(new Dimension(250, 250));
         langList.setSize(250, 250);
+        setResizable(false);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -36,6 +37,7 @@ public class LangFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(langList.getSelectedValue().contentEquals("C")){
             test_Frame CFrame = new test_Frame();
+            dispose();
         }
     }
 }

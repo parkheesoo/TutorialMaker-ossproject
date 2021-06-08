@@ -5,6 +5,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class stagePanel extends JPanel {
@@ -22,31 +23,9 @@ public class stagePanel extends JPanel {
         add(listLabel, BorderLayout.NORTH);
                        
         // stage list 표시
-        stageList.setEnabled(false);
         stageList.setBorder(new LineBorder(Color.lightGray));
+        stageList.setPreferredSize(new Dimension(100, 700));
         add(stageList, BorderLayout.CENTER);
-        
-        // skip button 구현
-        JPanel buttons = new JPanel();
-        
-        JButton back_btn = new JButton("back");
-        buttons.add(back_btn);
-        back_btn.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		int currentIndex = stageList.getSelectedIndex();
-        		if (currentIndex > 0)
-        			setFocus(stageList.getSelectedIndex()-1);
-        	}
-        });  
-
-        JButton skip_btn = new JButton("skip");
-        buttons.add(skip_btn);
-        skip_btn.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		setFocus(stageList.getSelectedIndex()+1);
-        	}
-        });     
-        add(buttons, BorderLayout.SOUTH);
 
         setSize(100,700);
         setVisible(true);
@@ -67,5 +46,18 @@ public class stagePanel extends JPanel {
 			}
 			setFocus(0);
 		}
+    }
+    public ArrayList<String> getStageList(){
+    	
+    	ArrayList<String> stagelist = new ArrayList<String>();
+    	
+    	int listSize = stageList.getModel().getSize();
+    	for(int i=0; i<listSize; i++) {
+    		Object item = stageList.getModel().getElementAt(i);
+    		stagelist.add(item.toString());   		
+    		System.out.println("item = "+item);
+    	}
+    	
+    	return stagelist;
     }
 }

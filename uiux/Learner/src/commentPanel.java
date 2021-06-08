@@ -50,6 +50,8 @@ public class commentPanel extends JPanel {
     	int height = 0;
     	
     	try {
+    		initContent();
+    		
             String s;
             File read = new File(path);
             BufferedReader bReader = null;
@@ -60,8 +62,8 @@ public class commentPanel extends JPanel {
             	
             	if (s.startsWith("[image]")) {
             		
-            		height += addText(comment_str.toString().substring(0, comment_str.toString().length() - 1));
-            		comment_str.setLength(0);
+            		//height += addText(comment_str.toString().substring(0, comment_str.toString().length() - 1));
+            		//comment_str.setLength(0);
             		
             		File img_file = new File(file.getPath() + "\\" + stageTitle + "_attachedfile\\" + s.substring(7));
                     BufferedImage img = ImageIO.read(img_file);
@@ -69,29 +71,31 @@ public class commentPanel extends JPanel {
                     Image image = ImageIO.read(new File(file.getPath() + "\\" + stageTitle + "_attachedfile\\" + s.substring(7)));
             		int imageWidth = image.getWidth(null);
                     int imageHeight = image.getHeight(null);
-                    int h = 350 * imageHeight / imageWidth;
+                    int h = 400 * imageHeight / imageWidth;
                     
-            		content.add(new JLabel(imageSetSize(new ImageIcon(img), 350, h)));
+            		content.add(new JLabel(imageSetSize(new ImageIcon(img), 400, h)));
             		height += h + 10;
             	}
             	else {
-            		comment_str.append(s);
-                    comment_str.append("\n");
+            		height += addText(s.substring(0, s.length() - 1));
+            		//comment_str.append(s);
+                    //comment_str.append("\n");
             	}
             }
+            bReader.close();
         } catch(IOException e) {}
     	
-    	if (comment_str.toString().length() != 0) {
-    		height += addText(comment_str.toString().substring(0, comment_str.toString().length() - 1));
-    	}
+    	//if (comment_str.toString().length() != 0) {
+    	//	height += addText(comment_str.toString().substring(0, comment_str.toString().length() - 1));
+    	//}
     	
-    	content.setPreferredSize(new Dimension(365, height));
+    	content.setPreferredSize(new Dimension(400, height));
     }
     
     // content 패널 초기 설정
     public void initContent() {
     	content = new JPanel();
-    	content.setPreferredSize(new Dimension(365, 0));
+    	content.setPreferredSize(new Dimension(400, 0));
     	content.setBackground(Color.WHITE);
         scroll.setViewportView(content); //스크롤 팬 위에 패널을 올린다.
     	add(scroll, BorderLayout.CENTER);
@@ -100,7 +104,7 @@ public class commentPanel extends JPanel {
     // 입력받은 문자열로 jtextarea 생성
     public int addText(String string) {
     	JTextArea text = new JTextArea(string);
-		text.setColumns(31);
+		text.setColumns(35);
 		text.setLineWrap(true);
 		text.setWrapStyleWord(true);
 		text.setEditable(false);

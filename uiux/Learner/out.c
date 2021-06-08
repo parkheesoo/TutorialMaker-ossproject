@@ -2,7 +2,6 @@
 
 int main()
 {
-	int d = 2;
-	printf("Divide is %dnd stage.", d);
+	printf("8");
 	return 0;
 }

@@ -25,13 +25,16 @@ public class codePanel extends JPanel {
     private ImageIcon Next_press_img = new ImageIcon("image\\nextbutton_press.png");
 
     // 코드 입력 부분 component
-    private JTextArea textArea1 = new JTextArea(37, 35); //크기조정 필요
+    JTextArea textArea1 = new JTextArea(37, 35); //크기조정 필요
     private JScrollPane scroll = new JScrollPane(textArea1);
 
     // JTextArea 에서 행,열을 얻어서 보여주는 임시 라벨(주석 달 때 행 필요하면 사용)
     private JLabel status = new JLabel();
+    
+    private String stageTitle;
 
-
+    File file = new File(".\\data");
+    //String temp = " ";
     // +추가하기+ 코드 입력 시 주석 또는 퀴즈를 달 수 있는 버튼 생성
 
     codePanel() {
@@ -52,8 +55,6 @@ public class codePanel extends JPanel {
 
         txtpanel.add(scroll);
         btnpanel.add(Next_btn);
-        txtpanel.setBackground(Color.WHITE);
-        btnpanel.setBackground(Color.WHITE);
 
         
         Next_btn.addActionListener(new ActionListener() {
@@ -70,7 +71,8 @@ public class codePanel extends JPanel {
                 }
 
                 // 조건 입력 창 띄우기
-                test_newWindow newWindow = new test_newWindow();
+                quizWindow newWindow = new quizWindow(stageTitle, file);
+                newWindow.title_get(stageTitle);
             }
         });
         // JTextArea의 행과 열 표시 (임시)
@@ -96,12 +98,21 @@ public class codePanel extends JPanel {
     private void updateStatus(int linenumber, int columnnumber) {
         status.setText("Line: " + linenumber + " Column: " + columnnumber);
     }
-
+    
+    public void setFile(File dir) {
+    	file = dir;
+    }
+    
+    public void setStageTitle(String stageTitle) {
+    	this.stageTitle = stageTitle;
+    }
+    
     // 현재 code 내용을 text 파일로 쓰기
     public void writeFile(String stageTitle){
     	String code_str = textArea1.getText();
+    	//temp = stageTitle;
     	if (!stageTitle.equals("No stage")) { // stage가 존재할 때만 실행
-        	String File_name = "data\\code_" + stageTitle + ".txt"; //Change to desired extension(ex. ".c")
+        	String File_name = file.getPath() + "\\code_" + stageTitle + ".txt"; //Change to desired extension(ex. ".c")
         	try {
         		FileWriter writer = new FileWriter(File_name);
         		writer.write(code_str);
@@ -114,9 +125,9 @@ public class codePanel extends JPanel {
     
     // 선택된 text 파일을 code에 읽어오기
     public void readFile(String stageTitle){
-    	File file = new File(".");
-    	String path = file.getPath() + "\\data\\code_" + stageTitle + ".txt";
+    	String path = file.getPath() + "\\code_" + stageTitle + ".txt";
     	StringBuffer code_str = new StringBuffer("");
+    	
     	try {
             String s;
             File read = new File(path);
@@ -128,9 +139,14 @@ public class codePanel extends JPanel {
                 code_str.append(s);
                 code_str.append("\n");
             }
+            bReader.close();
         } catch(IOException e) {}
     	
-    	textArea1.setText(code_str.toString());
+    	if (code_str.toString().length() == 0)
+    		textArea1.setText("");
+    	else
+    		textArea1.setText(code_str.toString());
+
     }
 
     // 코드 패널에 있는 문장들 파일출력하는 메소드

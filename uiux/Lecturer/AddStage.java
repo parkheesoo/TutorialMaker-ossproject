@@ -25,6 +25,8 @@ public class AddStage extends JFrame {
 
         // buttons 패널 구현
         JButton Cancle_btn = new JButton("cancle");
+        Ok_btn.setBackground(Color.LIGHT_GRAY);
+        Cancle_btn.setBackground(Color.LIGHT_GRAY);
         buttons.add(Ok_btn);
         buttons.add(Cancle_btn);
         add(buttons);

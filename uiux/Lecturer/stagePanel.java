@@ -3,6 +3,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -20,7 +23,6 @@ public class stagePanel extends JPanel {
     DefaultListModel model = new DefaultListModel();
     JList stageList = new JList(model);
     JScrollPane scrolled = new JScrollPane(stageList);
-    //JLabel recentStage= new JLabel("No stage");
 
     JButton add_btn = new JButton("add");
     JButton delete_btn = new JButton("delete");
@@ -31,13 +33,16 @@ public class stagePanel extends JPanel {
         setLayout(new BorderLayout());
 
         // stage list 문구 출력
+        JPanel listLabelPanel = new JPanel();
+        listLabelPanel.setBackground(Color.LIGHT_GRAY);
+        add(listLabelPanel, BorderLayout.NORTH);
+        
         JLabel listLabel = new JLabel("Stage List");
         listLabel.setHorizontalAlignment(JLabel.CENTER);
-        stageList.setBorder(new LineBorder(Color.lightGray));
-
-        add(listLabel, BorderLayout.NORTH);
+        listLabelPanel.add(listLabel);
         
         // stage list 표시
+        stageList.setBorder(new LineBorder(Color.lightGray));
         add(stageList, BorderLayout.CENTER);
         
         // buttons 패널 구현
@@ -45,7 +50,6 @@ public class stagePanel extends JPanel {
         buttons.add(add_btn);
         buttons.add(delete_btn);
         add(buttons, BorderLayout.SOUTH);
-        buttons.setBackground(Color.WHITE);
 
         add_btn.addActionListener(myListener);
         delete_btn.addActionListener(myListener);
@@ -65,10 +69,41 @@ public class stagePanel extends JPanel {
                     public void actionPerformed(ActionEvent e) {
                         model.addElement(addStage.stageText.getText());
                         addStage.dispose();
+                        makeFile(model.size(), addStage.stageText.getText());
+                        setFocus(model.size() - 1);
                     }
                 });
+                
             }
         }
+    }
+    
+    public void setFocus(int index) {
+    	stageList.setSelectedIndex(index);
+    }
+    
+    public void initStage(File dir) {
+    	String[] files = dir.list((f,name)->name.startsWith("comment"));
+		
+		if (files.length > 0) {    	
+			model.removeAllElements();
+			for (int i = 0; i < files.length; i++) {
+				String stageName = files[i].substring(9, files[i].length()-4); // 앞 9글자, 뒤 4글자 제거
+				model.addElement(stageName);
+			}
+			setFocus(0);
+		}
+    }
+    
+    public void makeFile(int stageIndex, String stageTitle){
+    	File comment = new File(".\\data\\comment" + stageIndex + "_" + stageTitle + ".txt");
+        File code = new File(".\\data\\code_" + stageTitle + ".txt");
+        try {
+        	comment.createNewFile();
+        	code.createNewFile();
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }  
     }
     
     public ArrayList<String> getStageList(){

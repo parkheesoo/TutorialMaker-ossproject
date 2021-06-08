@@ -25,11 +25,13 @@ public class commentPanel extends JPanel {
     private JPanel attachedPane = new JPanel();
     
     JLabel stageTitle= new JLabel("No stage");
-    TextArea contentText = new TextArea("Enter the content here", 28, 55);
+    TextArea contentText = new TextArea("Enter the content here", 23, 55);
+    
+    File file = new File(".\\data");
  
     // 이미지 파일을 위한 파일 경로 저장
-    File file = new File(".");
-    String path = file.getPath()+"\\image\\";
+    File imageFile = new File(".");
+    String path = imageFile.getPath()+"\\image\\";
 
     // 이미지 파일을 불러와 아이콘을 생성하고 배열에 저장
     ImageIcon [] images = { new ImageIcon(path+"image.png"), new ImageIcon(path+"video.png"),
@@ -48,7 +50,8 @@ public class commentPanel extends JPanel {
   //첨부된 파일을 보여주기 위한 컴포넌트
   	private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
   	private JList fileNameList = new JList(fileNameListModel);
-	
+  	
+  	int stageIndex = 0;
   	
     public commentPanel() {
         MyActionListener actionListener = new MyActionListener();
@@ -63,7 +66,7 @@ public class commentPanel extends JPanel {
         fileButton.add(video_btn);
         fileButton.add(pdf_btn);
         fileButton.add(voice_btn);
-        fileButton.setBackground(Color.WHITE);
+        //fileButton.setBackground(Color.WHITE);
    
         image_btn.setBackground(Color.LIGHT_GRAY);
         video_btn.setBackground(Color.LIGHT_GRAY);
@@ -92,21 +95,27 @@ public class commentPanel extends JPanel {
         });
 
         // fileName 패널 구현
+        JScrollPane scroll = new JScrollPane();
+		scroll.setViewportView(fileNameList);
+		scroll.setPreferredSize(new Dimension(380, 80));
+        
         fileName.setLayout(new BorderLayout());
     	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
 <<<<<<< HEAD
     	fileName.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		fileNameList.setPreferredSize(new Dimension(400, 50));
-		fileName.add(fileNameList, BorderLayout.CENTER);
-		
+		fileName.add(scroll, BorderLayout.CENTER);
+
 		title.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		title.setPreferredSize(new Dimension(400, 30));
         
-		title.setBounds(46, 10, 400, 30);
-		fileButton.setBounds(15, 45, 465, 60);
-		attachedPane.setBounds(95, 105, 300, 150);
-		content.setBounds(5,260,470, 430);
-		fileName.setBounds(5, 693, 467, 60);
+		title.setBounds(30, 10, 400, 30);
+		fileButton.setBounds(0, 45, 465, 60);
+		attachedPane.setBounds(64, 110, 336, 150);
+		attachedPane.setBackground(Color.WHITE);
+		attachedPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		content.setBounds(0,267,465, 370);
+		fileName.setBounds(31, 650, 400, 100);
+		
         add(title);
         add(fileButton);
         add(attachedPane);
@@ -184,20 +193,29 @@ public class commentPanel extends JPanel {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
 		        }
+
 		        Image changeImg = image.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
 		        JLabel label = new JLabel(new ImageIcon(changeImg));
+		        
+		        attachedPane = new JPanel();
+		    	attachedPane.setBounds(64, 110, 336, 150);
+				attachedPane.setBackground(Color.WHITE);
+				attachedPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
+				add(attachedPane);
+				
 		        attachedPane.add(label);
+		        attachedPane.revalidate();
 		        
 		        String comment_str = contentText.getText();
 		    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
-		        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+		        	String File_name = ".\\data\\comment" + (stageIndex + 1) + "_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
 		        	try {
 		        		FileWriter writer = new FileWriter(File_name);
-		        		writer.write(comment_str+ '\n'+ "[image]" + filen);
+		        		writer.write(comment_str + "[image]" + filen);
 		        		writer.close();
 		        	} catch (IOException ex) {}
 		        }
-		    	String path = file.getPath()+"\\data\\comment_" + stageTitle.getText() + ".txt";
+		    	String path = ".\\data\\comment" + (stageIndex + 1) + "_" + stageTitle.getText() + ".txt";
 		    	File file = new File(path);
 		    	StringBuffer comment_str1 = new StringBuffer("");
 		    	try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -367,13 +385,30 @@ public class commentPanel extends JPanel {
     public void writeFile(){
     	String comment_str = contentText.getText();
     	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
-        	String File_name = "data\\comment_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
+        	String File_name = file.getPath() + "\\comment" + (stageIndex + 1) + "_" + stageTitle.getText() + ".txt"; //Change to desired extension(ex. ".c")
         	try {
         		FileWriter writer = new FileWriter(File_name);
         		writer.write(comment_str);
         		writer.close();
         	} catch (IOException ex) {}
         }
+    }
+    
+    public void getAttachedFile(String stageTitle) {
+    	File attachedFile = new File(file.getPath() + "\\" + stageTitle + "_attachedfile");
+    	File[] files = attachedFile.listFiles();
+    	fileNameListModel.removeAllElements();
+    	
+		if (files.length > 0) {    	
+			for (int i = 0; i < files.length; i++) {
+				String stageName = files[i].getPath();
+				fileNameListModel.addElement(stageName);
+			}
+		}
+    }
+    
+    public void setFile(File dir) {
+    	file = dir;
     }
     
     public void makeattachedfolder(){
@@ -393,8 +428,9 @@ public class commentPanel extends JPanel {
 		}	
     }
     // 선택된 text 파일을 content에 읽어오기
-    public void readFile(String stageTitle){
-    	String path = file.getPath()+"\\data\\comment_" + stageTitle + ".txt";
+    public void readFile(int stageIndex, String stageTitle){
+    	String path = file.getPath() + "\\comment" + Integer.toString(stageIndex + 1)
+						+ "_" + stageTitle + ".txt";
     	StringBuffer comment_str = new StringBuffer("");
     	try {
             String s;
@@ -407,6 +443,7 @@ public class commentPanel extends JPanel {
                 comment_str.append(s);
                 comment_str.append("\n");
             }
+            bReader.close();
         } catch(IOException e) {}
     	
     	if (comment_str.toString().length() == 0)
