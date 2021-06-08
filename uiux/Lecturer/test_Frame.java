@@ -73,6 +73,7 @@ public class test_Frame extends JFrame {
         		CommentPanel.writeFile();
         		CommentPanel.makeattachedfolder();
         		CodePanel.writeFile(CommentPanel.stageTitle.getText());
+        		CodePanel.textArea1.setText("");
         		
         		String stageTitle = StagePanel.stageList.getSelectedValue().toString();
         		int stageIndex = StagePanel.stageList.getSelectedIndex();
