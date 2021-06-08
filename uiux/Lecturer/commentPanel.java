@@ -185,14 +185,22 @@ public class commentPanel extends JPanel {
 		        attachedPane.revalidate();
 		        
 		        String comment_str = contentText.getText();
-		    	if (!comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
+		    	if (comment_str.equals("Enter the content here")) { // stage가 존재할 때만 실행
 		        	String File_name = ".\\data\\comment" + (stageIndex + 1) + "_" + stageTitle.getText().toString() + ".txt"; //Change to desired extension(ex. ".c")
 		        	try {
 		        		FileWriter writer = new FileWriter(File_name);
-		        		writer.write(comment_str + "[image]" + filen);
+		        		writer.write("[image]" + filen);
 		        		writer.close();
 		        	} catch (IOException ex) {}
 		        }
+		    	else {
+		    		String File_name = ".\\data\\comment" + (stageIndex + 1) + "_" + stageTitle.getText().toString() + ".txt"; //Change to desired extension(ex. ".c")
+		        	try {
+		        		FileWriter writer = new FileWriter(File_name);
+		        		writer.write(comment_str+"[image]" + filen);
+		        		writer.close();
+		        	} catch (IOException ex) {}
+		    	}
 		    	
 		    	String path = ".\\data\\comment" + (stageIndex + 1) + "_" + stageTitle.getText().toString() + ".txt";
 		    	File file = new File(path);
