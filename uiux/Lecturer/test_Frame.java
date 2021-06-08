@@ -37,6 +37,7 @@ public class test_Frame extends JFrame {
 	String savepathname; //사용자가 지정한 저장 경로
 	String openpath; //사용자가 지정한 저장 경로
 
+
     public test_Frame(){
     	this.addWindowListener(new WinEvent());
 

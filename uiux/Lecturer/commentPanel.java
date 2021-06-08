@@ -1,4 +1,7 @@
+
 import javax.imageio.ImageIO;
+
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.*;
@@ -39,6 +42,10 @@ public class commentPanel extends JPanel {
     JButton video_btn = new JButton(images[1]);
     JButton pdf_btn = new JButton(images[2]);
     JButton voice_btn = new JButton(images[3]);
+
+    //첨부된 파일을 보여주기 위한 컴포넌트
+	private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
+	private JList fileNameList = new JList(fileNameListModel);
     
   //첨부된 파일을 보여주기 위한 컴포넌트
   	private DefaultListModel<String> fileNameListModel = new DefaultListModel<String>();
@@ -94,6 +101,7 @@ public class commentPanel extends JPanel {
         
         fileName.setLayout(new BorderLayout());
     	fileName.add(new JLabel("Attached files"), BorderLayout.NORTH);
+<<<<<<< HEAD
     	fileName.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		fileName.add(scroll, BorderLayout.CENTER);
 
@@ -116,6 +124,19 @@ public class commentPanel extends JPanel {
    
         setSize(500,1000);
         setVisible(true);
+=======
+    	fileName.setBorder(new LineBorder(Color.black));
+		fileNameList.setPreferredSize(new Dimension(400, 50));
+		fileName.add(fileNameList, BorderLayout.CENTER);
+    	
+    	add(title);
+    	add(fileButton);
+    	add(content);
+    	add(fileName);
+    	
+    	setSize(500,700);
+		setVisible(true);
+>>>>>>> Dev
     }
 
     class MyActionListener implements ActionListener {
@@ -124,6 +145,7 @@ public class commentPanel extends JPanel {
 				fileChooser chooser = new fileChooser(new String[]{"gif", "png", "jpg"});
 				String filePath = chooser.filePath;
 				fileNameListModel.addElement(filePath);
+<<<<<<< HEAD
 				//원본 파일경로
 		        String oriFilePath = filePath;
 		        File f = new File(filePath);
@@ -216,11 +238,14 @@ public class commentPanel extends JPanel {
 		    		contentText.setText(comment_str1.toString());
 		    	}
 		    		
+=======
+>>>>>>> Dev
 			}
 			else if(e.getSource().equals(video_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"avi", "mp4"});
 				String filePath = chooser.filePath;
 				fileNameListModel.addElement(filePath);
+<<<<<<< HEAD
 				//원본 파일경로
 		        String oriFilePath = filePath;
 		        File f = new File(filePath);
@@ -259,11 +284,14 @@ public class commentPanel extends JPanel {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
 		        }
+=======
+>>>>>>> Dev
 			}
 			else if(e.getSource().equals(pdf_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"pdf"});
 				String filePath = chooser.filePath;
 				fileNameListModel.addElement(filePath);
+<<<<<<< HEAD
 				//원본 파일경로
 		        String oriFilePath = filePath;
 		        File f = new File(filePath);
@@ -302,11 +330,14 @@ public class commentPanel extends JPanel {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
 		        }
+=======
+>>>>>>> Dev
 			}
 			else if(e.getSource().equals(voice_btn)) {
 				fileChooser chooser = new fileChooser(new String[]{"wav", "mp3"});
 				String filePath = chooser.filePath;
 				fileNameListModel.addElement(filePath);
+<<<<<<< HEAD
 				//원본 파일경로
 		        String oriFilePath = filePath;
 		        File f = new File(filePath);
@@ -345,6 +376,8 @@ public class commentPanel extends JPanel {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
 		        }
+=======
+>>>>>>> Dev
 			}
 		}
     }
