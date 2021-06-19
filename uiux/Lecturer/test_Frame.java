@@ -1,6 +1,5 @@
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,13 +13,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -76,16 +75,19 @@ public class test_Frame extends JFrame {
         		CodePanel.writeFile(CommentPanel.stageTitle.getText());
         		CodePanel.textArea1.setText("");
         		
-        		String stageTitle = StagePanel.stageList.getSelectedValue().toString();
-        		int stageIndex = StagePanel.stageList.getSelectedIndex();
-        		
-                CommentPanel.stageTitle.setText(stageTitle);
-                CommentPanel.readFile(stageIndex, stageTitle);
-                CommentPanel.getAttachedFile(stageTitle);
-                CommentPanel.stageIndex = stageIndex;
-  
-                CodePanel.readFile(stageTitle);
-                CodePanel.setStageTitle(stageTitle);
+        		if(StagePanel.stageList.getSelectedValue() != null) {
+            		String stageTitle = StagePanel.stageList.getSelectedValue().toString();
+            		int stageIndex = StagePanel.stageList.getSelectedIndex();
+            		
+                    CommentPanel.stageTitle.setText(stageTitle);
+                    CommentPanel.readFile(stageIndex, stageTitle);
+                    CommentPanel.getAttachedFile(stageTitle);
+                    CommentPanel.stageIndex = stageIndex;
+      
+                    CodePanel.readFile(stageTitle);
+                    CodePanel.setStageTitle(stageTitle);
+        		}
+
             }
         });
         
@@ -383,91 +385,55 @@ public class test_Frame extends JFrame {
         				, "확인", JOptionPane.YES_NO_OPTION);
         		if(result == JOptionPane.YES_OPTION) {
         			// 예 버튼 눌렀을 때, 화면 내 모든 내용 삭제
-        			ArrayList<String> stagelist;
-        			stagelist = StagePanel.getStageList();
-        			System.out.println(stagelist.size());
-            		
-        			//int index = StagePanel.stageList.getSelectedIndex();
-            		//String stagename = StagePanel.model.get(index).toString();
             		StagePanel.model.removeAllElements();
             		CommentPanel.stageTitle.setText("No stage");
-            		
-        			File com = new File(".");
-        			for(String str : stagelist) {
-        				String attach_FilePath = com.getPath()  +"\\data\\"+ str + "_attachedfile"; //폴더 경로
-        				File attach_File = new File(attach_FilePath);
-        		        String code_path = com.getPath() + "\\data\\code_"+str+".txt"; //폴더 경로
-        		    	File code_txt = new File(code_path);
-        		        String comment_path = com.getPath() + "\\data\\comment_"+str+".txt"; //폴더 경로
-        		    	File comment_txt = new File(comment_path);
-        		        String quiz_path = com.getPath() + "\\data\\Quiz_"+str+".txt"; //폴더 경로
-        		        File quiz_txt = new File(quiz_path);
-        		        String Lcode_path = com.getPath() + "\\data\\code_"+str+"_S.txt"; //폴더 경로
-        		        File Lcode_txt = new File(Lcode_path);
-        				System.out.println(str+"삭제");
-        				
-        				//임시파일 삭제 - 굳이 삭제할 필요가 없다 느껴지시면 해당 코드 삭제하셔도 상관 없습니다!			
-        				deleteFile delete_file = new deleteFile();
-        				
-        				delete_file.delete(attach_File); //임시 첨부파일 삭제
-        				delete_file.delete(code_txt); //임시 코드파일 삭제
-        				delete_file.delete(comment_txt); //임시 주석파일 삭제     
-        				delete_file.delete(quiz_txt); //임시 주석파일 삭제        
-        				delete_file.delete(Lcode_txt); //추가로 저장되던 학습자 코드 삭제
-        			}
+					CommentPanel.contentText.setText("Enter the content here");
+
+            		deleteFile delete_file = new deleteFile();
+    				File com = new File(".\\data");
+	        		String[] t_filenames = showFilesInDIr(com.getPath());
+					for(int i=0; i<t_filenames.length; i++) {
+						String delete_FilePath = com.getPath()  +"\\"+ t_filenames[i];
+						File D_file = new File(delete_FilePath);
+						System.out.print("임시파일 "+t_filenames[i]+"삭제 // ");						
+						delete_file.delete(D_file);
+					}
         		}
 			}
 			else if(e.getSource().equals(deleteItem)) {
 				int result = JOptionPane.showConfirmDialog(null, "작업 중인 파일을 삭제합니다.\n"
         				, "확인", JOptionPane.YES_NO_OPTION);
         		if(result == JOptionPane.YES_OPTION) {
+        			
         			// 예 버튼 눌렀을 때, 화면 내 모든 내용 삭제
         			ArrayList<String> stagelist;
         			stagelist = StagePanel.getStageList();
         			System.out.println(stagelist.size());
             		
-        			//int index = StagePanel.stageList.getSelectedIndex();
-            		//String stagename = StagePanel.model.get(index).toString();
             		StagePanel.model.removeAllElements();
             		CommentPanel.stageTitle.setText("No stage");
-            		
-            		String attach_FilePath;
-            		String code_path;
-            		String comment_path;
-            		String quiz_path;
-            		String Lcode_path;
-            		
-        			File com = new File(".");
-        			for(String str : stagelist) {
-        				attach_FilePath = com.getPath()  +"\\data\\"+ str + "_attachedfile"; //폴더 경로
-        				File attach_File_T = new File(attach_FilePath);
-        		        code_path = com.getPath() + "\\data\\code_"+str+".txt"; //폴더 경로
-        		        File code_txt_T = new File(code_path);
-        		        comment_path = com.getPath() + "\\data\\comment_"+str+".txt"; //폴더 경로
-        		        File comment_txt_T = new File(comment_path);
-        		        quiz_path = com.getPath() + "\\data\\Quiz_"+str+".txt"; //폴더 경로
-        		        File quiz_txt_T = new File(quiz_path);
-        		        Lcode_path = com.getPath() + "\\data\\code_"+str+"_S.txt"; //폴더 경로
-        		        File Lcode_txt_T = new File(Lcode_path);
-        				System.out.println(str+"임시파일 삭제");
-        				
-        				//임시파일 삭제 - 굳이 삭제할 필요가 없다 느껴지시면 해당 코드 삭제하셔도 상관 없습니다!			
-        				deleteFile delete_file = new deleteFile();
-        				
-        				delete_file.delete(attach_File_T); //임시 첨부파일 삭제
-        				delete_file.delete(code_txt_T); //임시 코드파일 삭제
-        				delete_file.delete(comment_txt_T); //임시 주석파일 삭제
-        				delete_file.delete(quiz_txt_T); //임시 퀴즈파일 삭제
-        				delete_file.delete(Lcode_txt_T); //추가로 저장되던 학습자 코드 삭제
+					CommentPanel.contentText.setText("Enter the content here");
 
-    	        		String[] filenames = showFilesInDIr(savepathname);
-    					for(int i=0; i<filenames.length; i++) {
-    						String delete_FilePath = savepathname  +"\\"+ filenames[i];
-    						File D_file = new File(delete_FilePath);
-    						System.out.println(filenames[i]+"삭제");						
-    						delete_file.delete(D_file);
-    					}	
-        			}
+            		deleteFile delete_file = new deleteFile();
+    				File com = new File(".\\data");
+	        		String[] t_filenames = showFilesInDIr(com.getPath());
+					for(int i=0; i<t_filenames.length; i++) {
+						String delete_FilePath = com.getPath()  +"\\"+ t_filenames[i];
+						File D_file = new File(delete_FilePath);
+						System.out.println("임시파일 "+t_filenames[i]+"삭제");						
+						delete_file.delete(D_file);
+					}
+					
+					if(savepathname!= null)
+	        		{
+						String[] s_filenames = showFilesInDIr(savepathname);
+						for(int i=0; i<s_filenames.length; i++) {
+							String delete_FilePath = savepathname  +"\\"+ s_filenames[i];
+							File D_file = new File(delete_FilePath);
+							System.out.println("저장파일 "+s_filenames[i]+"삭제");						
+							delete_file.delete(D_file);
+						}
+					}
         		}
 			}
     }
