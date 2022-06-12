@@ -51,7 +51,7 @@ MIT License
 
 강의자가 언어를 선택할 수 있는 화면 입니다
 
-![language](https://ifh.cc/g/OdJMtR.png)
+![language]([https://ifh.cc/g/OdJMtR.png](https://user-images.githubusercontent.com/63408866/173237120-9d63990d-97ed-474c-a374-17ad82e9fc2e.png))
 
 `- Lecturer main screen`
 
