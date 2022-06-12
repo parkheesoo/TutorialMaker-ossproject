@@ -112,4 +112,4 @@ MIT License
 
 수강자의 모든 기능 설명입니다
 
-![all] (https://user-images.githubusercontent.com/63408866/173237627-ede6c88e-cdc7-4b6b-aebb-e6725512e9dc.png)
+![all](https://user-images.githubusercontent.com/63408866/173237627-ede6c88e-cdc7-4b6b-aebb-e6725512e9dc.png)
