@@ -1,13 +1,13 @@
 # TutorialMaker-ossproject
-![panel](https://ifh.cc/g/vXTm0d.jpg)
+![panel](https://user-images.githubusercontent.com/63408866/173237842-96e80af1-f95b-474e-aa92-427f6e61a49a.png)
 
 ## Team information
 |이름|학번|학과|
 |---|---|---|
-| 김지민 | b |소프트웨어학과|
-| 문서형 | g |소프트웨어학과|
+| 김지민 | 20193028 |소프트웨어학과|
+| 문서형 | 20193494 |소프트웨어학과|
 | 박희수 | 20186485 |소트프웨어학과|
-| 이해연 | l |소프트웨어학과|
+| 이해연 | 20193829 |소프트웨어학과|
 
 ## Introduction
 ### Do you want to be a lecturer?
@@ -84,30 +84,32 @@ MIT License
 
 ![quiz](https://user-images.githubusercontent.com/63408866/173237140-168169b7-7acd-4d43-9c1a-2ab7fe8d533a.png)
 
+강의자 화면 모든 기능 설명 화면입니다.
+![final](https://user-images.githubusercontent.com/63408866/173237643-d2571ed1-25a5-49ca-bc59-ead1defca4f0.png)
+
 `- /Learner main screen`
 
 수강자의 main 화면 입니다
 
-![mainscreen](https://ifh.cc/g/x8Diii.png)
+![mainscreen](https://user-images.githubusercontent.com/63408866/173237622-e33543b2-2534-4b2e-b3ef-bc8441fc1901.png)
 
 `- /Learner open file`
 
 수강자는 강의자가 만들어놓은 file을 open 할수 있습니다
 
-![openfile](https://ifh.cc/g/aNHgvk.png)
+![openfile](https://user-images.githubusercontent.com/63408866/173237625-63ab6e23-18b2-41b4-92cc-262818f7b3a6.png)
 
 `- /Learner view quiz`
-
-수강자는 강의자가 설정한 해당 stage의 quiz를 볼 수 있습니다
-
-![quiz](https://ifh.cc/g/i9xKYV.png)
-
 `- /Learner Grading Quiz`
+수강자는 강의자가 설정한 해당 stage의 quiz를 볼 수 있습니다
+수강자는 퀴즈를 풀고 채점할 수 있습니다.
 
-수강자는 퀴즈를 풀고 채점할 수 
+![quiz](https://user-images.githubusercontent.com/63408866/173237626-b30b9d98-870e-42a3-b7a6-0d6c27e74c05.png)
 
 `- /Learner view LecturerCode`
 
 수강자는 강의자가 쓴 코드를 볼 수 있습니다
 
-![code](https://ifh.cc/g/FM01hC.png)
+수강자의 모든 기능 설명입니다
+
+![all] (https://user-images.githubusercontent.com/63408866/173237627-ede6c88e-cdc7-4b6b-aebb-e6725512e9dc.png)
