@@ -63,26 +63,26 @@ MIT License
 
 강의자가 원하는 순서로 단계를 설정하고 단계의 title을 지정할 수 있습니다
 
-![stage](https://ifh.cc/g/xbrhgF.png](https://user-images.githubusercontent.com/63408866/173237129-44d901b3-9d00-4ad8-8e73-b9b792a7d5db.png)
+![stage](https://user-images.githubusercontent.com/63408866/173237129-44d901b3-9d00-4ad8-8e73-b9b792a7d5db.png)
 
 
 `- /Lecturer attach file`
 
 강의자가 첨부하고자 하는 파일을 local에서 불러와 첨부할수 있습니다
 
-![attach](https://ifh.cc/g/0vGlms.png](https://user-images.githubusercontent.com/63408866/173237124-44a0a8f9-498a-41b6-87e6-1f5e897dd5c0.png)
+![attach](https://user-images.githubusercontent.com/63408866/173237124-44a0a8f9-498a-41b6-87e6-1f5e897dd5c0.png)
 
 `- /Lecturer Write code and comment`
 
 강의자가 주석과 이미지를 함께 첨부할 수 있고 코드넣을 수 있습니다
 
-![comment](https://ifh.cc/g/wtLoud.png](https://user-images.githubusercontent.com/63408866/173237124-44a0a8f9-498a-41b6-87e6-1f5e897dd5c0.png)
+![comment](https://user-images.githubusercontent.com/63408866/173237124-44a0a8f9-498a-41b6-87e6-1f5e897dd5c0.png)
 
 `- /Lecturer can make quiz`
 
 강의자가 해당 stage에 quiz를 만들수 있습니다
 
-![quiz](https://ifh.cc/g/6vOikO.png)
+![quiz](https://user-images.githubusercontent.com/63408866/173237140-168169b7-7acd-4d43-9c1a-2ab7fe8d533a.png)
 
 `- /Learner main screen`
 
